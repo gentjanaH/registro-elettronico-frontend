@@ -4,6 +4,7 @@ import './App.css'
 import MyNavbar from "./components/MyNavbar"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import FormRegistrazione from "./components/FormRegistrazione"
+import FormLogin from "./components/FormLogin"
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<h1>Home</h1>} />
           <Route path="/register" element={<FormRegistrazione />} />
+          <Route path="/login" element={<FormLogin />} />
         </Routes>
       </BrowserRouter>
 
