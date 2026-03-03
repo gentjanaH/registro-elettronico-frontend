@@ -1,0 +1,3 @@
+.carousel-item a {
+    pointer-events: auto !important;
+}

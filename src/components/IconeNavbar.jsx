@@ -4,7 +4,7 @@ const IconeNavbar = () => {
 
 
     return (
-        <div className="d-flex justify-content-end align-items-center w-50">
+        <div className="d-flex justify-content-lg-end align-items-center w-50">
             <div className="d-flex justify-content-around w-25">
                 <Link to="/login" className="text-decoration-none text-dark d-flex me-3 align-items-center">
                     <i className="bi bi-person-circle me-2"></i>

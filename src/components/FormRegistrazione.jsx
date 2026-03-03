@@ -1,6 +1,7 @@
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import RegistrazioneGenitore from "./RegistrazioneGenitore";
 import { useState } from "react";
+import Immaginecomponent from "./ImmagineComponent";
 
 const FormRegistrazione = () => {
 
@@ -10,9 +11,9 @@ const FormRegistrazione = () => {
     // - inserire il codice didentificativo del figlio
     // -aggiungere più figli
     return (
-        <Container>
+        <>
             <Row>
-                <Col xs={12} md={6}>
+                <Col xs={12} lg={6}>
                     <Form>
                         <fieldset>
                             <Form.Group as={Row} className="my-3">
@@ -101,9 +102,11 @@ const FormRegistrazione = () => {
 
                 </Col>
 
+                <Immaginecomponent />
+
             </Row>
 
-        </Container>
+        </>
 
     );
 }
