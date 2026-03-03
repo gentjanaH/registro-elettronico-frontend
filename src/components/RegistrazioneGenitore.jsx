@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 
 const RegistrazioneGenitore = ({ ruolo }) => {
@@ -6,6 +6,10 @@ const RegistrazioneGenitore = ({ ruolo }) => {
     const [figli, setFigli] = useState([
         { nome: "", cognome: "", codice: "" }
     ]);
+
+    useEffect(() => {
+        console.log("Figli attuali:", figli);
+    }, [figli]);
 
     const aggiungiFiglio = () => {
         if (figli.length < 4) {
@@ -34,7 +38,7 @@ const RegistrazioneGenitore = ({ ruolo }) => {
                                 <h5>Figlio {index + 1}</h5>
                                 <button
                                     type="button"
-                                    class="btn-close"
+                                    className="btn-close"
                                     aria-label="Close"
                                     onClick={() => rimuoviFiglio(index)}
                                 ></button>
@@ -92,7 +96,8 @@ const RegistrazioneGenitore = ({ ruolo }) => {
                         Aggiungi figlio
                     </Button>
                 </>
-            )}
+            )
+            }
         </>
     );
 };
