@@ -13,14 +13,15 @@ const FormRegistrazione = () => {
     return (
         <>
             <Row>
-                <Col xs={12} lg={6}>
+                <Col xs={12} lg={6} className="align-content-center">
                     <Form>
                         <fieldset>
                             <Form.Group as={Row} className="my-3">
-                                <Form.Label as="legend" sm={2}>
-                                    Ruolo
-                                </Form.Label>
-                                <Col sm={10} className="d-flex justify-content-around align-items-center">
+
+                                <Col sm={12} className="d-flex justify-content-between align-items-center">
+                                    <Form.Label as="legend" className="w-25" sm={2}>
+                                        Ruolo
+                                    </Form.Label>
                                     <Form.Check
                                         type="radio"
                                         label="Studente"

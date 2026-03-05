@@ -9,6 +9,7 @@ import { Container, Row } from "react-bootstrap"
 import Footer from "./components/Footer"
 import NotFound from "./components/NotFound"
 import HomePage from "./components/HomePage"
+import OffertaFormativa from "./components/OffertaFormativa"
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/register" element={<FormRegistrazione />} />
               <Route path="/login" element={<FormLogin />} />
+              <Route path="/offerta_formativa" element={<OffertaFormativa />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Row>

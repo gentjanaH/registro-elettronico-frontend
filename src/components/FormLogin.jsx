@@ -13,8 +13,8 @@ const FormLogin = () => {
     return (
 
         <Row>
-            <Col xs={12} lg={6}>
-                <Form >
+            <Col xs={12} lg={6} className="d-flex  justify-content-center ">
+                <Form className="w-50 align-content-center ">
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control
