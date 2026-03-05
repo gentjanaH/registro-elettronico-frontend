@@ -99,7 +99,7 @@ const CaroselloFunzionalita = () => {
 
                                     </Card.Text>
                                     <div>
-                                        <Link className="card-link text-decoration-none" to="/corsi-extra-curricolari" onClick={(e) => e.stopPropagation()}> Vai alla pagina </Link >
+                                        <Link className="card-link text-decoration-none" to="/corsi-extra" onClick={(e) => e.stopPropagation()}> Vai alla pagina </Link >
                                     </div>
                                 </Card.Body>
                             </Card>

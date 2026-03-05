@@ -2,7 +2,7 @@
 
 /* NAVBAR */
 .myNavbar {
-    background: linear-gradient(to top, rgb(179, 226, 226), rgb(100, 150, 150));
+    background: linear-gradient(to top, rgb(179, 226, 226), rgb(6, 9, 185));
 }
 
 
@@ -11,7 +11,7 @@
     font-family: "Crafty Girls", cursive;
     font-weight: bold;
     font-size: 1.3em;
-    color: rgba(28, 112, 73, 0.979);
+    color: white;
 
 }
 
@@ -19,8 +19,13 @@
     font-family: "Roboto", sans-serif;
 }
 
+.nav-link {
+    color: white;
+    font-weight: bold;
+}
+
 .nav-link:hover {
-    color: rgb(24, 167, 19);
+    color: rgb(167, 19, 19);
 }
 
 /* .navbar-brand {
@@ -29,7 +34,7 @@
 
 .lettera-logo {
     font-family: "Crafty Girls", cursive;
-    color: rgb(24, 167, 19);
+    color: rgb(167, 19, 19);
     font-size: 1.6em;
 }
 
@@ -38,11 +43,23 @@
     font-size: 14px;
 }
 
+.testo-icone-navbar:hover {
+    color: rgb(167, 19, 19);
+}
+
+.testo-registrati {
+    color: white;
+}
+
+.testo-registrati:hover {
+    color: #0D6EFD;
+}
+
 /* BODY */
 #root {
     font-family: "Roboto", sans-serif;
     font-size: 1em;
-    background: linear-gradient(to bottom, rgb(179, 226, 226), rgb(100, 150, 150));
+    background: linear-gradient(to bottom, rgb(179, 226, 226), rgb(6, 9, 185));
 }
 
 
@@ -55,34 +72,39 @@
 /* CARD CAROSELLO */
 .card {
     transition: transform 0.3s ease, background 0.3s ease;
-    background: linear-gradient(to right, rgb(179, 226, 226), rgb(142, 223, 169));
+    background: linear-gradient(to right, rgb(88, 80, 158), rgba(226, 248, 233, 0.521));
 }
 
 .card:hover {
+
     transform: scale(1.05);
-    background: linear-gradient(to left, rgb(179, 226, 226), rgb(142, 223, 169));
+    background: linear-gradient(to left, rgb(88, 80, 158), rgba(226, 248, 233, 0.521));
 }
 
 
 
 .card-title {
     font-family: "Spectral", serif;
-    color: rgb(24, 167, 19);
+    color: rgb(230, 241, 227);
     font-size: 1.5em;
     font-weight: bold;
     margin-top: 0.5em;
 
 }
 
+.card-title:hover {
+    color: red;
+}
+
 .card-text {
 
     font-size: 1.2em;
-    color: rgb(33, 100, 61);
+    color: rgb(3, 10, 6);
 }
 
 .titolo-carosello {
     font-family: "Crafty Girls", cursive;
-    color: rgb(33, 100, 61);
+    color: rgb(167, 19, 19);
     font-size: 1.6em;
     font-weight: bold;
 }
@@ -92,11 +114,11 @@
 /* HOMEPAGE */
 .titolo-home {
     font-family: "Spectral", serif;
-    color: rgb(24, 167, 19);
+    color: rgb(167, 19, 19);
 }
 
 /* FOOTER */
 
 .myFooter {
-    background: linear-gradient(to bottom, rgb(100, 150, 150), rgb(179, 226, 226));
+    background: linear-gradient(to top, rgb(179, 226, 226), rgb(6, 9, 185));
 }
