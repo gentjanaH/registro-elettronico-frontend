@@ -11,7 +11,7 @@ const Contatti = () => {
                     <p className="lead">Per qualsiasi domanda o supporto, non esitare a contattarci:</p>
                 </Col>
                 <Col xs={12} className="mb-4 d-flex justify-content-center">
-                    <Row>
+                    <Row className="w-75">
                         <Col xs={12} md={6} className="my-4">
 
                             <Card className="h-100 w-100">
@@ -42,7 +42,7 @@ const Contatti = () => {
                     </Row>
                 </Col>
                 <Col xs={12} className="mb-4 d-flex justify-content-center">
-                    <Row>
+                    <Row className="w-75">
                         <Col xs={12} md={6} className="my-4">
                             <Card className="h-100 w-100">
                                 <Card.Body>
