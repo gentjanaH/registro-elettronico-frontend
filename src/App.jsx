@@ -12,6 +12,7 @@ import HomePage from "./components/HomePage"
 import OffertaFormativa from "./components/OffertaFormativa"
 import CorsiExtra from "./components/CorsiExtra"
 import Materie from "./components/Materie"
+import Contatti from "./components/Contatti"
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
               <Route path="/offerta_formativa" element={<OffertaFormativa />} />
               <Route path="/corsi-extra" element={<CorsiExtra />} />
               <Route path="/materie" element={<Materie />} />
+              <Route path="/contatti" element={<Contatti />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Row>
