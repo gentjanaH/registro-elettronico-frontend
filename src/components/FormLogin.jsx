@@ -35,7 +35,7 @@ const FormLogin = () => {
                         />
                     </Form.Group>
 
-                    <Button variant="primary" type="submit">
+                    <Button variant="primary" type="submit" className="add-child-button my-3">
                         Submit
                     </Button>
                 </Form>

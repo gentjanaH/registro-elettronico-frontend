@@ -30,7 +30,7 @@ const RegistrazioneGenitore = ({ ruolo }) => {
         <>
             {ruolo === "GENITORE" && (
                 <>
-                    <h3 className="text-center">Dati dei figli</h3>
+                    <h3 className="text-center my-5 titolo-carosello">Dati dei figli</h3>
 
                     {figli.map((figlio, index) => (
                         <Col key={index} className="mb-3 p-3 border rounded">
@@ -87,9 +87,9 @@ const RegistrazioneGenitore = ({ ruolo }) => {
 
                     <Button
                         type="button"
-                        variant="outline-primary"
+                        variant="outline-info"
                         size="sm"
-                        className="mt-3"
+                        className="my-3 add-child-button"
                         onClick={aggiungiFiglio}
                     >
                         <i className="bi bi-plus me-1"></i>

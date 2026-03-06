@@ -13,45 +13,51 @@ const FormRegistrazione = () => {
     return (
         <>
             <Row>
-                <Col xs={12} lg={6} className="align-content-center">
-                    <Form>
+                <Col xs={12} lg={6} className="d-flex justify-content-center align-content-center ">
+                    <Form className="w-75 w-md-25 m-auto">
                         <fieldset>
                             <Form.Group as={Row} className="my-3">
 
-                                <Col sm={12} className="d-flex justify-content-between align-items-center">
-                                    <Form.Label as="legend" className="w-25" sm={2}>
-                                        Ruolo
-                                    </Form.Label>
-                                    <Form.Check
-                                        type="radio"
-                                        label="Studente"
-                                        name="formHorizontalRadios"
-                                        id="formHorizontalRadios1"
-                                        value="STUDENTE"
-                                        onChange={(e) => {
-                                            setRuolo(e.target.value);
-                                        }}
-                                    />
-                                    <Form.Check
-                                        type="radio"
-                                        label="Insegnante"
-                                        name="formHorizontalRadios"
-                                        id="formHorizontalRadios2"
-                                        value="INSEGNANTE"
-                                        onChange={(e) => {
-                                            setRuolo(e.target.value);
-                                        }}
-                                    />
-                                    <Form.Check
-                                        type="radio"
-                                        label="Genitore"
-                                        name="formHorizontalRadios"
-                                        id="formHorizontalRadios3"
-                                        value="GENITORE"
-                                        onChange={(e) => {
-                                            setRuolo(e.target.value);
-                                        }}
-                                    />
+                                <Col sm={12} >
+                                    <Row className="d-flex justify-content-between align-items-center w-100">
+                                        <Col xs={12} className="d-flex justify-content-center">
+                                            <Form.Label as="legend" className="text-center mb-3 titolo-carosello" sm={2}>
+                                                Ruolo
+                                            </Form.Label>
+                                        </Col>
+                                        <Col xs={12} className="d-flex justify-content-around">
+                                            <Form.Check
+                                                type="radio"
+                                                label="Studente"
+                                                name="formHorizontalRadios"
+                                                id="formHorizontalRadios1"
+                                                value="STUDENTE"
+                                                onChange={(e) => {
+                                                    setRuolo(e.target.value);
+                                                }}
+                                            />
+                                            <Form.Check
+                                                type="radio"
+                                                label="Insegnante"
+                                                name="formHorizontalRadios"
+                                                id="formHorizontalRadios2"
+                                                value="INSEGNANTE"
+                                                onChange={(e) => {
+                                                    setRuolo(e.target.value);
+                                                }}
+                                            />
+                                            <Form.Check
+                                                type="radio"
+                                                label="Genitore"
+                                                name="formHorizontalRadios"
+                                                id="formHorizontalRadios3"
+                                                value="GENITORE"
+                                                onChange={(e) => {
+                                                    setRuolo(e.target.value);
+                                                }}
+                                            />
+                                        </Col>
+                                    </Row>
                                 </Col>
                             </Form.Group>
                         </fieldset>
@@ -86,18 +92,28 @@ const FormRegistrazione = () => {
                         {/* CAMPI PER IL GENITORE a cui andra passato lo stato del select*/}
                         <RegistrazioneGenitore ruolo={ruolo} />
 
+                        <Row>
+                            <Col xs={12} lg={5} className="my-3 d-flex justify-content-start">
+                                <Form.Group controlId="formHorizontalCheck">
 
-                        <Form.Group as={Row} className="mb-3" controlId="formHorizontalCheck">
-                            <Col sm={{ span: 10, offset: 2 }}>
-                                <Form.Check label="Remember me" />
-                            </Col>
-                        </Form.Group>
+                                    <Form.Check label="Remember me" className="my-3 ms-2" />
 
-                        <Form.Group as={Row} className="mb-3">
-                            <Col sm={{ span: 10, offset: 2 }}>
-                                <Button type="submit">Sign in</Button>
+                                </Form.Group>
                             </Col>
-                        </Form.Group>
+                            <Col xs={12} lg={7} className="my-3 d-flex justify-content-lg-end">
+                                <Form.Group controlId="formHorizontalSubmit">
+
+                                    <Button
+                                        type="submit"
+                                        size="lg"
+                                        className="add-child-button"
+                                    >
+                                        Sign in
+                                    </Button>
+
+                                </Form.Group>
+                            </Col>
+                        </Row>
                     </Form>
 
 

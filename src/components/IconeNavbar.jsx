@@ -13,14 +13,14 @@ const IconeNavbar = () => {
                     <Col>
                         {/* icone da mostrae al login */}
                         {/* VOTI-BACHECA-CALENDARIO-ACCOUNT */}
-                        <Link to="/bacheca" className="text-decoration-none text-dark d-flex flex-column align-items-center">
+                        <Link to="/bacheca" className="text-decoration-none text-dark d-flex flex-column align-items-center mx-2">
                             <HiOutlineClipboardDocumentList size={30} className="testo-icone-navbar" />
                             <span className="testo-icone-navbar">Bacheca</span>
                         </Link>
                     </Col>
 
                     <Col>
-                        <Link to="/voti" className="text-decoration-none text-dark d-flex flex-column align-items-center">
+                        <Link to="/voti" className="text-decoration-none text-dark d-flex flex-column align-items-center mx-2">
                             <IoSchoolOutline size={30} className="testo-icone-navbar" />
                             {/* nell'area professori qui ci sara CLASSI, una volta selezionata la classe, ci sara la CLASSE SCELTA */}
                             <span className="testo-icone-navbar ">Voti</span>
@@ -28,7 +28,7 @@ const IconeNavbar = () => {
                     </Col>
 
                     <Col>
-                        <Link to="/calendario" className="text-decoration-none text-dark d-flex flex-column align-items-center">
+                        <Link to="/calendario" className="text-decoration-none text-dark d-flex flex-column align-items-center mx-2">
                             <IoCalendarOutline size={30} className="testo-icone-navbar" />
                             <span className="testo-icone-navbar ">Calendario</span>
                         </Link>
@@ -38,7 +38,7 @@ const IconeNavbar = () => {
                         <Link to="/login" className="text-decoration-none text-dark d-flex align-items-center">
                             <i className="bi bi-person-circle me-2 fs-4 text-success"></i>
                             {/* se loggato iniziali nome e cognome, menù a tendina con account e LOGOUT */}
-                            <span className="testo-icone-navbar">LOGIN</span>
+                            <span className="testo-login">LOGIN</span>
                         </Link>
                     </Col>
                     <Col>
