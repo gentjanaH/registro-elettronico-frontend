@@ -16,6 +16,7 @@ import Contatti from "./components/Contatti"
 import HomePageStudentiGenitori from "./components/HomePageStudentiGenitori"
 import ModaleGiustificaAssenze from "./components/ModaleGiustificaAssenze"
 import Assenze from "./components/Assenze"
+import VotiPerMateria from "./components/VotiPerMateria"
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
               <Route path="/home/id_studente" element={<HomePageStudentiGenitori />} />
               <Route path="/assenze/id_studente" element={<Assenze />} />
               <Route path="/giustifica-assenze" element={<ModaleGiustificaAssenze />} />
+              <Route path="/voti" element={<VotiPerMateria />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Row>
