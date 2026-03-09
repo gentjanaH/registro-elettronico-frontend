@@ -81,18 +81,21 @@
 }
 
 /* CARD CAROSELLO */
-.card {
+.card-cliccabili {
     transition: transform 0.3s ease, background 0.3s ease;
     background: linear-gradient(to right, rgb(88, 80, 158), rgba(226, 248, 233, 0.521));
 }
 
-.card:hover {
+.card-cliccabili:hover {
 
     transform: scale(1.05);
     background: linear-gradient(to left, rgb(88, 80, 158), rgba(226, 248, 233, 0.521));
 }
 
-
+/* CARD  */
+.card {
+    background: linear-gradient(to right, rgb(88, 80, 158), rgba(226, 248, 233, 0.521));
+}
 
 .card-title {
     font-family: "Spectral", serif;
@@ -103,9 +106,6 @@
 
 }
 
-.card-title:hover {
-    color: red;
-}
 
 .card-text {
 

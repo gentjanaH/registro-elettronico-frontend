@@ -14,7 +14,7 @@ const CaroselloFunzionalita = () => {
                 <Carousel.Item>
                     <Row className="px-4">
                         <Col xs={12} md={4}>
-                            <Card className="h-100">
+                            <Card className="h-100 card-cliccabili">
                                 <Card.Body className="d-flex flex-column justify-content-between">
                                     <Card.Title>Area Genitori</Card.Title>
 
@@ -32,7 +32,7 @@ const CaroselloFunzionalita = () => {
 
                         </Col>
                         <Col xs={12} md={4}>
-                            <Card className=" h-100">
+                            <Card className=" h-100 card-cliccabili">
                                 <Card.Body className="d-flex flex-column justify-content-between">
                                     <Card.Title>Area Docenti</Card.Title>
 
@@ -49,7 +49,7 @@ const CaroselloFunzionalita = () => {
 
                         </Col>
                         <Col xs={12} md={4}>
-                            <Card className="h-100">
+                            <Card className="h-100 card-cliccabili">
                                 <Card.Body className="d-flex flex-column justify-content-between">
                                     <Card.Title>Area Studenti</Card.Title>
 
@@ -58,7 +58,7 @@ const CaroselloFunzionalita = () => {
                                         i compiti e le comunicazioni scolastiche.
                                     </Card.Text>
                                     <div>
-                                        <Link className="card-link text-decoration-none" to="/login" onClick={(e) => e.stopPropagation()}>Accedi</Link >
+                                        <Link className="card-link text-decoration-none" to="/home/id_studente" onClick={(e) => e.stopPropagation()}>Accedi</Link >
                                         <Link className="card-link text-decoration-none" to="/register" onClick={(e) => e.stopPropagation()}>Registrati</Link >
                                     </div>
                                 </Card.Body>
@@ -74,7 +74,7 @@ const CaroselloFunzionalita = () => {
                 <Carousel.Item>
                     <Row>
                         <Col xs={12} md={4}>
-                            <Card className="h-100">
+                            <Card className="h-100 card-cliccabili">
                                 <Card.Body className="d-flex flex-column justify-content-between">
                                     <Card.Title>Area Amministratori</Card.Title>
 
@@ -90,7 +90,7 @@ const CaroselloFunzionalita = () => {
 
                         </Col>
                         <Col xs={12} md={4}>
-                            <Card className="h-100">
+                            <Card className="h-100 card-cliccabili">
                                 <Card.Body className="d-flex flex-column justify-content-between">
                                     <Card.Title>Corsi extra-curricolari</Card.Title>
 
@@ -105,7 +105,7 @@ const CaroselloFunzionalita = () => {
                             </Card>
                         </Col>
                         <Col xs={12} md={4}>
-                            <Card className="h-100">
+                            <Card className="h-100 card-cliccabili">
                                 <Card.Body className="d-flex flex-column justify-content-between">
                                     <Card.Title>Materie</Card.Title>
 

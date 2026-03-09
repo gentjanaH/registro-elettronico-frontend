@@ -13,6 +13,7 @@ import OffertaFormativa from "./components/OffertaFormativa"
 import CorsiExtra from "./components/CorsiExtra"
 import Materie from "./components/Materie"
 import Contatti from "./components/Contatti"
+import HomePageStudentiGenitori from "./components/HomePageStudentiGenitori"
 
 function App() {
 
@@ -32,6 +33,8 @@ function App() {
               <Route path="/corsi-extra" element={<CorsiExtra />} />
               <Route path="/materie" element={<Materie />} />
               <Route path="/contatti" element={<Contatti />} />
+              {/* questa rotta andrà collegata al login */}
+              <Route path="/home/id_studente" element={<HomePageStudentiGenitori />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Row>
