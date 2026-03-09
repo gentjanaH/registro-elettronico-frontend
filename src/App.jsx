@@ -14,6 +14,8 @@ import CorsiExtra from "./components/CorsiExtra"
 import Materie from "./components/Materie"
 import Contatti from "./components/Contatti"
 import HomePageStudentiGenitori from "./components/HomePageStudentiGenitori"
+import ModaleGiustificaAssenze from "./components/ModaleGiustificaAssenze"
+import Assenze from "./components/Assenze"
 
 function App() {
 
@@ -35,6 +37,8 @@ function App() {
               <Route path="/contatti" element={<Contatti />} />
               {/* questa rotta andrà collegata al login */}
               <Route path="/home/id_studente" element={<HomePageStudentiGenitori />} />
+              <Route path="/assenze/id_studente" element={<Assenze />} />
+              <Route path="/giustifica-assenze" element={<ModaleGiustificaAssenze />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Row>

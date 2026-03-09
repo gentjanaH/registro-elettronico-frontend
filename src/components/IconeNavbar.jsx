@@ -11,6 +11,15 @@ const IconeNavbar = () => {
             <div className="d-flex gap-3 flex-wrap">
                 <Row className="d-flex align-content-center align-items-center">
                     <Col>
+                        {/* icone da mostrare al login genitore */}
+                        {/* GET LISTA ASSENZE E GIUSTIFICA */}
+                        <Link to="/assenze/id_studente" className="text-decoration-none text-dark d-flex flex-column align-items-center mx-2">
+
+                            <i className="bi bi-calendar-x fs-5 testo-icone-navbar"></i>
+                            <span className="testo-icone-navbar">Assenze</span>
+                        </Link>
+                    </Col>
+                    <Col>
                         {/* icone da mostrae al login */}
                         {/* VOTI-BACHECA-CALENDARIO-ACCOUNT */}
                         <Link to="/bacheca" className="text-decoration-none text-dark d-flex flex-column align-items-center mx-2">
