@@ -1,3 +1,4 @@
+import { Form } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
@@ -6,15 +7,16 @@ const ModaleGiustificaAssenze = ({ show, handleClose }) => {
         <Modal
             show={show} onHide={handleClose} centered
         >
-            <Modal.Dialog>
-                <Modal.Header closeButton>
-                    <Modal.Title>Data assenza</Modal.Title>
-                </Modal.Header>
+            <Form className="p-2">
 
-                <Modal.Body>
-                    <p>Motivo dell'assenza</p>
-                </Modal.Body>
 
+                <Modal.Title>Data assenza</Modal.Title>
+
+
+                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                    <Form.Label>Motivo dell'assenza</Form.Label>
+                    <Form.Control as="textarea" rows={3} placeholder="massimo 50 caratteri" />
+                </Form.Group>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>Annulla</Button>
                     <Button variant="primary"
@@ -23,7 +25,8 @@ const ModaleGiustificaAssenze = ({ show, handleClose }) => {
                             alert("Assenza giustificata con successo!")
                         }}>Giustifica</Button>
                 </Modal.Footer>
-            </Modal.Dialog>
+
+            </Form>
         </Modal>
     );
 }

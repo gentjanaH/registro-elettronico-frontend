@@ -41,7 +41,7 @@ const ModaleAssegnaCompiti = ({ show, handleClose }) => {
                     onClick={() => {
                         handleClose();
                         alert("Compito aggiunto con successo con successo!")
-                    }}>Giustifica</Button>
+                    }}>Assegna</Button>
             </Modal.Footer>
 
         </Modal>
