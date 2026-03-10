@@ -1,8 +1,16 @@
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 import Compiti from "./Compiti";
 import { Row, Col, ListGroup, Dropdown, Button } from "react-bootstrap";
 import DataCorrenteConCalendario from "./DataCorrenteConCalendario";
+import ModaleAssegnaCompiti from "./ModaleAssegnaCompiti";
 const HomePageClasse = () => {
+
+    // stato per aprire il modale utile ad assegnare i compiti
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     const { nomeClasse } = useParams();
 
@@ -16,10 +24,13 @@ const HomePageClasse = () => {
                     Homepage della classe {nomeClasse}
                 </h3>
                 {/* apère modale per rigistrare i compiti */}
-                <Button>
-                    Assegna Commpiti
+                <Button
+                    variant="success"
+                    className="ms-3"
+                    onClick={handleShow}>
+                    Assegna Compiti
                 </Button>
-
+                <ModaleAssegnaCompiti show={show} handleClose={handleClose} />
             </Col>
 
 

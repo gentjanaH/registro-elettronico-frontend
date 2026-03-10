@@ -36,12 +36,7 @@ const IconeNavbar = () => {
                         </Link>
                     </Col>
 
-                    <Col>
-                        <Link to="/calendario" className="text-decoration-none text-dark d-flex flex-column align-items-center mx-2">
-                            <IoCalendarOutline size={30} className="testo-icone-navbar" />
-                            <span className="testo-icone-navbar ">Calendario</span>
-                        </Link>
-                    </Col>
+
 
                     <Col>
                         <Link to="/login" className="text-decoration-none text-dark d-flex align-items-center">
