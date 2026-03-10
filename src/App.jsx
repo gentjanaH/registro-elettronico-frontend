@@ -17,6 +17,7 @@ import HomePageStudentiGenitori from "./components/HomePageStudentiGenitori"
 import ModaleGiustificaAssenze from "./components/ModaleGiustificaAssenze"
 import Assenze from "./components/Assenze"
 import VotiPerMateria from "./components/VotiPerMateria"
+import Bacheca from "./components/Bacheca"
 
 function App() {
 
@@ -41,6 +42,7 @@ function App() {
               <Route path="/assenze/id_studente" element={<Assenze />} />
               <Route path="/giustifica-assenze" element={<ModaleGiustificaAssenze />} />
               <Route path="/voti" element={<VotiPerMateria />} />
+              <Route path="/bacheca" element={<Bacheca />}></Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Row>
