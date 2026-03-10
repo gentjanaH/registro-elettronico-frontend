@@ -41,7 +41,7 @@ const CaroselloFunzionalita = () => {
                                         caricare i voti, i compiti e le comunicazioni scolastiche.
                                     </Card.Text>
                                     <div>
-                                        <Link className="card-link text-decoration-none" to="/login" onClick={(e) => e.stopPropagation()}>Accedi</Link >
+                                        <Link className="card-link text-decoration-none" to="/professore/id_professore" onClick={(e) => e.stopPropagation()}>Accedi</Link >
                                         <Link className="card-link text-decoration-none" to="/register" onClick={(e) => e.stopPropagation()}>Registrati</Link >
                                     </div>
                                 </Card.Body>
@@ -58,7 +58,7 @@ const CaroselloFunzionalita = () => {
                                         i compiti e le comunicazioni scolastiche.
                                     </Card.Text>
                                     <div>
-                                        <Link className="card-link text-decoration-none" to="/home/id_studente" onClick={(e) => e.stopPropagation()}>Accedi</Link >
+                                        <Link className="card-link text-decoration-none" to="/user/id_studente" onClick={(e) => e.stopPropagation()}>Accedi</Link >
                                         <Link className="card-link text-decoration-none" to="/register" onClick={(e) => e.stopPropagation()}>Registrati</Link >
                                     </div>
                                 </Card.Body>

@@ -135,6 +135,58 @@
     border: white solid 1px;
 }
 
+/* sezione professore */
+
+/* dropdown lista studenti */
+/* --- CARD STYLE PER IL DROPDOWN --- */
+.dropdown-card-toggle {
+    background: #ffffff !important;
+    border: 1px solid #dcdcdc !important;
+    border-radius: 10px !important;
+    padding: 12px 16px !important;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333 !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease-in-out;
+}
+
+/* Hover elegante */
+.dropdown-card-toggle:hover {
+    background: #f8f9fa !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+/* Rimuove la freccia standard */
+.dropdown-card-toggle::after {
+    display: none !important;
+}
+
+/* Freccia personalizzata a destra */
+.dropdown-card-toggle {
+    position: relative;
+    padding-right: 30px !important;
+}
+
+.dropdown-card-toggle::before {
+    content: "▸";
+    /* freccia verso destra */
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #0d6efd;
+    transition: transform 0.2s ease;
+}
+
+/* Ruota la freccia quando il menu è aperto */
+.dropdown.show .dropdown-card-toggle::before {
+    transform: translateY(-50%) rotate(90deg);
+}
+
+
+
 /* FOOTER */
 
 .myFooter {
