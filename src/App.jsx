@@ -20,40 +20,42 @@ import VotiPerMateria from "./components/VotiPerMateria"
 import Bacheca from "./components/Bacheca"
 import HomePageProfessore from "./components/HomePageProfessore"
 import HomePageClasse from "./components/HomePageClasse"
+import { Provider } from 'react-redux'
 
 function App() {
 
 
   return (
     <>
-      <BrowserRouter>
-        <MyNavbar />
-        <Container fluid className="d-flex flex-column min-vh-100 px-0">
-          <Row className="flex-grow-1 d-flex justify-content-center">
-            <Routes>
+      <Provider store={store}>
+        <BrowserRouter>
+          <MyNavbar />
+          <Container fluid className="d-flex flex-column min-vh-100 px-0">
+            <Row className="flex-grow-1 d-flex justify-content-center">
+              <Routes>
 
-              <Route path="/" element={<HomePage />} />
-              <Route path="/register" element={<FormRegistrazione />} />
-              <Route path="/login" element={<FormLogin />} />
-              <Route path="/offerta_formativa" element={<OffertaFormativa />} />
-              <Route path="/corsi-extra" element={<CorsiExtra />} />
-              <Route path="/materie" element={<Materie />} />
-              <Route path="/contatti" element={<Contatti />} />
-              {/* questa rotta andrà collegata al login */}
-              <Route path="/user/id_studente" element={<HomePageStudentiGenitori />} />
-              <Route path="/professore/id_professore" element={<HomePageProfessore />}></Route>
-              <Route path="/classe/:nomeClasse" element={<HomePageClasse />}></Route>
-              <Route path="/assenze/id_studente" element={<Assenze />} />
-              <Route path="/giustifica-assenze" element={<ModaleGiustificaAssenze />} />
-              <Route path="/voti" element={<VotiPerMateria />} />
-              <Route path="/bacheca" element={<Bacheca />}></Route>
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Row>
-          <Footer />
-        </Container>
-      </BrowserRouter>
-
+                <Route path="/" element={<HomePage />} />
+                <Route path="/register" element={<FormRegistrazione />} />
+                <Route path="/login" element={<FormLogin />} />
+                <Route path="/offerta_formativa" element={<OffertaFormativa />} />
+                <Route path="/corsi-extra" element={<CorsiExtra />} />
+                <Route path="/materie" element={<Materie />} />
+                <Route path="/contatti" element={<Contatti />} />
+                {/* questa rotta andrà collegata al login */}
+                <Route path="/user/id_studente" element={<HomePageStudentiGenitori />} />
+                <Route path="/professore/id_professore" element={<HomePageProfessore />}></Route>
+                <Route path="/classe/:nomeClasse" element={<HomePageClasse />}></Route>
+                <Route path="/assenze/id_studente" element={<Assenze />} />
+                <Route path="/giustifica-assenze" element={<ModaleGiustificaAssenze />} />
+                <Route path="/voti" element={<VotiPerMateria />} />
+                <Route path="/bacheca" element={<Bacheca />}></Route>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Row>
+            <Footer />
+          </Container>
+        </BrowserRouter>
+      </Provider>
 
 
     </>
