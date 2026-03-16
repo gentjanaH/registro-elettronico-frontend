@@ -2,16 +2,30 @@ import { Row, Col, Button, ListGroup } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
 
 import DataCorrenteConCalendario from "./DataCorrenteConCalendario";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchClassi } from "../redux/actions/classiActions";
 
 const HomePageProfessore = () => {
 
     const navigate = useNavigate();
 
-    const { id_professore } = useParams();
+    const dispatch = useDispatch();
+    const { classi, loading, error } = useSelector(currentState => currentState.classi);
+
+
+
 
     const vaiAllaClasse = (classe) => {
         navigate(`/classe/${classe}`);
     }
+
+
+    useEffect(() => {
+        dispatch(fetchClassi())
+    }, []);
+
+
     return (
         <>
             <Row className="mt-5">
@@ -31,21 +45,19 @@ const HomePageProfessore = () => {
                             </h3>
 
                             <div className="d-flex flex-column w-50 gap-2">
-                                <Button
-                                    variant="info"
-                                    size="lg"
-                                    onClick={() => vaiAllaClasse("2-L")}
-                                >2-L</Button>
-                                <Button
-                                    variant="info"
-                                    size="lg"
-                                    onClick={() => vaiAllaClasse("3-I")}
-                                >3-I</Button>
-                                <Button
-                                    variant="info"
-                                    size="lg"
-                                    onClick={() => vaiAllaClasse("1-L")}
-                                >1-L</Button>
+                                {loading && <p>Caricamento classi...</p>}
+                                {error && <p className="text-danger">{error}</p>}
+                                {classi?.content?.map((classe) => (
+                                    <Button
+                                        key={classe.idClasse}
+                                        variant="info"
+                                        size="lg"
+                                        onClick={() => vaiAllaClasse(classe.nome)}
+                                    >{classe.nome}</Button>
+
+                                ))}
+
+
                             </div>
                         </Col>
                         {/* COLONNA DESTRA */}
