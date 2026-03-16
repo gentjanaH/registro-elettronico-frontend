@@ -2,9 +2,11 @@ import { Card, Col, Row, ListGroup } from "react-bootstrap";
 import DashboardCircolari from "./DashboardCircolari";
 import DataCorrenteConCalendario from "./DataCorrenteConCalendario";
 import Compiti from "./Compiti";
+import { useParams } from "react-router-dom";
 
 
 const HomePageStudentiGenitori = () => {
+
 
 
 

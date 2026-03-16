@@ -1,11 +1,13 @@
 import { Row, Col, Button, ListGroup } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import DataCorrenteConCalendario from "./DataCorrenteConCalendario";
 
 const HomePageProfessore = () => {
 
     const navigate = useNavigate();
+
+    const { id_professore } = useParams();
 
     const vaiAllaClasse = (classe) => {
         navigate(`/classe/${classe}`);

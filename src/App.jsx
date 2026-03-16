@@ -21,6 +21,8 @@ import Bacheca from "./components/Bacheca"
 import HomePageProfessore from "./components/HomePageProfessore"
 import HomePageClasse from "./components/HomePageClasse"
 import { Provider } from 'react-redux'
+import store from "./redux/store";
+
 
 function App() {
 
@@ -42,10 +44,10 @@ function App() {
                 <Route path="/materie" element={<Materie />} />
                 <Route path="/contatti" element={<Contatti />} />
                 {/* questa rotta andrà collegata al login */}
-                <Route path="/user/id_studente" element={<HomePageStudentiGenitori />} />
-                <Route path="/professore/id_professore" element={<HomePageProfessore />}></Route>
+                <Route path="/user/:id_studente" element={<HomePageStudentiGenitori />} />
+                <Route path="/professore/:id_professore" element={<HomePageProfessore />}></Route>
                 <Route path="/classe/:nomeClasse" element={<HomePageClasse />}></Route>
-                <Route path="/assenze/id_studente" element={<Assenze />} />
+                <Route path="/assenze/:id_studente" element={<Assenze />} />
                 <Route path="/giustifica-assenze" element={<ModaleGiustificaAssenze />} />
                 <Route path="/voti" element={<VotiPerMateria />} />
                 <Route path="/bacheca" element={<Bacheca />}></Route>

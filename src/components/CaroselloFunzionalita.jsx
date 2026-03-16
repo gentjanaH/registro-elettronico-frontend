@@ -1,4 +1,4 @@
-import { Col, Row, Image, Carousel, Card } from "react-bootstrap";
+import { Col, Row, Image, Carousel, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 
@@ -24,8 +24,9 @@ const CaroselloFunzionalita = () => {
 
                                     </Card.Text>
                                     <div>
-                                        <Link className="card-link text-decoration-none" to="/login" onClick={(e) => e.stopPropagation()}>Accedi</Link >
-                                        <Link className="card-link text-decoration-none" to="/register" onClick={(e) => e.stopPropagation()}>Registrati</Link >
+                                        <Button btn className="bg-info border-white">
+                                            <Link className="card-link text-decoration-none" to="/login" onClick={(e) => e.stopPropagation()}>Accedi</Link >
+                                        </Button>
                                     </div>
                                 </Card.Body>
                             </Card>
@@ -41,8 +42,9 @@ const CaroselloFunzionalita = () => {
                                         caricare i voti, i compiti e le comunicazioni scolastiche.
                                     </Card.Text>
                                     <div>
-                                        <Link className="card-link text-decoration-none" to="/professore/id_professore" onClick={(e) => e.stopPropagation()}>Accedi</Link >
-                                        <Link className="card-link text-decoration-none" to="/register" onClick={(e) => e.stopPropagation()}>Registrati</Link >
+                                        <Button btn className="bg-info border-white">
+                                            <Link className="card-link text-decoration-none" to="/login" onClick={(e) => e.stopPropagation()}>Accedi</Link >
+                                        </Button>
                                     </div>
                                 </Card.Body>
                             </Card>
@@ -58,8 +60,9 @@ const CaroselloFunzionalita = () => {
                                         i compiti e le comunicazioni scolastiche.
                                     </Card.Text>
                                     <div>
-                                        <Link className="card-link text-decoration-none" to="/user/id_studente" onClick={(e) => e.stopPropagation()}>Accedi</Link >
-                                        <Link className="card-link text-decoration-none" to="/register" onClick={(e) => e.stopPropagation()}>Registrati</Link >
+                                        <Button btn className="bg-info border-white">
+                                            <Link className="card-link text-decoration-none" to="/login" onClick={(e) => e.stopPropagation()}>Accedi</Link >
+                                        </Button>
                                     </div>
                                 </Card.Body>
                             </Card>
@@ -83,7 +86,9 @@ const CaroselloFunzionalita = () => {
                                         creare e modificare account, e visualizzare statistiche generali.
                                     </Card.Text>
                                     <div>
-                                        <Link className="card-link text-decoration-none" to="/login" onClick={(e) => e.stopPropagation()}>Accedi</Link >
+                                        <Button btn className="bg-info border-white">
+                                            <Link className="card-link text-decoration-none" to="/login" onClick={(e) => e.stopPropagation()}>Accedi</Link >
+                                        </Button>
                                     </div>
                                 </Card.Body>
                             </Card>
@@ -99,7 +104,9 @@ const CaroselloFunzionalita = () => {
 
                                     </Card.Text>
                                     <div>
-                                        <Link className="card-link text-decoration-none" to="/corsi-extra" onClick={(e) => e.stopPropagation()}> Vai alla pagina </Link >
+                                        <Button btn className="bg-info border-white">
+                                            <Link className="card-link text-decoration-none" to="/corsi-extra" onClick={(e) => e.stopPropagation()}> Vai alla pagina </Link >
+                                        </Button>
                                     </div>
                                 </Card.Body>
                             </Card>
@@ -113,7 +120,9 @@ const CaroselloFunzionalita = () => {
                                         In quest'area è possibile visualizzare le materie insegnate dalla scuola.
                                     </Card.Text>
                                     <div>
-                                        <Link className="card-link text-decoration-none" to="/materie" onClick={(e) => e.stopPropagation()}> Vai alla pagina </Link >
+                                        <Button btn className="bg-info border-white">
+                                            <Link className="card-link text-decoration-none" to="/materie" onClick={(e) => e.stopPropagation()}> Vai alla pagina </Link >
+                                        </Button>
                                     </div>
                                 </Card.Body>
                             </Card>
