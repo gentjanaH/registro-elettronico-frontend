@@ -1,15 +1,18 @@
 
-import { addDays, subDays, format } from "date-fns";
+import { addDays, subDays, format, isValid } from "date-fns";
 import { it } from "date-fns/locale";
 import { Button } from "react-bootstrap";
 const DataCorrenteConCalendario = ({ selectedDate, onChangeDate }) => {
 
-    const prevDay = () => onChangeDate(subDays(selectedDate, 1));
-    const nextDay = () => onChangeDate(addDays(selectedDate, 1));
+    const baseDate = selectedDate ? new Date(selectedDate) : new Date();
+    const validDate = isValid(baseDate) ? baseDate : new Date();
+
+    const prevDay = () => onChangeDate(subDays(validDate, 1));
+    const nextDay = () => onChangeDate(addDays(validDate, 1));
 
     const isToday = (date) => {
         const today = new Date();
-        return date.toDateString() === today.toDateString();
+        return date?.toDateString() === today.toDateString();
     };
 
 
@@ -26,12 +29,14 @@ const DataCorrenteConCalendario = ({ selectedDate, onChangeDate }) => {
             <div
                 className="px-4 py-2 rounded"
                 style={{
-                    backgroundColor: isToday(selectedDate) ? "#d1e7dd" : "#f8f9fa",
+                    backgroundColor: isToday(validDate) ? "#d1e7dd" : "#f8f9fa",
                     border: "1px solid #ccc",
                     fontWeight: "bold"
                 }}
             >
-                {format(selectedDate, "dd/MM/yyyy", { locale: it })}
+                {isValid(validDate)
+                    ? format(validDate, "dd/MM/yyyy", { locale: it })
+                    : "Data non valida"}
             </div>
 
             <Button variant="light" onClick={nextDay}>

@@ -44,7 +44,7 @@ const ModaleAssegnaCompiti = ({ show, handleClose }) => {
 
                     <option>Materia</option>
                     <option
-                        value="46aaf6f7-e427-475e-af3d-50a24bf1e5ec"
+                        value="b638e177-72b3-46cf-ac54-bedfbba8b53d"
                     // value={idMateria}
                     >Matematica</option>
                     <option value="2">Two</option>
