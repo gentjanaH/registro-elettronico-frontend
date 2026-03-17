@@ -22,7 +22,11 @@ const lezioniReducers = (currentState = initialState, action) => {
             };
 
         case FETCH_LEZIONI_SUCCESS:
-            return { ...currentState, loading: false, lezioni: action.payload };
+            return {
+                ...currentState,
+                loading: false,
+                lezioni: action.payload
+            };
 
         case REGISTRA_LEZIONE_SUCCESS:
             return {
