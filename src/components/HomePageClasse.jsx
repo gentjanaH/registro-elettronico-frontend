@@ -4,22 +4,34 @@ import Compiti from "./Compiti";
 import { Row, Col, ListGroup, Dropdown, Button } from "react-bootstrap";
 import DataCorrenteConCalendario from "./DataCorrenteConCalendario";
 import ModaleAssegnaCompiti from "./ModaleAssegnaCompiti";
+import ModaleRegistraLezione from "./modaleRegistraLEzione";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchStudentiByClasse } from "../redux/actions/studentiActions";
+import { getLezioniByClass } from "../redux/actions/lezioniAction";
+
+import Lezioni from "./Lezioni";
 
 
 const HomePageClasse = () => {
 
-    // stato per aprire il modale utile ad assegnare i compiti
+    // stato  e metodi per aprire il modale utile ad assegnare i compiti
     const [show, setShow] = useState(false);
-
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    // STATO E METODI PER APRIRE IL MODALE CHE REGISTRA LA LEZIONE
+    const [showLezione, setShowLezione] = useState(false);
+    const openLezione = () => setShowLezione(true);
+    const closeLezione = () => setShowLezione(false);
 
+
+    // stato per la data
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
+    const dispatch = useDispatch();
 
     const { idClasse, nomeClasse } = useParams();
-    const dispatch = useDispatch();
+
     const token = useSelector(currentState => currentState.auth.token);
 
     const { studenti, loading, } = useSelector(currentState => currentState.studenti);
@@ -27,13 +39,14 @@ const HomePageClasse = () => {
     useEffect(() => {
         if (token) {
             dispatch(fetchStudentiByClasse(idClasse, nomeClasse));
+            dispatch(getLezioniByClass(idClasse));
         }
 
     }, [idClasse, token, nomeClasse]);
 
     return (
         <Row>
-            <DataCorrenteConCalendario />
+            <DataCorrenteConCalendario selectedDate={selectedDate} onChangeDate={setSelectedDate} />
             {loading && <p>Caricamento studenti...</p>}
             <Col xs={12} className="d-flex align-items-start ms-5">
                 <h2 className="lettera-logo mb-4 fw-bold fs-2 me-3">
@@ -42,16 +55,21 @@ const HomePageClasse = () => {
                 {/* apère modale per rigistrare i compiti */}
                 <Button
                     variant="success"
-                    className="ms-3"
+                    className="mx-3"
                     onClick={handleShow}>
                     Assegna Compiti
                 </Button>
+                <Button variant="primary" onClick={openLezione} >
+                    Registra lezione
+                </Button>
+                <ModaleRegistraLezione show={showLezione} handleClose={closeLezione} />
                 <ModaleAssegnaCompiti show={show} handleClose={handleClose} />
             </Col>
 
 
 
             <Col xs={12} md={6} className="d-flex flex-column align-items-center align-items-md-start ms-0 ms-md-5 ">
+                <Lezioni selectedDate={selectedDate} onChangeDate={setSelectedDate} />
                 <Compiti />
             </Col>
             <Col>

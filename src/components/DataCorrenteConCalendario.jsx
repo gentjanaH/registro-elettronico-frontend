@@ -1,17 +1,44 @@
-import { Col, Row } from "react-bootstrap";
 
-const DataCorrenteConCalendario = () => {
+import { addDays, subDays, format } from "date-fns";
+import { it } from "date-fns/locale";
+import { Button } from "react-bootstrap";
+const DataCorrenteConCalendario = ({ selectedDate, onChangeDate }) => {
+
+    const prevDay = () => onChangeDate(subDays(selectedDate, 1));
+    const nextDay = () => onChangeDate(addDays(selectedDate, 1));
+
+    const isToday = (date) => {
+        const today = new Date();
+        return date.toDateString() === today.toDateString();
+    };
+
+
     return (
 
 
 
-        <h3 className="lettera-logo mb-4 fw-bold fs-2">
-            {new Date().toLocaleDateString('it-IT', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-            })}
-        </h3>
+        <div className="d-flex align-items-center gap-3 my-3">
+
+            <Button variant="light" onClick={prevDay}>
+                ‹
+            </Button>
+
+            <div
+                className="px-4 py-2 rounded"
+                style={{
+                    backgroundColor: isToday(selectedDate) ? "#d1e7dd" : "#f8f9fa",
+                    border: "1px solid #ccc",
+                    fontWeight: "bold"
+                }}
+            >
+                {format(selectedDate, "dd/MM/yyyy", { locale: it })}
+            </div>
+
+            <Button variant="light" onClick={nextDay}>
+                ›
+            </Button>
+
+        </div>
 
 
 

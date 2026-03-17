@@ -35,7 +35,7 @@ export const fetchStudentiByClasse = (idClasse) => {
                     type: FETCH_STUDENTI_SUCCESS,
                     payload: data
                 });
-                console.log("Studenit: ", data)
+                console.log("Studenti: ", data)
 
 
             })

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import DataCorrenteConCalendario from "./DataCorrenteConCalendario";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { fetchClassi } from "../redux/actions/classiActions";
 
 const HomePageProfessore = () => {
@@ -13,7 +13,7 @@ const HomePageProfessore = () => {
     const dispatch = useDispatch();
     const { classi, loading, error } = useSelector(currentState => currentState.classi);
 
-
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
 
     const vaiAllaClasse = (classe, nome) => {
@@ -34,7 +34,7 @@ const HomePageProfessore = () => {
                 <Col xs={12} className="d-flex flex-column">
 
                     {/* Data */}
-                    <DataCorrenteConCalendario />
+                    <DataCorrenteConCalendario selectedDate={selectedDate} onChangeDate={setSelectedDate} />
                     <Row>
 
                         <Col>
