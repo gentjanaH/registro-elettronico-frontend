@@ -1,13 +1,12 @@
 import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from "../actions/authActions";
 
 const initialState = {
-    // stato iniziale del login
-    user: null,
-    token: null,
+    user: JSON.parse(localStorage.getItem("user")) || null,
+    token: localStorage.getItem("token") || null,
     loading: false,
-    error: null,
+    error: null
+};
 
-}
 
 
 const authReducer = (currentState = initialState, action) => {

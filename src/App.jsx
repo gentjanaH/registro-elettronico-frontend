@@ -46,7 +46,7 @@ function App() {
                 {/* questa rotta andrà collegata al login */}
                 <Route path="/user/:id_studente" element={<HomePageStudentiGenitori />} />
                 <Route path="/professore/:id_professore" element={<HomePageProfessore />}></Route>
-                <Route path="/classe/:nomeClasse" element={<HomePageClasse />}></Route>
+                <Route path="/classe/:idClasse/:nomeClasse" element={<HomePageClasse />}></Route>
                 <Route path="/assenze/:id_studente" element={<Assenze />} />
                 <Route path="/giustifica-assenze" element={<ModaleGiustificaAssenze />} />
                 <Route path="/voti" element={<VotiPerMateria />} />

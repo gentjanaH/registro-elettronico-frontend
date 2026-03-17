@@ -1,9 +1,13 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Compiti from "./Compiti";
 import { Row, Col, ListGroup, Dropdown, Button } from "react-bootstrap";
 import DataCorrenteConCalendario from "./DataCorrenteConCalendario";
 import ModaleAssegnaCompiti from "./ModaleAssegnaCompiti";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchStudentiByClasse } from "../redux/actions/studentiActions";
+
+
 const HomePageClasse = () => {
 
     // stato per aprire il modale utile ad assegnare i compiti
@@ -12,17 +16,29 @@ const HomePageClasse = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const { nomeClasse } = useParams();
 
 
+    const { idClasse, nomeClasse } = useParams();
+    const dispatch = useDispatch();
+    const token = useSelector(currentState => currentState.auth.token);
+
+    const { studenti, loading, } = useSelector(currentState => currentState.studenti);
+
+    useEffect(() => {
+        if (token) {
+            dispatch(fetchStudentiByClasse(idClasse, nomeClasse));
+        }
+
+    }, [idClasse, token, nomeClasse]);
 
     return (
         <Row>
             <DataCorrenteConCalendario />
+            {loading && <p>Caricamento studenti...</p>}
             <Col xs={12} className="d-flex align-items-start ms-5">
-                <h3 className="lettera-logo mb-4 fw-bold fs-2 me-3">
-                    Homepage della classe {nomeClasse}
-                </h3>
+                <h2 className="lettera-logo mb-4 fw-bold fs-2 me-3">
+                    {nomeClasse}
+                </h2>
                 {/* apère modale per rigistrare i compiti */}
                 <Button
                     variant="success"
@@ -43,50 +59,23 @@ const HomePageClasse = () => {
 
                     <Col className="d-flex flex-column align-items-center mt-3 gap-2">
                         <h3 className="lettera-logo fw-bold">Lista studenti</h3>
+                        {
+                            studenti?.content?.map(stud => (
 
-                        <Dropdown className="dropdown-card w-100">
-                            <Dropdown.Toggle variant="light"
-                                className="dropdown-card-toggle d-flex justify-content-between align-items-center w-100" >
-                                Nome Cognome </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                <Dropdown.Item>Presente</Dropdown.Item>
-                                <Dropdown.Item>Assente</Dropdown.Item>
-                                <Dropdown.Item>Assegna voto</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-
-                        <Dropdown className="dropdown-card w-100">
-                            <Dropdown.Toggle variant="light"
-                                className="dropdown-card-toggle d-flex justify-content-between align-items-center w-100" >
-                                Nome Cognome </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                <Dropdown.Item>Presente</Dropdown.Item>
-                                <Dropdown.Item>Assente</Dropdown.Item>
-                                <Dropdown.Item>Assegna voto</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-
-                        <Dropdown className="dropdown-card w-100">
-                            <Dropdown.Toggle variant="light"
-                                className="dropdown-card-toggle d-flex justify-content-between align-items-center w-100" >
-                                Nome Cognome </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                <Dropdown.Item>Presente</Dropdown.Item>
-                                <Dropdown.Item>Assente</Dropdown.Item>
-                                <Dropdown.Item>Assegna voto</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-
-                        <Dropdown className="dropdown-card w-100">
-                            <Dropdown.Toggle variant="light"
-                                className="dropdown-card-toggle d-flex justify-content-between align-items-center w-100" >
-                                Nome Cognome </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                <Dropdown.Item>Presente</Dropdown.Item>
-                                <Dropdown.Item>Assente</Dropdown.Item>
-                                <Dropdown.Item>Assegna voto</Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
+                                <Dropdown
+                                    key={stud.idStudente}
+                                    className="dropdown-card w-100">
+                                    <Dropdown.Toggle variant="light"
+                                        className="dropdown-card-toggle d-flex justify-content-between align-items-center w-100" >
+                                        {stud.nome} {stud.cognome} </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item>Presente</Dropdown.Item>
+                                        <Dropdown.Item>Assente</Dropdown.Item>
+                                        <Dropdown.Item>Assegna voto</Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            ))
+                        }
 
                     </Col>
 

@@ -43,6 +43,7 @@ export const login = (email, password) => {
                     payload: data,
 
                 })
+                localStorage.setItem("user", JSON.stringify(data.user));
 
                 localStorage.setItem("token", data.accessToken)
             })

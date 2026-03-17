@@ -16,8 +16,8 @@ const HomePageProfessore = () => {
 
 
 
-    const vaiAllaClasse = (classe) => {
-        navigate(`/classe/${classe}`);
+    const vaiAllaClasse = (classe, nome) => {
+        navigate(`/classe/${classe}/${nome}`);
     }
 
 
@@ -52,7 +52,7 @@ const HomePageProfessore = () => {
                                         key={classe.idClasse}
                                         variant="info"
                                         size="lg"
-                                        onClick={() => vaiAllaClasse(classe.nome)}
+                                        onClick={() => vaiAllaClasse(classe.idClasse, classe.nome)}
                                     >{classe.nome}</Button>
 
                                 ))}
