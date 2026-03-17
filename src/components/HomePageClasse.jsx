@@ -10,6 +10,7 @@ import { fetchStudentiByClasse } from "../redux/actions/studentiActions";
 import { getLezioniByClass } from "../redux/actions/lezioniAction";
 
 import Lezioni from "./Lezioni";
+import { fetchCompitiByClass } from "../redux/actions/compitiActions";
 
 
 const HomePageClasse = () => {
@@ -36,10 +37,12 @@ const HomePageClasse = () => {
 
     const { studenti, loading, } = useSelector(currentState => currentState.studenti);
 
+
     useEffect(() => {
         if (token) {
             dispatch(fetchStudentiByClasse(idClasse, nomeClasse));
             dispatch(getLezioniByClass(idClasse));
+            dispatch(fetchCompitiByClass(idClasse));
         }
 
     }, [idClasse, token, nomeClasse]);
@@ -70,7 +73,7 @@ const HomePageClasse = () => {
 
             <Col xs={12} md={6} className="d-flex flex-column align-items-center align-items-md-start ms-0 ms-md-5 ">
                 <Lezioni selectedDate={selectedDate} onChangeDate={setSelectedDate} />
-                <Compiti />
+                <Compiti selectedDate={selectedDate} onChangeDate={setSelectedDate} />
             </Col>
             <Col>
                 <Row>

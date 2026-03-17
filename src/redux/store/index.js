@@ -3,6 +3,7 @@ import authReducer from "../reducers/authReducer"
 import classiReducer from "../reducers/classiReducer"
 import studentiReducer from "../reducers/studentiReducer"
 import lezioniReducers from "../reducers/lezioniReducers"
+import compitiReducer from "../reducers/compitiReducer"
 
 const store = configureStore({
 
@@ -10,7 +11,8 @@ const store = configureStore({
         auth: authReducer,
         classi: classiReducer,
         studenti: studentiReducer,
-        lezioni: lezioniReducers
+        lezioni: lezioniReducers,
+        compiti: compitiReducer,
     }
 
 
