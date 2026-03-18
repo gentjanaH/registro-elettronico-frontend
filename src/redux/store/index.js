@@ -4,6 +4,7 @@ import classiReducer from "../reducers/classiReducer"
 import studentiReducer from "../reducers/studentiReducer"
 import lezioniReducers from "../reducers/lezioniReducers"
 import compitiReducer from "../reducers/compitiReducer"
+import presenzeReducer from "../reducers/presenzeReducer"
 
 const store = configureStore({
 
@@ -13,6 +14,7 @@ const store = configureStore({
         studenti: studentiReducer,
         lezioni: lezioniReducers,
         compiti: compitiReducer,
+        presenze: presenzeReducer,
     }
 
 
