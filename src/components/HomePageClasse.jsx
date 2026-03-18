@@ -28,6 +28,7 @@ const HomePageClasse = () => {
 
     // stato per la data
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [presenze, setPresenze] = useState({});
 
     const dispatch = useDispatch();
 
@@ -45,32 +46,41 @@ const HomePageClasse = () => {
 
     // placeholder
 
-    const recuperoLezioneAttiva = () => {
+    const recuperoLezioneAttiva = (selectedDay) => {
         if (!lezioni || lezioni.length === 0) return null;
+        if (!selectedDay) return null;
 
-        const now = new Date();
-        const oggi = now.toISOString().split("T")[0];
+        const today = new Date();
+        const oggi = today.toISOString().split("T")[0];
+        const selected = new Date(selectedDay).toISOString().split("T")[0];
+
+        // Se la data selezionata non è oggi, non c'è lezione attiva
+        if (selected !== oggi) return null;
+
+        const now = today;
         const minutiCorrenti = now.getHours() * 60 + now.getMinutes();
 
-        return lezioni.find(lez => {
-            if (lez.data !== oggi) return false;
+        return (
+            lezioni.find(lez => {
+                if (lez.data !== oggi) return false;
 
-            if (!lez.inizioLezione || !lez.fineLezione) return false;
+                if (!lez.inizioLezione || !lez.fineLezione) return false;
 
-            const [hInizio, mInizio] = lez.inizioLezione.split(":").map(Number);
-            const [hFine, mFine] = lez.fineLezione.split(":").map(Number);
+                const [hInizio, mInizio] = lez.inizioLezione.split(":").map(Number);
+                const [hFine, mFine] = lez.fineLezione.split(":").map(Number);
 
-            const minutiInizio = hInizio * 60 + mInizio;
-            const minutiFine = hFine * 60 + mFine;
+                const minutiInizio = hInizio * 60 + mInizio;
+                const minutiFine = hFine * 60 + mFine;
 
-            return minutiCorrenti >= minutiInizio && minutiCorrenti <= minutiFine;
-        }) || null;
+                return minutiCorrenti >= minutiInizio && minutiCorrenti <= minutiFine;
+            }) || null
+        );
     };
 
 
     // FUNZIONE PER ASSEGNARE UNA PRESENZA/ASSENZA
     const handlePresenza = (idStudente, stato) => {
-        const lezioneAttiva = recuperoLezioneAttiva();
+        const lezioneAttiva = recuperoLezioneAttiva(selectedDate);
 
         if (!lezioneAttiva) {
             console.log("nessuna lezione selezionata")
@@ -83,7 +93,11 @@ const HomePageClasse = () => {
             stato: stato,
         }
 
-        dispatch(registraPresenza(idStudente, presenzaData))
+        dispatch(registraPresenza(idStudente, presenzaData));
+        setPresenze((prev) => ({
+            ...prev,
+            [idStudente]: stato
+        }));
     }
 
     useEffect(() => {
@@ -94,6 +108,8 @@ const HomePageClasse = () => {
         }
 
     }, [idClasse, token, nomeClasse, dispatch]);
+
+    const lezioneAttiva = recuperoLezioneAttiva(selectedDate);
 
     return (
         <Row>
@@ -130,24 +146,53 @@ const HomePageClasse = () => {
                         <h3 className="lettera-logo fw-bold">Lista studenti</h3>
                         {
                             studenti?.content?.map(stud => (
+                                <>
 
-                                <Dropdown
-                                    key={stud.idStudente}
-                                    className="dropdown-card w-100">
-                                    <Dropdown.Toggle variant="light"
-                                        className="dropdown-card-toggle d-flex justify-content-between align-items-center w-100" >
-                                        {stud.nome} {stud.cognome} </Dropdown.Toggle>
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item onClick={() =>
-                                            handlePresenza(stud.idStudente, "PRESENTE")
-                                        }>Presente</Dropdown.Item>
-                                        <Dropdown.Item
-                                            onClick={() =>
-                                                handlePresenza(stud.idStudente, "ASSENTE")
-                                            }>Assente</Dropdown.Item>
-                                        <Dropdown.Item>Assegna voto</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+
+
+                                    <Dropdown
+                                        key={stud.idStudente}
+                                        className="dropdown-card w-100">
+
+                                        <Dropdown.Toggle variant="light"
+                                            className="dropdown-card-toggle d-flex justify-content-between align-items-center w-100" >
+                                            {stud.nome} {stud.cognome}
+                                            <span
+                                                className={
+                                                    "d-inline-flex align-items-center justify-content-center rounded-circle " +
+                                                    (!lezioneAttiva
+                                                        ? "bg-secondary text-white"
+                                                        : presenze[stud.idStudente] === "PRESENTE"
+                                                            ? "bg-success text-white"
+                                                            : presenze[stud.idStudente] === "ASSENTE"
+                                                                ? "bg-danger text-white"
+                                                                : "bg-secondary text-white")
+                                                }
+                                                style={{ width: 24, height: 24 }}
+                                            >
+                                                {!lezioneAttiva ? (
+                                                    <i className="bi bi-question-circle"></i>
+                                                ) : presenze[stud.idStudente] === "PRESENTE" ? (
+                                                    <i className="bi bi-check-circle-fill"></i>
+                                                ) : presenze[stud.idStudente] === "ASSENTE" ? (
+                                                    <i className="bi bi-x-circle-fill"></i>
+                                                ) : (
+                                                    <i className="bi bi-question-circle"></i>
+                                                )}
+                                            </span>
+                                        </Dropdown.Toggle>
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item onClick={() =>
+                                                handlePresenza(stud.idStudente, "PRESENTE")
+                                            }>Presente</Dropdown.Item>
+                                            <Dropdown.Item
+                                                onClick={() =>
+                                                    handlePresenza(stud.idStudente, "ASSENTE")
+                                                }>Assente</Dropdown.Item>
+                                            <Dropdown.Item>Assegna voto</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </>
                             ))
                         }
 
