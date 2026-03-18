@@ -95,8 +95,8 @@ const ModaleRegistraLezione = ({ show, handleClose }) => {
                         >
                             <option value="">Seleziona materia</option>
                             <option value="b638e177-72b3-46cf-ac54-bedfbba8b53d">Matematica</option>
-                            <option value="123">Italiano</option>
-                            <option value="456">Geografia</option>
+                            <option value="46aaf6f7-e427-475e-af3d-50a24bf1e5ec">Geografia</option>
+                            <option value="456">altro</option>
                         </Form.Select>
                     </Form.Group>
 

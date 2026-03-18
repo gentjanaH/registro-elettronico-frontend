@@ -11,6 +11,8 @@ import { getLezioniByClass } from "../redux/actions/lezioniAction";
 import { registraPresenza } from "../redux/actions/presenzeActions";
 import Lezioni from "./Lezioni";
 import { fetchCompitiByClass } from "../redux/actions/compitiActions";
+import ModaleAssegnaValutazione from "./ModaleAssegnaValutazione";
+
 
 
 const HomePageClasse = () => {
@@ -25,9 +27,16 @@ const HomePageClasse = () => {
     const openLezione = () => setShowLezione(true);
     const closeLezione = () => setShowLezione(false);
 
+    // STATO E METODI PER IL MODALE CHE REGISTRA I VOTI
+    const [showValutazione, setShowValutazione] = useState(false);
+    const openValutazione = () => setShowValutazione(true);
+    const closeValutazione = () => setShowValutazione(false);
+
 
     // stato per la data
     const [selectedDate, setSelectedDate] = useState(new Date());
+
+    // stato presenza
     const [presenze, setPresenze] = useState({});
 
     const dispatch = useDispatch();
@@ -99,6 +108,7 @@ const HomePageClasse = () => {
             [idStudente]: stato
         }));
     }
+
 
     useEffect(() => {
         if (token) {
@@ -189,7 +199,8 @@ const HomePageClasse = () => {
                                                 onClick={() =>
                                                     handlePresenza(stud.idStudente, "ASSENTE")
                                                 }>Assente</Dropdown.Item>
-                                            <Dropdown.Item>Assegna voto</Dropdown.Item>
+                                            <Dropdown.Item onClick={openValutazione}>Assegna voto</Dropdown.Item>
+                                            <ModaleAssegnaValutazione show={showValutazione} handleClose={closeValutazione} />
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </>
