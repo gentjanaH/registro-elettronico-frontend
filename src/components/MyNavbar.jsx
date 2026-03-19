@@ -13,12 +13,21 @@ const MyNavbar = () => {
 
 
     const ruolo = user?.ruolo?.ruolo;
-    const id = user?.idUser;
+
+    let idStudente = null;
+
+    if (ruolo === "STUDENTE") {
+        idStudente = user?.studente?.idStudente;
+    }
+
+    if (ruolo === "GENITORE") {
+
+        idStudente = user?.genitore?.studente?.idStudente;
+
+    }
 
     const mostraIcone = ruolo === "STUDENTE" || ruolo === "GENITORE";
-    // Il componente MyNavbar utilizza React-Bootstrap per creare una barra di navigazione responsive.
-    // Il componente include un logo, link di navigazione e un'area per le icone di login/registrazione.
-    // TODO: Aggiungere funzionalità di logout e gestione dell'autenticazione in futuro.
+
     // TODO: Impostare la navbar sticky-top per renderla sempre visibile durante lo scroll.
     // TODO:Impostare delle icone e dei link diversi a seconda del ruolo dell'utente (genitore, docente, studente, segreteria).
     return (
@@ -31,7 +40,7 @@ const MyNavbar = () => {
                     {token && mostraIcone && (
                         <>
                             <Col xs={6} lg={4}>
-                                <IconeNavbar idUser={id} />
+                                <IconeNavbar idStudente={idStudente} />
                             </Col>
                         </>)}
                     <Col xs={3} lg={4}>

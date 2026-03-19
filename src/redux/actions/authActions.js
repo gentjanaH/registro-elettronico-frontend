@@ -3,12 +3,14 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT = "LOGOUT";
 
-export const logout = () => {
+export const logout = (data) => {
 
     return (dispatch) => {
 
         localStorage.removeItem("token");
         dispatch({ type: LOGOUT });
+
+        localStorage.setItem("studente", JSON.stringify(data.studente));
     }
 }
 

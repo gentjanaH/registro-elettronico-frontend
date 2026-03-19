@@ -29,7 +29,7 @@ const presenzeReducer = (currentState = initialState, action) => {
             return {
                 ...currentState,
                 loading: false,
-                presenze: action.payload
+                presenze: action.payload.content
             };
 
         case REGISTRA_PRESENZE_FAILURE:

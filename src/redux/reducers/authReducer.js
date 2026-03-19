@@ -2,6 +2,7 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from "../actions/
 
 const initialState = {
     user: JSON.parse(localStorage.getItem("user")) || null,
+    studente: JSON.parse(localStorage.getItem("studente")) || null,
     token: localStorage.getItem("token") || null,
     loading: false,
     error: null

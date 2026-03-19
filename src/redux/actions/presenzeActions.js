@@ -69,7 +69,7 @@ export const fetchPresenzeByStudent = (idStudente) => {
 
         dispatch({ type: FETCH_PRESENZE_REQUEST });
 
-        fetch(`http://localhost:8081/presenze/studente/${idStudente}`, {
+        fetch(`http://localhost:8081/studenti/${idStudente}/assenze`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`

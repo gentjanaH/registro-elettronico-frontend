@@ -6,7 +6,7 @@ import { Row, Col } from "react-bootstrap";
 
 
 
-const IconeNavbar = ({ idUser }) => {
+const IconeNavbar = ({ idStudente }) => {
 
 
 
@@ -19,7 +19,7 @@ const IconeNavbar = ({ idUser }) => {
                     <Col>
                         {/* icone da mostrare al login genitore */}
                         {/* GET LISTA ASSENZE E GIUSTIFICA */}
-                        <Link to={`/assenze/${idUser}`} className="text-decoration-none text-dark d-flex flex-column align-items-center mx-2">
+                        <Link to={`/assenze/${idStudente}`} className="text-decoration-none text-dark d-flex flex-column align-items-center mx-2">
 
                             <i className="bi bi-calendar-x fs-5 testo-icone-navbar"></i>
                             <span className="testo-icone-navbar">Assenze</span>
@@ -35,7 +35,7 @@ const IconeNavbar = ({ idUser }) => {
                     </Col>
 
                     <Col>
-                        <Link to={`/voti/${idUser}`} className="text-decoration-none text-dark d-flex flex-column align-items-center mx-2">
+                        <Link to={`/voti/${idStudente}`} className="text-decoration-none text-dark d-flex flex-column align-items-center mx-2">
                             <IoSchoolOutline size={30} className="testo-icone-navbar" />
                             {/* nell'area professori qui ci sara CLASSI, una volta selezionata la classe, ci sara la CLASSE SCELTA */}
                             <span className="testo-icone-navbar ">Voti</span>

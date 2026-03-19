@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ListGroup, Row, Col, Button, Card } from "react-bootstrap";
 import ModaleGiustificaAssenze from "./ModaleGiustificaAssenze";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchPresenzeByStudent } from "../redux/actions/presenzeActions";
 
 const Assenze = () => {
 
@@ -10,6 +13,21 @@ const Assenze = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const dispatch = useDispatch();
+
+    const { user } = useSelector(state => state.auth);
+    const { presenze, loading, error } = useSelector(currentState => currentState.presenze);
+
+    const { idStudente } = useParams();
+
+    const isGenitore = user?.ruolo?.ruolo === "GENITORE";
+
+
+
+    useEffect(() => {
+
+        dispatch(fetchPresenzeByStudent(idStudente));
+    }, [idStudente])
 
     return (
         <Row className="d-flex ">
@@ -17,35 +35,41 @@ const Assenze = () => {
                 <h1 className="lettera-logo fs-1 fw-bold  my-5">
                     Assenze Studente
                 </h1>
+                <p>ID Studente: {idStudente}</p>
+
+                {loading && <p>Caricamento assenze...</p>}
+                {error && <p>Errore: {error}</p>}
+
                 <Row>
                     <Col xs={12} md={6}>
 
-                        <Card border="info" className="my-3">
-                            <ListGroup variant="flush" >
-                                <ListGroup.Item>Data: 12/10/2026</ListGroup.Item>
-                                <ListGroup.Item>Stato: GIUSTIFICATO/DA GIUSTIFICARE</ListGroup.Item>
-                                <ListGroup.Item>
-                                    <Button
-                                        variant="success"
-                                        className="ms-3"
-                                        onClick={handleShow}
-                                    >
-                                        Giustifica
-                                    </Button></ListGroup.Item>
-                            </ListGroup>
-                        </Card>
-                        {/* MODALE */}
-                        <ModaleGiustificaAssenze show={show} handleClose={handleClose} />
+                        {presenze.map(p => (
+                            <>
+                                <Card key={p.idPresenza} border="info" className="my-3">
+                                    <ListGroup variant="flush" >
+                                        <ListGroup.Item>Data: {p.data}</ListGroup.Item>
+                                        <ListGroup.Item>Stato: {p.giustificata ? "GIUSTIFICATA" : "DA GIUSTIFICARE"}</ListGroup.Item>
+                                        <ListGroup.Item>
+                                            {isGenitore && (
+                                                <Button
+                                                    variant="success"
+                                                    className="ms-3"
+                                                    onClick={handleShow}
+                                                >
+                                                    Giustifica
+                                                </Button>
+                                            )}</ListGroup.Item>
+                                    </ListGroup>
+                                </Card>
 
-                        <Card>
-                            <ListGroup variant="flush">
-                                <ListGroup.Item>Data: 12/10/2026</ListGroup.Item>
-                                <ListGroup.Item>Stato: GIUSTIFICATO/DA GIUSTIFICARE</ListGroup.Item>
-                                <ListGroup.Item> <Button variant="success" className="ms-3">
-                                    Giustifica
-                                </Button></ListGroup.Item>
-                            </ListGroup>
-                        </Card>
+                                < ModaleGiustificaAssenze show={show} handleClose={handleClose} />
+                            </>
+
+
+                        ))}
+
+
+
 
                     </Col>
 
