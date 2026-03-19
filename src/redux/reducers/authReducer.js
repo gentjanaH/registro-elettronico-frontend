@@ -26,6 +26,7 @@ const authReducer = (currentState = initialState, action) => {
                 loading: false,
                 token: action.payload.accessToken,
                 user: action.payload.user,
+                studente: action.payload.studente,
 
             };
 

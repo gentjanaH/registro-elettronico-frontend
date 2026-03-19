@@ -60,8 +60,7 @@ const HomePageClasse = () => {
     // STATO LEZIONI
     const lezioni = useSelector(currentState => currentState.lezioni.lezioni)
 
-    // TODO: qui devo recuperare l'id della lezione selezionata
-    // ad esempio dalla lista lezioni del giorno
+
 
     // placeholder
 

@@ -44,7 +44,7 @@ function App() {
                 <Route path="/materie" element={<Materie />} />
                 <Route path="/contatti" element={<Contatti />} />
                 {/* questa rotta andrà collegata al login */}
-                <Route path="/user/:id_studente" element={<HomePageStudentiGenitori />} />
+                <Route path="/classe/:idClasse/:nome/studente/:id_studente" element={<HomePageStudentiGenitori />} />
                 <Route path="/professore/:id_professore" element={<HomePageProfessore />}></Route>
                 <Route path="/classe/:idClasse/:nomeClasse" element={<HomePageClasse />}></Route>
                 <Route path="/assenze/:id_studente" element={<Assenze />} />

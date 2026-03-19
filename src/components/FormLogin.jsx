@@ -24,20 +24,20 @@ const FormLogin = () => {
         e.preventDefault();
         dispatch(login(email, password));
     };
-
     useEffect(() => {
-
         if (token && user) {
 
+            if (user.ruolo.ruolo === "STUDENTE" && user.studente) {
+                navigate(
+                    `/classe/${user.studente.classe.idClasse}/${user.studente.classe.nome}/studente/${user.studente.idStudente}`
+                );
+            }
 
-
-            if (user.ruolo.ruolo === "STUDENTE") {
-                navigate(`/user/${user.idUser}`);
-            } else if (user.ruolo.ruolo === "PROFESSORE") {
-                navigate(`/professore/${user.idUser}`)
+            if (user.ruolo.ruolo === "PROFESSORE") {
+                navigate(`/professore/${user.idUser}`);
             }
         }
-    }, [token, user]);
+    }, [token, user, navigate]);
 
     return (
 

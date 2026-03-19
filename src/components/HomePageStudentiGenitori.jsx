@@ -2,21 +2,45 @@ import { Card, Col, Row, ListGroup } from "react-bootstrap";
 import DashboardCircolari from "./DashboardCircolari";
 import DataCorrenteConCalendario from "./DataCorrenteConCalendario";
 import Compiti from "./Compiti";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Lezioni from "./Lezioni";
+import { getLezioniByClass } from "../redux/actions/lezioniAction";
+import { fetchCompitiByClass } from "../redux/actions/compitiActions";
 import { useParams } from "react-router-dom";
 
 
 const HomePageStudentiGenitori = () => {
 
+    // stato per la data
+    const [selectedDate, setSelectedDate] = useState(new Date());
 
+    // STATO LEZIONI
+    const lezioni = useSelector(currentState => currentState.lezioni.lezioni)
+
+    const token = useSelector(currentState => currentState.auth.token);
+    const dispatch = useDispatch();
+
+    const { idClasse, nomeClasse } = useParams();
+
+    useEffect(() => {
+        if (token) {
+            dispatch(getLezioniByClass(idClasse));
+            dispatch(fetchCompitiByClass(idClasse));
+        }
+
+
+
+    }, [idClasse, token, nomeClasse, dispatch]);
 
 
     return (
         <Row className="text-center mt-5">
 
-            <DataCorrenteConCalendario />
+            <DataCorrenteConCalendario selectedDate={selectedDate} onChangeDate={setSelectedDate} />
             <Col xs={12} className="d-flex align-items-start ms-5">
                 <h3 className="lettera-logo mb-4 fw-bold fs-2 me-3">
-                    Presente
+                    Lezioni
                 </h3>
 
             </Col>
@@ -24,7 +48,8 @@ const HomePageStudentiGenitori = () => {
 
 
             <Col xs={12} md={6} className="d-flex flex-column align-items-center align-items-md-start ms-0 ms-md-5 ">
-                <Compiti />
+                <Compiti selectedDate={selectedDate} onChangeDate={setSelectedDate} />
+                <Lezioni selectedDate={selectedDate} onChangeDate={setSelectedDate} />
             </Col>
             <Col>
                 <Row className="mt-5  me-md-3">
