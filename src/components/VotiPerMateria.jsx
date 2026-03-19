@@ -1,7 +1,38 @@
 import { Col, Row, Card, Badge } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { fetchValutazioniByStudent } from "../redux/actions/valutazioniActions";
+import { useEffect } from "react";
 
 
 const VotiPerMateria = () => {
+
+    const dispatch = useDispatch();
+
+    const { user } = useSelector(state => state.auth);
+
+    const { valutazioni, loading, error } = useSelector(currentState => currentState.valutazioni);
+
+    const { idStudente } = useParams();
+
+    // funzione per gestire il colore del badge
+    const getBadgeColor = (voto) => {
+        if (voto === 4) return "danger";
+        if (voto === 5) return "warning";
+        return "success";
+    }
+
+    // funzione per ordinare le valutazioni in base alla data
+    const votiOrdinati = [...valutazioni].sort((a, b) => {
+        return new Date(b.lezione.data) - new Date(a.lezione.data);
+    });
+
+    useEffect(() => {
+
+        dispatch(fetchValutazioniByStudent(idStudente));
+    }, [idStudente])
+
+
     return (
         <>
             <Row>
@@ -9,58 +40,41 @@ const VotiPerMateria = () => {
                     <h1 className="titolo-carosello fs-2 fw-bolder mt-3 ms-2">
                         Tutti i voti:
                     </h1>
+                    {loading && <p>Caricamento Voti...</p>}
+                    {error && <p>Errore: {error}</p>}
                     <Row className="d-flex flex-column m-auto">
                         <Col xs={12} className="align-items-center">
-                            <Card className="my-3 w-75">
-                                <Card.Body as={Row} className="align-items-center">
 
-                                    <Col>
-                                        <Card.Title>materia</Card.Title>
-                                        <Card.Text>Data </Card.Text>
-                                        <Card.Text>Tipo: ORALE-SCRITTO-PRATICO </Card.Text>
-                                    </Col>
-                                    <Col className="d-flex justify-content-center">
-                                        <Card.Text>
-                                            <h1>
-                                                {/* Il colore del badge sarà in base al voto:
+                            {votiOrdinati.map(v => (
 
-                                        4=danger
-                                        5=warning
-                                        6-10=success
-                                        */}
-                                                <Badge pill bg="success"> 8 </Badge>
-                                            </h1> </Card.Text>
-                                    </Col>
+                                <Card className="my-3 w-75">
+                                    <Card.Body key={v.idValutazione} as={Row} className="align-items-center">
+
+                                        <Col>
+                                            <Card.Title>{v.lezione.materia.nome}</Card.Title>
+                                            <Card.Text>Data: {v.lezione.data} </Card.Text>
+                                            <Card.Text>Tipo: {v.tipo} </Card.Text>
+                                        </Col>
+                                        <Col className="d-flex justify-content-center">
+                                            <Card.Text>
+                                                <h1>
+                                                    <Badge pill bg={getBadgeColor(v.valore)}> {v.valore} </Badge>
+                                                </h1>
+                                            </Card.Text>
+                                        </Col>
 
 
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                        <Col xs={12}>
-                            <Card className="my-3 w-75" >
-                                <Card.Body as={Row} className="align-items-center ">
-
-                                    <Col>
-                                        <Card.Title>materia</Card.Title>
-                                        <Card.Text>Data </Card.Text>
-                                        <Card.Text>Tipo: ORALE-SCRITTO-PRATICO </Card.Text>
-                                    </Col>
-                                    <Col className="d-flex justify-content-center">
-                                        <Card.Text>
-                                            <h1>
-                                                {/* Il colore del badge sarà in base al voto:
-
-                                        4=danger
-                                        5=warning
-                                        6-10=success
-                                        */}
-                                                <Badge pill bg="success"> 8 </Badge>
-                                            </h1> </Card.Text>
-                                    </Col>
+                                    </Card.Body>
+                                </Card>
 
 
-                                </Card.Body>
-                            </Card>
+                            ))
+
+                            }
+
+
+
+
                         </Col>
                     </Row>
                 </Col>

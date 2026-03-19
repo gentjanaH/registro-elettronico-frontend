@@ -49,7 +49,7 @@ function App() {
                 <Route path="/classe/:idClasse/:nomeClasse" element={<HomePageClasse />}></Route>
                 <Route path="/assenze/:idStudente" element={<Assenze />} />
                 <Route path="/giustifica-assenze" element={<ModaleGiustificaAssenze />} />
-                <Route path="/voti" element={<VotiPerMateria />} />
+                <Route path="/voti/:idStudente" element={<VotiPerMateria />} />
                 <Route path="/bacheca" element={<Bacheca />}></Route>
                 <Route path="*" element={<NotFound />} />
               </Routes>

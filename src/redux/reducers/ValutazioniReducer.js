@@ -36,7 +36,7 @@ const valutazioniReducer = (currentState = initialState, action) => {
             return {
                 ...currentState,
                 loading: false,
-                valutazioni: action.payload
+                valutazioni: action.payload.content
             };
 
         case REGISTRA_VALUTAZIONI_FAILURE:

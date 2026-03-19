@@ -56,4 +56,53 @@ export const assegnaValutazione = (idStudente, valutazioneData) => {
                 });
             });
     };
+
+
+}
+
+export const fetchValutazioniByStudent = (idStudente) => {
+
+    return (dispatch, getState) => {
+
+        const token = getState().auth.token;
+        if (!token) {
+            console.error("TOKEN MANCANTE, BLOCCO LA FETCH");
+            dispatch({
+                type: FETCH_VALUTAZIONI_FAILURE,
+                payload: "Token di autenticazione mancante. Effettua il login."
+            });
+            return;
+        }
+
+        dispatch({ type: FETCH_VALUTAZIONI_REQUEST });
+
+        fetch(`http://localhost:8081/studenti/${idStudente}/voti`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Errore nel recupero dei voti dell'alunno")
+                }
+
+                return res.json();
+            })
+            .then(data => {
+                dispatch({
+                    type: FETCH_VALUTAZIONI_SUCCESS,
+                    payload: data
+                });
+                console.log("VALUTAZIONI BY ID: ", data)
+            })
+            .catch(err => {
+                dispatch({
+                    type: FETCH_VALUTAZIONI_FAILURE,
+                    payload: err.message
+                });
+            });
+
+    }
 }

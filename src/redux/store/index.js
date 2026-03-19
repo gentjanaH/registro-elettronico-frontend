@@ -5,6 +5,7 @@ import studentiReducer from "../reducers/studentiReducer"
 import lezioniReducers from "../reducers/lezioniReducers"
 import compitiReducer from "../reducers/compitiReducer"
 import presenzeReducer from "../reducers/presenzeReducer"
+import valutazioniReducer from "../reducers/ValutazioniReducer"
 
 const store = configureStore({
 
@@ -15,6 +16,7 @@ const store = configureStore({
         lezioni: lezioniReducers,
         compiti: compitiReducer,
         presenze: presenzeReducer,
+        valutazioni: valutazioniReducer,
     }
 
 
