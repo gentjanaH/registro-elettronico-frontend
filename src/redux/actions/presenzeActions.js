@@ -12,7 +12,14 @@ export const registraPresenza = (idStudente, presenzaData) => {
         dispatch({ type: REGISTRA_PRESENZE_REQUEST });
 
         const token = getState().auth.token;
-
+        if (!token) {
+            console.error("TOKEN MANCANTE, BLOCCO LA FETCH");
+            dispatch({
+                type: FETCH_PRESENZE_FAILURE,
+                payload: "Token di autenticazione mancante. Effettua il login."
+            });
+            return;
+        }
 
 
         fetch(`http://localhost:8081/presenze/studente/${idStudente}`, {

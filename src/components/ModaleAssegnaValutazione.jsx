@@ -2,23 +2,22 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
 import { assegnaValutazione } from "../redux/actions/valutazioniActions";
 import { useState } from "react";
 
 
-const ModaleAssegnaValutazione = ({ show, handleClose }) => {
+const ModaleAssegnaValutazione = ({ show, handleClose, idStudente }) => {
 
     const dispatch = useDispatch();
 
-    const { idStudente } = useParams();
+
 
 
     const [lezione, setLezione] = useState("");
     const [valore, setValore] = useState("");
     const [tipo, setTipo] = useState("");
 
-    const { lezioni, loading, error } = useSelector(state => state.lezioni);
+    const { lezioni } = useSelector(state => state.lezioni);
 
 
 
@@ -35,6 +34,8 @@ const ModaleAssegnaValutazione = ({ show, handleClose }) => {
             tipo: tipo.toUpperCase(),
         };
 
+        console.log("Invio valutazione payload:", valutazioneData);
+
         dispatch(assegnaValutazione(idStudente, valutazioneData));
         console.log("Voto: ", valutazioneData)
         alert("Voto salvato con successo!");
@@ -42,36 +43,61 @@ const ModaleAssegnaValutazione = ({ show, handleClose }) => {
     };
 
     return (
+        <>
+            <Modal
 
-        <Modal
-
-            show={show} onHide={handleClose} centered
-        >
-            <Modal.Header closeButton>
-                <Modal.Title>Assegna Voto</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-
-                <Form className="p-3">
+                show={show} onHide={handleClose} centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Assegna Voto</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
                     <Form.Group className="mb-3">
                         <Form.Label>Lezione</Form.Label>
-                        {/* map delle lezioni della giornata */}
-                        <Form.Select
-                            value={lezione}
-                            onChange={(e) => setLezione(e.target.value)}
+
+                        <div
+                            style={{
+                                maxHeight: "220px",
+                                overflowY: "auto",
+                                border: "1px solid #ced4da",
+                                borderRadius: "8px",
+                                padding: "8px",
+                                background: "#f8f9fa"
+                            }}
                         >
-                            <option value="">Seleziona lezione</option>
-                            {lezioni.map(lez => (
-                                <option
-                                    key={lez.idLezione}
-                                    value={lez.idLezione}>{lez.nomeMateria} - {lez.data} - {lez.descrizione}</option>
+                            {lezioni.length === 0 && (
+                                <div className="text-muted">Nessuna lezione trovata</div>
+                            )}
 
+                            {lezioni.map(lez => {
+                                const isSelected = lezione === lez.idLezione;
 
-                            ))}
-
-                        </Form.Select>
+                                return (
+                                    <div
+                                        key={lez.idLezione}
+                                        onClick={() => setLezione(lez.idLezione)}
+                                        style={{
+                                            padding: "12px",
+                                            marginBottom: "8px",
+                                            borderRadius: "8px",
+                                            cursor: "pointer",
+                                            backgroundColor: isSelected ? "#e7f1ff" : "white",
+                                            border: isSelected ? "2px solid #0d6efd" : "1px solid #ddd",
+                                            transition: "0.2s"
+                                        }}
+                                    >
+                                        <strong>{lez.nomeMateria}</strong>
+                                        <div className="text-muted" style={{ fontSize: "0.85rem" }}>
+                                            {lez.data} — {lez.descrizione}
+                                        </div>
+                                        <div style={{ fontSize: "0.85rem" }}>
+                                            Prof: {lez.cognomeProfessore}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </Form.Group>
-
                     <Form.Group className="mb-3">
                         <Form.Label>Voto</Form.Label>
                         {/* map delle lezioni della giornata */}
@@ -103,22 +129,18 @@ const ModaleAssegnaValutazione = ({ show, handleClose }) => {
                             <option value="PRATICO">Pratico</option>
                         </Form.Select>
                     </Form.Group>
+                </Modal.Body>
 
-                </Form>
-            </Modal.Body>
-
-
-
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Annulla
-                </Button>
-                <Button variant="primary" onClick={handleSubmit}>
-                    Invia
-                </Button>
-            </Modal.Footer>
-
-        </Modal>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Annulla
+                    </Button>
+                    <Button variant="primary" onClick={handleSubmit}>
+                        Invia
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
 
 

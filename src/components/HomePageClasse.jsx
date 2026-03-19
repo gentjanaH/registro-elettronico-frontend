@@ -27,10 +27,20 @@ const HomePageClasse = () => {
     const openLezione = () => setShowLezione(true);
     const closeLezione = () => setShowLezione(false);
 
+    // STATO PER SALVARE L'ID DELLO STUDENTE SELEZIONATO
+    const [studenteSelezionato, setStudenteSelezionato] = useState(null);
+
     // STATO E METODI PER IL MODALE CHE REGISTRA I VOTI
     const [showValutazione, setShowValutazione] = useState(false);
-    const openValutazione = () => setShowValutazione(true);
-    const closeValutazione = () => setShowValutazione(false);
+    const openValutazione = (idStudente) => {
+        setShowValutazione(true);
+        setStudenteSelezionato(idStudente);
+    };
+    const closeValutazione = () => {
+        setShowValutazione(false);
+        setStudenteSelezionato(null);
+    };
+
 
 
     // stato per la data
@@ -199,8 +209,11 @@ const HomePageClasse = () => {
                                                 onClick={() =>
                                                     handlePresenza(stud.idStudente, "ASSENTE")
                                                 }>Assente</Dropdown.Item>
-                                            <Dropdown.Item onClick={openValutazione}>Assegna voto</Dropdown.Item>
-                                            <ModaleAssegnaValutazione show={showValutazione} handleClose={closeValutazione} />
+                                            <Dropdown.Item onClick={() => openValutazione(stud.idStudente)}>Assegna voto</Dropdown.Item>
+                                            <ModaleAssegnaValutazione
+                                                show={showValutazione}
+                                                handleClose={closeValutazione}
+                                                idStudente={studenteSelezionato} />
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </>
