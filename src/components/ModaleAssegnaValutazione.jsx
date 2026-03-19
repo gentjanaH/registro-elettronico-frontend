@@ -106,13 +106,13 @@ const ModaleAssegnaValutazione = ({ show, handleClose, idStudente }) => {
                             onChange={(e) => setValore(e.target.value)}
                         >
                             <option value="">Seleziona un voto</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
+                            <option value="4" className="fw-bold text-danger">4</option>
+                            <option value="5" className="fw-bold text-warning">5</option>
+                            <option value="6" className="fw-bold text-success">6</option>
+                            <option value="7" className="fw-bold text-success">7</option>
+                            <option value="8" className="fw-bold text-success">8</option>
+                            <option value="9" className="fw-bold text-success">9</option>
+                            <option value="10" className="fw-bold text-success">10</option>
 
                         </Form.Select>
                     </Form.Group>
