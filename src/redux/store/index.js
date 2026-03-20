@@ -6,6 +6,7 @@ import lezioniReducers from "../reducers/lezioniReducers"
 import compitiReducer from "../reducers/compitiReducer"
 import presenzeReducer from "../reducers/presenzeReducer"
 import valutazioniReducer from "../reducers/ValutazioniReducer"
+import materieReducer from "../reducers/materieReducer"
 
 const store = configureStore({
 
@@ -17,6 +18,7 @@ const store = configureStore({
         compiti: compitiReducer,
         presenze: presenzeReducer,
         valutazioni: valutazioniReducer,
+        materie: materieReducer,
     }
 
 
