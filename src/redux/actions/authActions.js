@@ -48,6 +48,7 @@ export const login = (email, password) => {
                 localStorage.setItem("user", JSON.stringify(data.user));
 
                 localStorage.setItem("token", data.accessToken)
+                return data;
             })
 
             .catch((err) => {

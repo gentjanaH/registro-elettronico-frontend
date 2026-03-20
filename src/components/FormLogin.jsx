@@ -24,6 +24,7 @@ const FormLogin = () => {
         e.preventDefault();
         dispatch(login(email, password));
     };
+
     useEffect(() => {
         if (token && user) {
 
@@ -31,10 +32,24 @@ const FormLogin = () => {
                 navigate(
                     `/classe/${user.studente.classe.idClasse}/${user.studente.classe.nome}/studente/${user.studente.idStudente}`
                 );
+
+                return;
             }
+
+            if (user.ruolo.ruolo === "GENITORE" && user.genitore) {
+
+                const primoFiglio = user.genitore.figli[0];
+                navigate(
+                    `/classe/${primoFiglio.classe.idClasse}/${primoFiglio.classe.nome}/studente/${primoFiglio.idStudente}`
+                );
+                return;
+            }
+
 
             if (user.ruolo.ruolo === "PROFESSORE") {
                 navigate(`/professore/${user.idUser}`);
+
+                return;
             }
         }
     }, [token, user, navigate]);

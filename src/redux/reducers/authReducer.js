@@ -3,6 +3,7 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT } from "../actions/
 const initialState = {
     user: JSON.parse(localStorage.getItem("user")) || null,
     studente: JSON.parse(localStorage.getItem("studente")) || null,
+    genitore: JSON.parse(localStorage.getItem("genitore")) || null,
     token: localStorage.getItem("token") || null,
     loading: false,
     error: null
@@ -28,6 +29,7 @@ const authReducer = (currentState = initialState, action) => {
                 token: action.payload.accessToken,
                 user: action.payload.user,
                 studente: action.payload.studente,
+                genitore: action.payload.genitore,
 
             };
 
