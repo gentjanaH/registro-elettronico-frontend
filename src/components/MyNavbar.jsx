@@ -8,7 +8,7 @@ import IconaLoginAccount from "./IconaLoginAccount";
 import { useSelector } from "react-redux";
 
 const MyNavbar = () => {
-    const { token, user } = useSelector((currentState) => currentState.auth)
+    const { token, user, figlioSelezionato } = useSelector((currentState) => currentState.auth)
 
 
 
@@ -22,7 +22,7 @@ const MyNavbar = () => {
 
     if (ruolo === "GENITORE") {
 
-        idStudente = user?.genitore?.studente?.idStudente;
+        idStudente = figlioSelezionato?.idStudente;
 
     }
 

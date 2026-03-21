@@ -2,6 +2,7 @@ export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT = "LOGOUT";
+export const SELEZIONA_FIGLIO = "SELEZIONA_FIGLIO";
 
 export const logout = (data) => {
 
@@ -62,3 +63,13 @@ export const login = (email, password) => {
     }
 
 }
+
+export const selezionaFiglio = (figlio) => {
+    return (dispatch) => {
+        localStorage.setItem("figlioSelezionato", JSON.stringify(figlio));
+        dispatch({
+            type: "SELEZIONA_FIGLIO",
+            payload: figlio
+        });
+    };
+};
