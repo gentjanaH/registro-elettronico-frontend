@@ -3,12 +3,14 @@ import { ListGroup, Row, Col, Button, Card } from "react-bootstrap";
 import ModaleGiustificaAssenze from "./ModaleGiustificaAssenze";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPresenzeByStudent } from "../redux/actions/presenzeActions";
+import { fetchPresenzeByStudent, giustificaAssenza } from "../redux/actions/presenzeActions";
 
 const Assenze = () => {
 
     // stato per aprire il modale utile a giustificare le assenze
     const [show, setShow] = useState(false);
+    const [motivo, setMotivo] = useState("");
+    const [presenzaSelezionata, setPresenzaSelezionata] = useState(null);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -22,7 +24,12 @@ const Assenze = () => {
 
     const isGenitore = user?.ruolo?.ruolo === "GENITORE";
 
+    const giustifica = () => {
 
+        dispatch(giustificaAssenza(presenzaSelezionata.idPresenza, motivo));
+        setShow(false);
+        setMotivo("");
+    };
 
     useEffect(() => {
 
@@ -44,31 +51,45 @@ const Assenze = () => {
                     <Col xs={12} md={6}>
 
                         {presenze.map(p => (
-                            <>
-                                <Card key={p.idPresenza} border="info" className="my-3">
-                                    <ListGroup variant="flush" >
-                                        <ListGroup.Item>Data: {p.data}</ListGroup.Item>
-                                        <ListGroup.Item>Stato: {p.giustificata ? "GIUSTIFICATA" : "DA GIUSTIFICARE"}</ListGroup.Item>
-                                        <ListGroup.Item>
-                                            {isGenitore && (
-                                                <Button
-                                                    variant="success"
-                                                    className="ms-3"
-                                                    onClick={handleShow}
-                                                >
-                                                    Giustifica
-                                                </Button>
-                                            )}</ListGroup.Item>
-                                    </ListGroup>
-                                </Card>
 
-                                < ModaleGiustificaAssenze show={show} handleClose={handleClose} />
-                            </>
+                            <Card key={p.idPresenza} border="info" className="my-3">
+                                <ListGroup variant="flush" >
+                                    <ListGroup.Item>
+                                        Data: {p.data}
+                                        Lezione: {p.nomeMateria}
+                                    </ListGroup.Item>
+                                    <ListGroup.Item>Stato: {p.stato === "GIUSTIFICATO" ? "GIUSTIFICATA" : "DA GIUSTIFICARE"}</ListGroup.Item>
+                                    <ListGroup.Item>
+                                        {isGenitore && p.stato !== "GIUSTIFICATO" && (
+                                            <Button
+                                                variant="success"
+                                                className="ms-3"
+                                                onClick={() => {
+                                                    setPresenzaSelezionata(p);
+                                                    handleShow();
+                                                }}
+                                            >
+                                                Giustifica
+                                            </Button>
+                                        )}</ListGroup.Item>
+                                </ListGroup>
+                            </Card>
+
+
+
 
 
                         ))}
 
+                        < ModaleGiustificaAssenze
+                            show={show}
+                            handleClose={handleClose}
+                            motivo={motivo}
+                            setMotivo={setMotivo}
+                            onConfirm={giustifica}
+                            data={presenzaSelezionata?.data}
 
+                        />
 
 
                     </Col>

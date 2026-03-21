@@ -1,4 +1,12 @@
-import { FETCH_PRESENZE_FAILURE, FETCH_PRESENZE_REQUEST, FETCH_PRESENZE_SUCCESS, REGISTRA_PRESENZE_FAILURE, REGISTRA_PRESENZE_REQUEST, REGISTRA_PRESENZE_SUCCESS } from "../actions/presenzeActions";
+import {
+    FETCH_PRESENZE_FAILURE,
+    FETCH_PRESENZE_REQUEST,
+    FETCH_PRESENZE_SUCCESS,
+    GIUSTIFICA_ASSENZA_SUCCESS,
+    REGISTRA_PRESENZE_FAILURE,
+    REGISTRA_PRESENZE_REQUEST,
+    REGISTRA_PRESENZE_SUCCESS
+} from "../actions/presenzeActions";
 
 const initialState = {
     presenze: [],
@@ -38,6 +46,21 @@ const presenzeReducer = (currentState = initialState, action) => {
                 ...currentState,
                 loading: false,
                 error: action.payload
+            };
+
+        case GIUSTIFICA_ASSENZA_SUCCESS:
+            return {
+                ...currentState,
+                presenze: currentState.presenze.map(p =>
+                    p.idPresenza === action.payload.idPresenza ? {
+                        ...p,
+                        stato: action.payload.stato,
+                        giustificazione: {
+                            idGiustificazione: action.payload.idGiustificazione,
+                            motivo: action.payload.motivoGiustificazione
+                        }
+                    } : p
+                )
             };
 
         default:

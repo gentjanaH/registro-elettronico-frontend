@@ -1,9 +1,14 @@
 export const FETCH_PRESENZE_REQUEST = "FETCH_PRESENZE_REQUEST";
 export const FETCH_PRESENZE_SUCCESS = "FETCH_PRESENZE_SUCCESS";
 export const FETCH_PRESENZE_FAILURE = "FETCH_PRESENZE_FAILURE";
+
 export const REGISTRA_PRESENZE_REQUEST = "REGISTRA_PRESENZE_REQUEST";
 export const REGISTRA_PRESENZE_SUCCESS = "REGISTRA_PRESENZE_SUCCESS";
 export const REGISTRA_PRESENZE_FAILURE = "REGISTRA_PRESENZE_FAILURE";
+
+export const GIUSTIFICA_ASSENZA_REQUEST = "GIUSTIFICA_ASSENZA_REQUEST";
+export const GIUSTIFICA_ASSENZA_SUCCESS = "GIUSTIFICA_ASSENZA_SUCCESS";
+export const GIUSTIFICA_ASSENZA_FAILURE = "GIUSTIFICA_ASSENZA_FAILURE"
 
 export const registraPresenza = (idStudente, presenzaData) => {
 
@@ -98,4 +103,52 @@ export const fetchPresenzeByStudent = (idStudente) => {
             });
 
     }
+}
+
+export const giustificaAssenza = (idPresenza, motivo) => {
+
+    return (dispatch, getState) => {
+
+        dispatch({ type: GIUSTIFICA_ASSENZA_REQUEST });
+
+        const token = getState().auth.token;
+        if (!token) {
+            console.error("TOKEN MANCANTE, BLOCCO LA FETCH");
+            dispatch({
+                type: GIUSTIFICA_ASSENZA_FAILURE,
+                payload: "Token di autenticazione mancante. Effettua il login."
+            });
+            return;
+        }
+
+
+        fetch(`http://localhost:8081/giustificazioni/presenze/${idPresenza}`, {
+
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ motivo })
+        })
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error("Errore nella registrazione della giustificazione");
+                }
+                return res.json();
+            })
+            .then(data => {
+                dispatch({
+                    type: GIUSTIFICA_ASSENZA_SUCCESS,
+                    payload: data
+                });
+                console.log("GIUSTIFICAZIONE: ", data)
+            })
+            .catch(err => {
+                dispatch({
+                    type: GIUSTIFICA_ASSENZA_FAILURE,
+                    payload: err.message
+                });
+            });
+    };
 }
