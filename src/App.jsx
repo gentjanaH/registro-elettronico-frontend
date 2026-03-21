@@ -22,6 +22,7 @@ import HomePageProfessore from "./components/HomePageProfessore"
 import HomePageClasse from "./components/HomePageClasse"
 import { Provider } from 'react-redux'
 import store from "./redux/store";
+import SelezioneProfiloFigli from "./components/SelezioneProfiloFigli"
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
                 <Route path="/contatti" element={<Contatti />} />
                 {/* questa rotta andrà collegata al login */}
                 <Route path="/classe/:idClasse/:nome/studente/:id_studente" element={<HomePageStudentiGenitori />} />
+                <Route path="/genitore/:idGenitore" element={<SelezioneProfiloFigli />} />
                 <Route path="/professore/:id_professore" element={<HomePageProfessore />}></Route>
                 <Route path="/classe/:idClasse/:nomeClasse" element={<HomePageClasse />}></Route>
                 <Route path="/assenze/:idStudente" element={<Assenze />} />

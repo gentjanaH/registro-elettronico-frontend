@@ -13,7 +13,7 @@ const FormLogin = () => {
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
-    const { loading, error, token, user } = useSelector((currentState) => currentState.auth)
+    const { loading, error, user, token, genitore } = useSelector((currentState) => currentState.auth)
 
 
     // stati per email e password
@@ -25,10 +25,13 @@ const FormLogin = () => {
         dispatch(login(email, password));
     };
 
+
     useEffect(() => {
         if (token && user) {
 
+
             if (user.ruolo.ruolo === "STUDENTE" && user.studente) {
+
                 navigate(
                     `/classe/${user.studente.classe.idClasse}/${user.studente.classe.nome}/studente/${user.studente.idStudente}`
                 );
@@ -36,22 +39,23 @@ const FormLogin = () => {
                 return;
             }
 
-            if (user.ruolo.ruolo === "GENITORE" && user.genitore) {
+            if (user.ruolo.ruolo === "GENITORE" && genitore) {
 
-                const primoFiglio = user.genitore.figli[0];
                 navigate(
-                    `/classe/${primoFiglio.classe.idClasse}/${primoFiglio.classe.nome}/studente/${primoFiglio.idStudente}`
-                );
+                    `/genitore/${user.idUser}`);
                 return;
             }
 
 
             if (user.ruolo.ruolo === "PROFESSORE") {
+
                 navigate(`/professore/${user.idUser}`);
 
                 return;
             }
+
         }
+
     }, [token, user, navigate]);
 
     return (
@@ -83,7 +87,12 @@ const FormLogin = () => {
 
                     </Form.Group>
 
-                    <Button variant="primary" type="submit" className="add-child-button my-3" disabled={loading}>
+                    <Button
+
+                        variant="primary"
+                        type="submit"
+                        className="add-child-button my-3"
+                        disabled={loading}>
                         {loading ? "Loading..." : "Submit"}
                     </Button>
                 </Form>
