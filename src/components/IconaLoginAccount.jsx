@@ -5,66 +5,49 @@ import { logout } from "../redux/actions/authActions";
 
 const IconaLoginAccount = () => {
 
-    const { token, user } = useSelector((currentState) => currentState.auth)
-
+    const { token, user } = useSelector((s) => s.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleLogout = () => {
-
         dispatch(logout());
         navigate("/");
-    }
+    };
 
     const getIniziali = () => {
-
         if (!user) return "";
-        const inizialeNome = user.nome?.charAt(0).toUpperCase() || "";
-        const inizialeCognome = user.cognome?.charAt(0).toUpperCase() || "";
-        return `${inizialeNome} ${inizialeCognome}`;
-
-    }
+        const n = user.nome?.charAt(0).toUpperCase() || "";
+        const c = user.cognome?.charAt(0).toUpperCase() || "";
+        return `${n}${c}`;
+    };
 
     if (!token || !user) {
-
         return (
-
-            <Col>
-                <Link to="/login" className="text-decoration-none text-dark d-flex align-items-center">
-                    <i className="bi bi-person-circle me-2 fs-4 text-success"></i>
-
+            <Col className="d-flex align-items-center">
+                <Link to="/login" className="text-decoration-none d-flex align-items-center gap-2">
+                    <i className="bi bi-person-circle fs-5" style={{ color: "#0ea5e9" }}></i>
                     <span className="testo-login">LOGIN</span>
                 </Link>
             </Col>
         );
     }
-    return (
-        <Col className="d-flex align-content-center">
-            {/* se loggato iniziali nome e cognome, menù a tendina con account e LOGOUT */}
-            <Button className="bg-transparent fs-4 mx-4 border-0">
-                {getIniziali()}
 
-            </Button>
+    return (
+        <Col className="d-flex align-items-center gap-3">
+
+            <span className="navbar-iniziali">{getIniziali()}</span>
+
             <div
                 onClick={handleLogout}
-                className="text-decoration-none text-dark d-flex align-items-center"
+                className="d-flex align-items-center gap-2 navbar-logout"
                 style={{ cursor: "pointer" }}
             >
-
-
-
-                <i className="bi bi-box-arrow-right me-2 fs-4 text-danger"></i>
-                <span className="testo-login">LOGOUT</span>
+                <i className="bi bi-box-arrow-right fs-5" style={{ color: "#f87171" }}></i>
+                <span className="testo-logout">LOGOUT</span>
             </div>
+
         </Col>
     );
-
-
-
-
-
-
-
-}
+};
 
 export default IconaLoginAccount;

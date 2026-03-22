@@ -17,7 +17,7 @@ const Assenze = () => {
 
     const dispatch = useDispatch();
 
-    const { user } = useSelector(state => state.auth);
+    const { user, figlioSelezionato } = useSelector(state => state.auth);
     const { presenze, loading, error } = useSelector(currentState => currentState.presenze);
 
     const { idStudente } = useParams();
@@ -42,7 +42,7 @@ const Assenze = () => {
                 <h1 className="lettera-logo fs-1 fw-bold  my-5">
                     Assenze Studente
                 </h1>
-                <p>ID Studente: {idStudente}</p>
+                <p className="fw-bold fs-5">{figlioSelezionato.nome} {figlioSelezionato.cognome}</p>
 
                 {loading && <p>Caricamento assenze...</p>}
                 {error && <p>Errore: {error}</p>}

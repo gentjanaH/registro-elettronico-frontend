@@ -4,14 +4,18 @@ export const LOGIN_FAILURE = "LOGIN_FAILURE";
 export const LOGOUT = "LOGOUT";
 export const SELEZIONA_FIGLIO = "SELEZIONA_FIGLIO";
 
-export const logout = (data) => {
+export const logout = () => {
 
     return (dispatch) => {
 
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem("studente");
+        localStorage.removeItem("genitore");
+        localStorage.removeItem("figlioSelezionato");
         dispatch({ type: LOGOUT });
 
-        localStorage.setItem("studente", JSON.stringify(data.studente));
+        // localStorage.setItem("studente", JSON.stringify(data.studente));
     }
 }
 

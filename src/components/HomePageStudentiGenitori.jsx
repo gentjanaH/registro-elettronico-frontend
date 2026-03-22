@@ -16,7 +16,7 @@ const HomePageStudentiGenitori = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
 
     // STATO LEZIONI
-    const lezioni = useSelector(currentState => currentState.lezioni.lezioni)
+    // const lezioni = useSelector(currentState => currentState.lezioni.lezioni)
 
     const token = useSelector(currentState => currentState.auth.token);
     const dispatch = useDispatch();
@@ -63,24 +63,38 @@ const HomePageStudentiGenitori = () => {
                             <h3 className="lettera-logo fw-bold">Attivita extra-curricolari</h3>
                             <h4 className="lead">Previste per oggi:</h4>
                             <Col xs={12} className="d-flex flex-column align-items-center mt-3 g-4">
-                                <ListGroup horizontal className="mb-3 shadow-lg">
-                                    <ListGroup.Item variant="info">Nome corso</ListGroup.Item>
-                                    <ListGroup.Item variant="success">Inizio</ListGroup.Item>
-                                    <ListGroup.Item variant="danger">Fine</ListGroup.Item>
-                                    <ListGroup.Item variant="primary">Classe</ListGroup.Item>
-                                </ListGroup>
-                                <ListGroup horizontal className="mb-3 shadow-lg">
-                                    <ListGroup.Item variant="info">Nome corso</ListGroup.Item>
-                                    <ListGroup.Item variant="success">Inizio</ListGroup.Item>
-                                    <ListGroup.Item variant="danger">Fine</ListGroup.Item>
-                                    <ListGroup.Item variant="primary">classe</ListGroup.Item>
-                                </ListGroup>
-                                <ListGroup horizontal className="mb-3 shadow-lg">
-                                    <ListGroup.Item variant="info">Nome corso</ListGroup.Item>
-                                    <ListGroup.Item variant="success">Inizio</ListGroup.Item>
-                                    <ListGroup.Item variant="danger">Fine</ListGroup.Item>
-                                    <ListGroup.Item variant="primary">classe</ListGroup.Item>
-                                </ListGroup>
+                                <div className="row">
+                                    <ListGroup horizontal className="mb-3 shadow-lg col-12">
+                                        <ListGroup.Item variant="info" className="col-3">Nome corso</ListGroup.Item>
+                                        <ListGroup.Item variant="success" className="col-3">Inizio</ListGroup.Item>
+                                        <ListGroup.Item variant="danger" className="col-3">Fine</ListGroup.Item>
+                                        <ListGroup.Item variant="primary" className="col-3">Classe</ListGroup.Item>
+                                    </ListGroup>
+                                </div>
+                                <div className="row">
+                                    <ListGroup horizontal className="mb-3 shadow-lg col-12">
+                                        <ListGroup.Item variant="info" className="col-3">Nome corso</ListGroup.Item>
+                                        <ListGroup.Item variant="success" className="col-3">Inizio</ListGroup.Item>
+                                        <ListGroup.Item variant="danger" className="col-3">Fine</ListGroup.Item>
+                                        <ListGroup.Item variant="primary" className="col-3">Classe</ListGroup.Item>
+                                    </ListGroup>
+                                </div>
+                                <div className="row">
+                                    <ListGroup horizontal className="mb-3 shadow-lg col-12">
+                                        <ListGroup.Item variant="info" className="col-3">Nome corso</ListGroup.Item>
+                                        <ListGroup.Item variant="success" className="col-3">Inizio</ListGroup.Item>
+                                        <ListGroup.Item variant="danger" className="col-3">Fine</ListGroup.Item>
+                                        <ListGroup.Item variant="primary" className="col-3">Classe</ListGroup.Item>
+                                    </ListGroup>
+                                </div>
+                                <div className="row">
+                                    <ListGroup horizontal className="mb-3 shadow-lg col-12">
+                                        <ListGroup.Item variant="info" className="col-3">Nome corso</ListGroup.Item>
+                                        <ListGroup.Item variant="success" className="col-3">Inizio</ListGroup.Item>
+                                        <ListGroup.Item variant="danger" className="col-3">Fine</ListGroup.Item>
+                                        <ListGroup.Item variant="primary" className="col-3">Classe</ListGroup.Item>
+                                    </ListGroup>
+                                </div>
                             </Col>
 
                         </Row>

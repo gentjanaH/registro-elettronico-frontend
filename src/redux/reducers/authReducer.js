@@ -39,6 +39,9 @@ const authReducer = (currentState = initialState, action) => {
                 ...currentState,
                 token: null,
                 user: null,
+                studente: null,
+                genitore: null,
+                figlioSelezionato: null,
                 loading: false,
                 error: null
             };

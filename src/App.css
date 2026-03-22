@@ -1,194 +1,1064 @@
-@import url('https://fonts.googleapis.com/css2?family=Crafty+Girls&family=Roboto:ital,wght@0,100..900;1,100..900&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&family=Playfair+Display:wght@600&display=swap');
 
-/* NAVBAR */
+/* ─── VARIABILI ──────────────────────────────────────── */
+:root {
+    --accent: #0ea5e9;
+    --accent-hover: #0284c7;
+    --accent-soft: #e0f2fe;
+    --green: #10b981;
+    --green-hover: #059669;
+    --dark: #0f172a;
+    --mid: #334155;
+    --muted: #64748b;
+    --light: #f1f5f9;
+    --white: #ffffff;
+    --border: #e2e8f0;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.08);
+    --shadow-md: 0 6px 24px rgba(15, 23, 42, 0.12);
+}
+
+/* ─── NAVBAR ─────────────────────────────────────────── */
 .myNavbar {
-    background: linear-gradient(to top, rgb(179, 226, 226), rgb(6, 9, 185));
+    background: #0f172a;
+    padding: 0;
+    min-height: 60px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-
-
-.navbar-brand {
-    font-family: "Crafty Girls", cursive;
-    font-weight: bold;
-    font-size: 1.3em;
-    color: white;
-
+.myNavbar .container-fluid {
+    min-height: 60px;
+    display: flex;
+    align-items: center;
 }
 
 .navbar-brand {
-    font-family: "Roboto", sans-serif;
+    font-family: "Playfair Display", serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #e2e8f0 !important;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.lettera-logo {
+    font-family: "Playfair Display", serif;
+    color: #0ea5e9;
+    font-size: 2rem;
+}
+
+.navbar-icone-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .nav-link {
-    color: white;
-    font-weight: bold;
+    color: #94a3b8 !important;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 0.88rem;
+    padding: 6px 10px !important;
+    border-radius: 6px;
+    transition: color 0.2s ease, background 0.2s ease;
+    white-space: nowrap;
 }
 
 .nav-link:hover {
-    color: rgb(167, 19, 19);
+    color: #f1f5f9 !important;
+    background: rgba(255, 255, 255, 0.07);
 }
 
-/* .navbar-brand {
-    font-family: "Spectral", serif;
-} */
-
-.lettera-logo {
-    font-family: "Crafty Girls", cursive;
-    color: rgb(167, 19, 19);
-    font-size: 1.6em;
-
+.navbar-toggle-custom {
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
 }
 
-.testo-icone-navbar {
-    color: white;
-    font-family: "Roboto", sans-serif;
-    font-size: 14px;
-    font-weight: bold;
+.navbar-toggle-custom .navbar-toggler-icon {
+    filter: invert(1) opacity(0.7);
 }
 
-.testo-icone-navbar:hover {
-    color: rgb(167, 19, 19);
+/* ─── ICONE NAVBAR ───────────────────────────────────── */
+.navbar-icona-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    min-width: 56px;
 }
 
-.testo-registrati {
-    color: white;
+.navbar-icona-link:hover {
+    background: rgba(255, 255, 255, 0.07);
 }
 
-.testo-registrati:hover {
-    color: #0D6EFD;
+.navbar-icona-svg {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: #94a3b8;
+    transition: color 0.2s ease;
+    display: block;
 }
 
+.navbar-icona-label {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #94a3b8;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.navbar-icona-link:hover .navbar-icona-svg,
+.navbar-icona-link:hover .navbar-icona-label {
+    color: #f1f5f9;
+}
+
+/* ─── LOGIN / LOGOUT ─────────────────────────────────── */
 .testo-login {
-    color: white;
+    color: #94a3b8;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.2s ease;
 }
 
 .testo-login:hover {
-    color: rgb(25, 135, 84);
+    color: var(--accent);
 }
 
-/* BODY */
+.testo-logout {
+    color: #94a3b8;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.navbar-logout:hover .testo-logout {
+    color: #f87171;
+}
+
+.navbar-logout:hover i {
+    color: #f87171 !important;
+}
+
+.navbar-iniziali {
+    color: #e2e8f0;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    background: rgba(14, 165, 233, 0.15);
+    border: 1px solid rgba(14, 165, 233, 0.3);
+    border-radius: 20px;
+    padding: 3px 10px;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.testo-icone-navbar {
+    color: #94a3b8;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.testo-icone-navbar:hover {
+    color: var(--accent);
+}
+
+.testo-registrati {
+    color: #94a3b8;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.testo-registrati:hover {
+    color: #e2e8f0;
+}
+
+/* ─── BODY ───────────────────────────────────────────── */
 #root {
-    font-family: "Roboto", sans-serif;
-    font-size: 1em;
-    background: linear-gradient(to bottom, rgb(179, 226, 226), rgb(6, 9, 185));
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    background: var(--light);
+    color: var(--dark);
+    min-height: 100vh;
 }
 
+/* ─── LOGIN PAGE ─────────────────────────────────────── */
+.login-page-row {
+    min-height: calc(100vh - 120px);
+}
 
+.login-left {
+    background: var(--dark);
+}
 
-/* CAROSELLO */
+.login-badge {
+    background: rgba(14, 165, 233, 0.12);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(14, 165, 233, 0.25);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    display: inline-block;
+    width: fit-content;
+}
+
+.login-headline {
+    font-family: "Lora", serif;
+    color: #f8fafc;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.login-description {
+    color: #64748b;
+    font-size: 0.9rem;
+    line-height: 1.75;
+    max-width: 420px;
+}
+
+.login-features {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-features li {
+    color: #94a3b8;
+    font-size: 0.88rem;
+    padding-left: 16px;
+    position: relative;
+}
+
+.login-features li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.login-right {
+    background: #f8fafc;
+}
+
+.login-form-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 40px 36px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.login-form-title {
+    font-family: "Lora", serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.login-form-sub {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.login-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #475569;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.login-input {
+    background: #f8fafc !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-sm) !important;
+    font-size: 14px !important;
+    color: var(--dark) !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.login-input:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.12) !important;
+}
+
+.login-submit-btn {
+    background: var(--accent) !important;
+    border: none !important;
+    border-radius: var(--radius-sm) !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    padding: 11px !important;
+    transition: background 0.2s ease !important;
+}
+
+.login-submit-btn:hover:not(:disabled) {
+    background: var(--accent-hover) !important;
+}
+
+.login-submit-btn:disabled {
+    opacity: 0.6 !important;
+}
+
+.login-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.login-divider::before,
+.login-divider::after {
+    content: "";
+    flex: 1;
+    height: 0.5px;
+    background: var(--border);
+}
+
+.login-register-text {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.login-register-link {
+    color: var(--accent);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.login-register-link:hover {
+    color: var(--accent-hover);
+}
+
+/* ─── SELEZIONE PROFILO FIGLI ────────────────────────── */
+.seleziona-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px;
+}
+
+.seleziona-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.seleziona-titolo {
+    font-family: "Lora", serif;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.seleziona-sub {
+    font-family: "Inter", sans-serif;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.figlio-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
+}
+
+.figlio-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent);
+}
+
+.figlio-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(14, 165, 233, 0.12);
+    border: 2px solid rgba(14, 165, 233, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Inter", sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+}
+
+.figlio-nome {
+    font-family: "Lora", serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--dark);
+    text-align: center;
+}
+
+.figlio-classe {
+    font-family: "Inter", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--muted);
+    background: var(--light);
+    padding: 3px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+}
+
+.figlio-btn {
+    margin-top: 8px;
+    width: 100%;
+    background: var(--accent) !important;
+    border: none !important;
+    border-radius: var(--radius-sm) !important;
+    font-family: "Inter", sans-serif;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    padding: 9px !important;
+    transition: background 0.2s ease !important;
+}
+
+.figlio-btn:hover {
+    background: var(--accent-hover) !important;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .seleziona-wrapper {
+        padding: 32px 16px;
+    }
+
+    .seleziona-header {
+        margin-bottom: 28px;
+    }
+
+    .figlio-card {
+        padding: 24px 20px;
+    }
+
+    .figlio-avatar {
+        width: 56px;
+        height: 56px;
+        font-size: 1rem;
+    }
+}
+
+/* ─── CAROSELLO ──────────────────────────────────────── */
 .carousel-item a {
     pointer-events: auto !important;
 }
 
-/* CARD CAROSELLO */
+/* ─── CARD CAROSELLO ─────────────────────────────────── */
 .card-cliccabili {
-    transition: transform 0.3s ease, background 0.3s ease;
-    background: linear-gradient(to right, rgb(88, 80, 158), rgba(226, 248, 233, 0.521));
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    cursor: pointer;
 }
 
 .card-cliccabili:hover {
-
-    transform: scale(1.05);
-    background: linear-gradient(to left, rgb(88, 80, 158), rgba(226, 248, 233, 0.521));
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent);
 }
 
-/* CARD  */
+/* ─── CARD ───────────────────────────────────────────── */
 .card {
-    background: linear-gradient(to right, rgb(88, 80, 158), rgba(226, 248, 233, 0.521));
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
 }
 
 .card-title {
-    font-family: "Spectral", serif;
-    color: rgb(230, 241, 227);
-    font-size: 1.5em;
-    font-weight: bold;
-    margin-top: 0.5em;
-
+    font-family: "Lora", serif;
+    color: var(--dark);
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-top: 0.25em;
+    margin-bottom: 0.5em;
 }
 
-
 .card-text {
-
-    font-size: 1.2em;
-    color: rgb(3, 10, 6);
+    font-family: "Inter", sans-serif;
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.65;
 }
 
 .titolo-carosello {
-    font-family: "Crafty Girls", cursive;
-    color: rgb(167, 19, 19);
-    font-size: 1.6em;
-    font-weight: bold;
+    font-family: "Playfair Display", serif;
+    color: var(--dark);
+    font-size: 1.4rem;
+    font-weight: 600;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 6px;
 }
 
+.titolo-carosello::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+}
 
-
-/* HOMEPAGE */
+/* ─── HOMEPAGE ───────────────────────────────────────── */
 .titolo-home {
-    font-family: "Spectral", serif;
-    color: rgb(167, 19, 19);
+    font-family: "Lora", serif;
+    color: var(--dark);
+    font-size: clamp(1.4rem, 4vw, 2.2rem);
+    font-weight: 600;
+    line-height: 1.3;
 }
 
-/* DATI DEI FIGLI */
-.add-child-button:hover {
-    background-color: blueviolet;
-    color: white;
-    border: white solid 1px;
+.offerta-hero-link {
+    color: inherit;
+    font-weight: 600;
+    text-decoration: none;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
 }
 
-/* sezione professore */
+.offerta-hero-link:hover {
+    border-bottom-color: #f8fafc;
+    color: inherit;
+}
 
-/* dropdown lista studenti */
-/* --- CARD STYLE PER IL DROPDOWN --- */
-.dropdown-card-toggle {
-    background: #ffffff !important;
-    border: 1px solid #dcdcdc !important;
-    border-radius: 10px !important;
-    padding: 12px 16px !important;
-    font-size: 1.1rem;
+/* ─── OFFERTA FORMATIVA ──────────────────────────────── */
+.offerta-wrapper {
+    min-height: calc(100vh - 120px);
+}
+
+.offerta-hero {
+    background: var(--dark);
+    padding: 56px 24px 48px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.offerta-titolo {
+    font-family: "Lora", serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 600;
+    color: #f8fafc;
+    line-height: 1.2;
+    margin: 0;
+}
+
+.offerta-hero-sub {
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    color: #64748b;
+    max-width: 560px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.offerta-container {
+    max-width: 900px;
+    padding: 48px 24px;
+}
+
+.offerta-intro {
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    color: var(--mid);
+    line-height: 1.8;
+    border-left: 3px solid var(--accent);
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+
+.offerta-section {
+    margin-top: 52px;
+}
+
+.offerta-section-titolo {
+    font-family: "Lora", serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 10px;
+}
+
+.offerta-accent {
+    color: var(--accent);
+}
+
+.offerta-testo {
+    font-family: "Inter", sans-serif;
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.75;
+    max-width: 680px;
+}
+
+.offerta-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    height: 100%;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.offerta-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-sm);
+}
+
+.offerta-card-titolo {
+    font-family: "Lora", serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.offerta-card-desc {
+    font-family: "Inter", sans-serif;
+    font-size: 0.83rem;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.offerta-progetti {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.offerta-progetto-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.offerta-progetto-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 6px;
+}
+
+.offerta-progetto-nome {
+    font-family: "Inter", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.offerta-progetto-desc {
+    font-family: "Inter", sans-serif;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+
+
+/* Responsive */
+@media (max-width: 767px) {
+    .offerta-hero {
+        padding: 40px 20px 32px;
+    }
+
+    .offerta-container {
+        padding: 32px 16px;
+    }
+
+    .offerta-section {
+        margin-top: 36px;
+    }
+
+    .offerta-intro {
+        font-size: 0.92rem;
+    }
+}
+
+/* ─── CONTATTI ───────────────────────────────────────── */
+.contatti-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    height: 100%;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contatti-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-sm);
+}
+
+.contatti-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--light);
+}
+
+.contatti-icona {
+    font-size: 18px;
+    color: var(--accent);
+}
+
+.contatti-card-titolo {
+    font-family: "Lora", serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.contatti-card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.contatti-voce {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.88rem;
+}
+
+.contatti-label {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+}
+
+.contatti-link {
+    font-family: "Inter", sans-serif;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.88rem;
+    transition: color 0.2s ease;
+}
+
+.contatti-link:hover {
+    color: var(--accent-hover);
+}
+
+.contatti-valore {
+    font-family: "Inter", sans-serif;
+    color: var(--dark);
+    font-size: 0.88rem;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+    .contatti-card-header {
+        padding: 14px 16px;
+    }
+
+    .contatti-card-body {
+        padding: 16px;
+    }
+
+    .contatti-voce {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+}
+
+/* ─── DATI DEI FIGLI ─────────────────────────────────── */
+.add-child-button {
+    font-family: "Inter", sans-serif;
     font-weight: 500;
-    color: #333 !important;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    transition: all 0.2s ease-in-out;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-/* Hover elegante */
+.add-child-button:hover {
+    background: var(--mid);
+    color: var(--white);
+    border-color: var(--mid);
+}
+
+/* ─── DROPDOWN LISTA STUDENTI ────────────────────────── */
+.dropdown-card-toggle {
+    background: var(--white) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-sm) !important;
+    padding: 10px 40px 10px 16px !important;
+    font-family: "Inter", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--mid) !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    position: relative;
+}
+
 .dropdown-card-toggle:hover {
-    background: #f8f9fa !important;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.12) !important;
 }
 
-/* Rimuove la freccia standard */
 .dropdown-card-toggle::after {
     display: none !important;
 }
 
-/* Freccia personalizzata a destra */
-.dropdown-card-toggle {
-    position: relative;
-    padding-right: 30px !important;
-}
-
 .dropdown-card-toggle::before {
     content: "▸";
-    /* freccia verso destra */
     position: absolute;
-    right: 12px;
+    right: 14px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 18px;
-    color: #0d6efd;
+    font-size: 13px;
+    color: var(--accent);
     transition: transform 0.2s ease;
 }
 
-/* Ruota la freccia quando il menu è aperto */
 .dropdown.show .dropdown-card-toggle::before {
     transform: translateY(-50%) rotate(90deg);
 }
 
-
-
-/* FOOTER */
-
+/* ─── FOOTER ─────────────────────────────────────────── */
 .myFooter {
-    background: linear-gradient(to top, rgb(179, 226, 226), rgb(6, 9, 185));
+    background: var(--dark);
+    padding: 2rem 1.5rem;
+    margin-top: auto;
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+
+/* Tablet */
+@media (max-width: 991px) {
+    .myNavbar {
+        padding: 0.6rem 1rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .myNavbar .navbar-collapse {
+        background: #0f172a;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        padding: 12px 0 16px;
+        margin-top: 8px;
+    }
+
+    .myNavbar .nav-link {
+        padding: 8px 16px !important;
+        border-radius: 0;
+        border-left: 2px solid transparent;
+    }
+
+    .myNavbar .nav-link:hover {
+        border-left-color: var(--accent);
+        background: rgba(14, 165, 233, 0.07);
+        border-radius: 0;
+    }
+
+    .navbar-icone-center {
+        position: static;
+        transform: none;
+    }
+
+    .titolo-home {
+        font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+    }
+
+    .card-title {
+        font-size: 1rem;
+    }
+
+    .card-text {
+        font-size: 0.85rem;
+    }
+
+    .dropdown-card-toggle {
+        font-size: 0.85rem !important;
+        padding: 9px 36px 9px 14px !important;
+    }
+
+    .login-left {
+        padding: 40px 32px !important;
+        text-align: center;
+    }
+
+    .login-badge {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .login-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .login-features {
+        align-items: center;
+    }
+
+    .login-features li {
+        text-align: left;
+    }
+
+    .login-form-card {
+        padding: 32px 24px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .myNavbar {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .nav-link {
+        font-size: 0.85rem;
+        padding: 0.35rem 0.5rem;
+    }
+
+    .testo-login,
+    .testo-logout,
+    .testo-registrati,
+    .testo-icone-navbar {
+        font-size: 12px;
+    }
+
+    .navbar-iniziali {
+        font-size: 12px;
+        padding: 2px 8px;
+    }
+
+    .titolo-carosello {
+        font-size: 1.1rem;
+    }
+
+    .titolo-carosello::after {
+        width: 28px;
+    }
+
+    .titolo-home {
+        font-size: 1.3rem;
+    }
+
+    .card {
+        border-radius: var(--radius-sm);
+    }
+
+    .card-cliccabili {
+        border-radius: var(--radius-sm);
+    }
+
+    .card-title {
+        font-size: 0.95rem;
+    }
+
+    .card-text {
+        font-size: 0.82rem;
+    }
+
+    .myFooter {
+        padding: 1.25rem 1rem;
+        text-align: center;
+    }
+
+    .dropdown-card-toggle {
+        font-size: 0.82rem !important;
+        padding: 8px 32px 8px 12px !important;
+    }
+
+    .login-page-row {
+        min-height: unset;
+    }
+
+    .login-left {
+        padding: 32px 20px !important;
+    }
+
+    .login-headline {
+        font-size: 1.3rem;
+    }
+
+    .login-form-card {
+        padding: 24px 18px;
+        border-radius: var(--radius-md);
+    }
+}
+
+/* Mobile piccolo */
+@media (max-width: 480px) {
+    .navbar-brand {
+        font-size: 0.95rem;
+    }
+
+    .titolo-home {
+        font-size: 1.1rem;
+    }
+
+    .card-title {
+        font-size: 0.9rem;
+    }
 }

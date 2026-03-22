@@ -1,53 +1,29 @@
 import { Link } from "react-router-dom";
+import { HiOutlineCalendarDays } from "react-icons/hi2";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import { IoSchoolOutline } from "react-icons/io5";
-import { Row, Col } from "react-bootstrap";
-
-
-
 
 const IconeNavbar = ({ idStudente }) => {
-
-
-
-
     return (
-        <div className="d-flex ms-auto align-items-center">
-            <div className="d-flex gap-3 flex-wrap">
-                <Row className="d-flex align-content-center align-items-center">
+        <div className="d-none d-lg-flex align-items-center gap-4">
 
-                    <Col>
-                        {/* icone da mostrare al login genitore */}
-                        {/* GET LISTA ASSENZE E GIUSTIFICA */}
-                        <Link to={`/assenze/${idStudente}`} className="text-decoration-none text-dark d-flex flex-column align-items-center mx-2">
+            <Link to={`/assenze/${idStudente}`} className="navbar-icona-link">
+                <HiOutlineCalendarDays className="navbar-icona-svg" />
+                <span className="navbar-icona-label">Assenze</span>
+            </Link>
 
-                            <i className="bi bi-calendar-x fs-5 testo-icone-navbar"></i>
-                            <span className="testo-icone-navbar">Assenze</span>
-                        </Link>
-                    </Col>
-                    <Col>
-                        {/* icone da mostrae al login */}
-                        {/* VOTI-BACHECA-CALENDARIO-ACCOUNT */}
-                        <Link to="/bacheca" className="text-decoration-none text-dark d-flex flex-column align-items-center mx-2">
-                            <HiOutlineClipboardDocumentList size={30} className="testo-icone-navbar" />
-                            <span className="testo-icone-navbar">Bacheca</span>
-                        </Link>
-                    </Col>
+            <Link to="/bacheca" className="navbar-icona-link">
+                <HiOutlineClipboardDocumentList className="navbar-icona-svg" />
+                <span className="navbar-icona-label">Bacheca</span>
+            </Link>
 
-                    <Col>
-                        <Link to={`/voti/${idStudente}`} className="text-decoration-none text-dark d-flex flex-column align-items-center mx-2">
-                            <IoSchoolOutline size={30} className="testo-icone-navbar" />
-                            {/* nell'area professori qui ci sara CLASSI, una volta selezionata la classe, ci sara la CLASSE SCELTA */}
-                            <span className="testo-icone-navbar ">Voti</span>
-                        </Link>
-                    </Col>
+            <Link to={`/voti/${idStudente}`} className="navbar-icona-link">
+                <IoSchoolOutline className="navbar-icona-svg" />
+                <span className="navbar-icona-label">Voti</span>
+            </Link>
 
-
-
-                </Row>
-            </div>
         </div>
     );
-}
+};
 
 export default IconeNavbar;

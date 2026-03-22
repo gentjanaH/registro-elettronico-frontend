@@ -7,8 +7,8 @@ const Immaginecomponent = () => {
 
             <img
                 style={{
-                    width: "30em",
-                    filter: "brightness(0) invert(1)",
+                    maxwidth: "30em",
+                    color: "rgba(26, 12, 160, 0.06)"
                 }}
                 src="/OIP-removebg-preview.png"
                 alt="Immagine" />

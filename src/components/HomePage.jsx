@@ -1,28 +1,44 @@
-import { Col, Row } from "react-bootstrap";
+import { Col } from "react-bootstrap";
 import CaroselloFunzionalita from "./CaroselloFunzionalita";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
+
+    const { token, user } = useSelector((s) => s.auth);
+
     return (
         <>
-            <Col xs={12} lg={6} className="text-center mt-5">
-                <h1 className="titolo-home mb-4">
-                    <span className="lettera-logo">Benvenuto</span> nel registro elettronico!
-                </h1>
-                <p className="fs-5">
-                    Studiare, comunicare, crescere: tutto in un’unica piattaforma.</p>
-                <p className="fs-5">
+            <Col xs={12} className="mb-0">
+                <div className="offerta-hero">
 
-                    Accedi o registrati per iniziare!
+                    <h1 className="offerta-titolo">
+                        Benvenuto{token && user
+                            ? `, ${user.nome} ${user.cognome}!`
+                            : " nel registro elettronico!"}
+                    </h1>
 
-                </p>
-            </Col >
-            <Col xs={12} className="text-center">
-                {/* carosello di card con tutte le funzionalità */}
-                <CaroselloFunzionalita />
+                    <p className="offerta-hero-sub">
+                        Studiare, comunicare, crescere: tutto in un'unica piattaforma.
+                    </p>
+
+                    {!token && (
+                        <p className="offerta-hero-sub">
+                            <Link to="/login" className="offerta-hero-link">
+                                Accedi
+                            </Link>{" "}
+                            per iniziare!
+                        </p>
+                    )}
+
+                </div>
             </Col>
 
+            <Col xs={12} className="text-center">
+                <CaroselloFunzionalita />
+            </Col>
         </>
     );
-}
+};
 
 export default HomePage;
