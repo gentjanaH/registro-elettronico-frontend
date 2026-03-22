@@ -1,0 +1,6 @@
+/* ─── FOOTER ─────────────────────────────────────────── */
+.myFooter {
+    background: var(--dark);
+    padding: 2rem 1.5rem;
+    margin-top: auto;
+}

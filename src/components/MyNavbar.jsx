@@ -3,7 +3,6 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import { Link, useNavigate } from "react-router-dom";
-import { Col, Row } from "react-bootstrap";
 import IconeNavbar from "./IconeNavbar";
 import IconaLoginAccount from "./IconaLoginAccount";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +15,6 @@ const MyNavbar = () => {
     const dispatch = useDispatch();
 
     const figli = genitore?.figli || [];
-
     const ruolo = user?.ruolo?.ruolo;
 
     let idStudente = null;
@@ -29,65 +27,65 @@ const MyNavbar = () => {
         <Navbar expand="lg" className="myNavbar sticky-top" collapseOnSelect>
             <Container fluid className="px-4">
 
-                {/* Brand */}
-                <Link className="navbar-brand me-auto" to="/">
+                {/* ── Brand sinistra ── */}
+                <Link className="navbar-brand" to="/">
                     <span className="lettera-logo">C</span>lass
                     <span className="lettera-logo">B</span>oard
                 </Link>
 
-                {/* Icone centrali (solo studente/genitore) */}
+                {/* ── Centro: dropdown figlio + icone (solo desktop) ── */}
                 {token && mostraIcone && (
-                    <>
-                        <Dropdown className="ms-5 ">
-                            <Dropdown.Toggle className="navbar-iniziali" id="dropdown-basic">
-                                {figlioSelezionato.nome} {figlioSelezionato.cognome}
-                            </Dropdown.Toggle>
+                    <div className="navbar-centro d-none d-lg-flex align-items-center gap-3">
 
-                            <Dropdown.Menu className="navbar-iniziali bg-body-secondary">
-                                {figli.map(f => (
-
-                                    <Dropdown.Item key={f.idStudente}
-                                        className="mb-1"
-                                        onClick={() => {
-                                            dispatch(selezionaFiglio(f))
-                                            navigate(
-                                                `/classe/${f.idClasse}/${f.classe}/studente/${f.idStudente}`
-                                            )
-                                        }
-
-                                        }
-                                        href="#/action-1">{f.nome} {f.cognome}
-
-                                    </Dropdown.Item>
-
-
-                                ))}
-
-
-                            </Dropdown.Menu>
-                        </Dropdown>
-                        <div className="navbar-icone-center d-none d-lg-flex">
-                            <IconeNavbar idStudente={idStudente} />
-                        </div>
-                    </>
+                        {ruolo === "GENITORE" && figlioSelezionato && (
+                            <Dropdown>
+                                <Dropdown.Toggle
+                                    className="navbar-iniziali"
+                                    id="dropdown-figli"
+                                >
+                                    {figlioSelezionato.nome} {figlioSelezionato.cognome}
+                                </Dropdown.Toggle>
+                                <Dropdown.Menu className="classe-dropdown-menu">
+                                    {figli.map(f => (
+                                        <Dropdown.Item
+                                            key={f.idStudente}
+                                            className="classe-dropdown-item"
+                                            onClick={() => {
+                                                dispatch(selezionaFiglio(f));
+                                                navigate(`/classe/${f.idClasse}/${f.classe}/studente/${f.idStudente}`);
+                                            }}
+                                        >
+                                            {f.nome} {f.cognome}
+                                        </Dropdown.Item>
+                                    ))}
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        )}
+                        <IconeNavbar idStudente={idStudente} />
+                    </div>
                 )}
 
-                {/* Toggle mobile */}
+                {/* ── Toggle mobile ── */}
                 <Navbar.Toggle
                     aria-controls="navbar-main"
                     className="navbar-toggle-custom ms-auto me-2"
                 />
 
-                {/* Collapse */}
+                {/* ── Destra: link + login ── */}
                 <Navbar.Collapse id="navbar-main">
                     <Nav className="ms-auto d-flex align-items-lg-center gap-1">
                         <Link className="nav-link" to="/">Home</Link>
                         <Link className="nav-link" to="/offerta_formativa">Offerta formativa</Link>
                         <Link className="nav-link" to="/contatti">Contatti</Link>
 
-                        {/* Su mobile: link testuali al posto delle icone */}
+                        {/* Link mobile per studente/genitore */}
                         {token && mostraIcone && (
                             <div className="d-flex flex-column d-lg-none">
+                                {ruolo === "GENITORE" && figlioSelezionato && (
+                                    <div className="navbar-figlio-mobile">
+                                        {figlioSelezionato.nome} {figlioSelezionato.cognome}
+                                    </div>
+                                )}
                                 <Link className="nav-link" to={`/assenze/${idStudente}`}>Assenze</Link>
                                 <Link className="nav-link" to="/bacheca">Bacheca</Link>
                                 <Link className="nav-link" to={`/voti/${idStudente}`}>Voti</Link>

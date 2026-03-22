@@ -1,0 +1,199 @@
+/* ─── NAVBAR ─────────────────────────────────────────── */
+.myNavbar {
+    background: #0f172a;
+    padding: 0;
+    min-height: 60px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.myNavbar .container-fluid {
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand {
+    font-family: "Playfair Display", serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #e2e8f0 !important;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.lettera-logo {
+    font-family: "Playfair Display", serif;
+    color: #0ea5e9;
+    font-size: 2rem;
+}
+
+.navbar-centro {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto;
+}
+
+.nav-link {
+    color: #94a3b8 !important;
+    font-family: "Inter", sans-serif;
+    font-weight: 500;
+    font-size: 0.88rem;
+    padding: 6px 10px !important;
+    border-radius: 6px;
+    transition: color 0.2s ease, background 0.2s ease;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    color: #f1f5f9 !important;
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.navbar-toggle-custom {
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+}
+
+.navbar-toggle-custom .navbar-toggler-icon {
+    filter: invert(1) opacity(0.7);
+}
+
+/* ─── ICONE NAVBAR ───────────────────────────────────── */
+.navbar-icona-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    min-width: 56px;
+}
+
+.navbar-icona-link:hover {
+    background: rgba(255, 255, 255, 0.07);
+}
+
+.navbar-icona-svg {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: #94a3b8;
+    transition: color 0.2s ease;
+    display: block;
+}
+
+.navbar-icona-label {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: #94a3b8;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.navbar-icona-link:hover .navbar-icona-svg,
+.navbar-icona-link:hover .navbar-icona-label {
+    color: #f1f5f9;
+}
+
+/* ─── LOGIN / LOGOUT ─────────────────────────────────── */
+.testo-login {
+    color: #94a3b8;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.testo-login:hover {
+    color: var(--accent);
+}
+
+.testo-logout {
+    color: #94a3b8;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.navbar-logout:hover .testo-logout {
+    color: #f87171;
+}
+
+.navbar-logout:hover i {
+    color: #f87171 !important;
+}
+
+.navbar-iniziali {
+    color: #e2e8f0 !important;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    background: rgba(14, 165, 233, 0.15) !important;
+    border: 1px solid rgba(14, 165, 233, 0.3) !important;
+    border-radius: 20px !important;
+    padding: 4px 12px !important;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 6px;
+}
+
+.navbar-iniziali:hover,
+.navbar-iniziali:focus,
+.navbar-iniziali:active {
+    background: rgba(14, 165, 233, 0.25) !important;
+    border-color: rgba(14, 165, 233, 0.5) !important;
+    color: #f1f5f9 !important;
+    box-shadow: none !important;
+}
+
+.navbar-iniziali::after {
+    font-size: 10px;
+    opacity: 0.7;
+}
+
+.testo-icone-navbar {
+    color: #94a3b8;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.testo-icone-navbar:hover {
+    color: var(--accent);
+}
+
+.testo-registrati {
+    color: #94a3b8;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.testo-registrati:hover {
+    color: #e2e8f0;
+}
+
+.navbar-figlio-mobile {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #e2e8f0;
+    padding: 8px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    margin-bottom: 4px;
+}

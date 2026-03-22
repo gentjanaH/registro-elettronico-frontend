@@ -1,0 +1,324 @@
+/* ─── TABLET (max 991px) ─────────────────────────────── */
+@media (max-width: 991px) {
+
+    /* Navbar */
+    .myNavbar {
+        padding: 0.6rem 1rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .myNavbar .navbar-collapse {
+        background: #0f172a;
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        padding: 12px 0 16px;
+        margin-top: 8px;
+    }
+
+    .myNavbar .nav-link {
+        padding: 8px 16px !important;
+        border-radius: 0;
+        border-left: 2px solid transparent;
+    }
+
+    .myNavbar .nav-link:hover {
+        border-left-color: var(--accent);
+        background: rgba(14, 165, 233, 0.07);
+        border-radius: 0;
+    }
+
+    /* Homepage professore */
+    .prof-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 32px 24px;
+    }
+
+    .prof-attivita-header,
+    .prof-attivita-row {
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        font-size: 12px;
+    }
+
+    /* Homepage classe */
+    .classe-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 32px 24px;
+    }
+
+    /* Card */
+    .titolo-home {
+        font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+    }
+
+    .card-title {
+        font-size: 1rem;
+    }
+
+    .card-text {
+        font-size: 0.85rem;
+    }
+
+    .dropdown-card-toggle {
+        font-size: 0.85rem !important;
+        padding: 9px 36px 9px 14px !important;
+    }
+
+    /* Login */
+    .login-left {
+        padding: 40px 32px !important;
+        text-align: center;
+    }
+
+    .login-badge {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .login-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .login-features {
+        align-items: center;
+    }
+
+    .login-features li {
+        text-align: left;
+    }
+
+    .login-form-card {
+        padding: 32px 24px;
+    }
+
+    /* Contatti */
+    .contatti-card-header {
+        padding: 14px 16px;
+    }
+
+    .contatti-card-body {
+        padding: 16px;
+    }
+}
+
+/* ─── MOBILE (max 767px) ─────────────────────────────── */
+@media (max-width: 767px) {
+
+    /* Navbar */
+    .myNavbar {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .nav-link {
+        font-size: 0.85rem;
+        padding: 0.35rem 0.5rem;
+    }
+
+    .testo-login,
+    .testo-logout,
+    .testo-registrati,
+    .testo-icone-navbar {
+        font-size: 12px;
+    }
+
+    .navbar-iniziali {
+        font-size: 12px;
+        padding: 2px 8px;
+    }
+
+    /* Titoli */
+    .titolo-carosello {
+        font-size: 1.1rem;
+    }
+
+    .titolo-carosello::after {
+        width: 28px;
+    }
+
+    .titolo-home {
+        font-size: 1.3rem;
+    }
+
+    /* Card */
+    .card {
+        border-radius: var(--radius-sm);
+    }
+
+    .card-cliccabili {
+        border-radius: var(--radius-sm);
+    }
+
+    .card-title {
+        font-size: 0.95rem;
+    }
+
+    .card-text {
+        font-size: 0.82rem;
+    }
+
+    /* Footer */
+    .myFooter {
+        padding: 1.25rem 1rem;
+        text-align: center;
+    }
+
+    /* Dropdown */
+    .dropdown-card-toggle {
+        font-size: 0.82rem !important;
+        padding: 8px 32px 8px 12px !important;
+    }
+
+    /* Login */
+    .login-page-row {
+        min-height: unset;
+    }
+
+    .login-left {
+        padding: 32px 20px !important;
+    }
+
+    .login-headline {
+        font-size: 1.3rem;
+    }
+
+    .login-form-card {
+        padding: 24px 18px;
+        border-radius: var(--radius-md);
+    }
+
+    /* Offerta */
+    .offerta-hero {
+        padding: 40px 20px 32px;
+    }
+
+    .offerta-container {
+        padding: 32px 16px;
+    }
+
+    .offerta-section {
+        margin-top: 36px;
+    }
+
+    .offerta-intro {
+        font-size: 0.92rem;
+    }
+
+    /* Contatti */
+    .contatti-voce {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    /* Selezione figli */
+    .seleziona-wrapper {
+        padding: 32px 16px;
+    }
+
+    .seleziona-header {
+        margin-bottom: 28px;
+    }
+
+    .figlio-card {
+        padding: 24px 20px;
+    }
+
+    .figlio-avatar {
+        width: 56px;
+        height: 56px;
+        font-size: 1rem;
+    }
+
+    /* Homepage professore */
+    .prof-hero {
+        padding: 24px 16px;
+    }
+
+    .prof-container {
+        padding: 24px 16px;
+    }
+
+    .prof-attivita-header {
+        display: none;
+    }
+
+    .prof-attivita-row {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 6px;
+    }
+
+    .prof-att-corso {
+        grid-column: 1 / -1;
+        font-size: 0.85rem;
+    }
+
+    /* Homepage classe */
+    .classe-hero {
+        padding: 24px 16px;
+    }
+
+    .classe-container {
+        padding: 24px 16px;
+    }
+
+    .classe-azioni {
+        flex-direction: column;
+    }
+
+    .classe-btn-primary,
+    .classe-btn-secondary {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    .classe-legenda {
+        gap: 10px;
+    }
+
+    /* Voti */
+    .voto-numero {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    /* Bacheca */
+    .bacheca-card {
+        padding: 16px;
+    }
+}
+
+/* ─── MOBILE PICCOLO (max 480px) ─────────────────────── */
+@media (max-width: 480px) {
+
+    .navbar-brand {
+        font-size: 0.95rem;
+    }
+
+    .titolo-home {
+        font-size: 1.1rem;
+    }
+
+    .card-title {
+        font-size: 0.9rem;
+    }
+
+    /* Dashboard circolari */
+    .dashboard-metrica-chart {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .dashboard-metrica-side {
+        align-items: center;
+    }
+}

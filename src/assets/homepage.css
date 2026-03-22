@@ -1,0 +1,584 @@
+/* ─── HERO CONDIVISO ─────────────────────────────────── */
+.offerta-wrapper {
+    min-height: calc(100vh - 120px);
+}
+
+.offerta-hero {
+    background: var(--dark);
+    padding: 56px 24px 48px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.offerta-titolo {
+    font-family: "Lora", serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 600;
+    color: #f8fafc;
+    line-height: 1.2;
+    margin: 0;
+}
+
+.offerta-hero-sub {
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    color: #64748b;
+    max-width: 560px;
+    line-height: 1.7;
+    margin: 0;
+}
+
+.offerta-hero-link {
+    color: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.offerta-hero-link:hover {
+    border-bottom-color: #f8fafc;
+    color: inherit;
+}
+
+/* ─── OFFERTA FORMATIVA ──────────────────────────────── */
+.offerta-container {
+    max-width: 900px;
+    padding: 48px 24px;
+}
+
+.offerta-intro {
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    color: var(--mid);
+    line-height: 1.8;
+    border-left: 3px solid var(--accent);
+    padding-left: 20px;
+    margin-bottom: 0;
+}
+
+.offerta-section {
+    margin-top: 52px;
+}
+
+.offerta-section-titolo {
+    font-family: "Lora", serif;
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 10px;
+}
+
+.offerta-accent {
+    color: var(--accent);
+}
+
+.offerta-testo {
+    font-family: "Inter", sans-serif;
+    font-size: 0.92rem;
+    color: var(--muted);
+    line-height: 1.75;
+    max-width: 680px;
+}
+
+.offerta-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    height: 100%;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.offerta-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-sm);
+}
+
+.offerta-card-titolo {
+    font-family: "Lora", serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.offerta-card-desc {
+    font-family: "Inter", sans-serif;
+    font-size: 0.83rem;
+    color: var(--muted);
+    line-height: 1.6;
+}
+
+.offerta-progetti {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 16px;
+}
+
+.offerta-progetto-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.offerta-progetto-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 6px;
+}
+
+.offerta-progetto-nome {
+    font-family: "Inter", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.offerta-progetto-desc {
+    font-family: "Inter", sans-serif;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+/* ─── CONTATTI ───────────────────────────────────────── */
+.contatti-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    height: 100%;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.contatti-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-sm);
+}
+
+.contatti-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--light);
+}
+
+.contatti-icona {
+    font-size: 18px;
+    color: var(--accent);
+}
+
+.contatti-card-titolo {
+    font-family: "Lora", serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.contatti-card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.contatti-voce {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.88rem;
+}
+
+.contatti-label {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+}
+
+.contatti-link {
+    font-family: "Inter", sans-serif;
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.88rem;
+    transition: color 0.2s ease;
+}
+
+.contatti-link:hover {
+    color: var(--accent-hover);
+}
+
+.contatti-valore {
+    font-family: "Inter", sans-serif;
+    color: var(--dark);
+    font-size: 0.88rem;
+}
+
+/* ─── SELEZIONE PROFILO FIGLI ────────────────────────── */
+.seleziona-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 24px;
+}
+
+.seleziona-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.seleziona-titolo {
+    font-family: "Lora", serif;
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 8px;
+}
+
+.seleziona-sub {
+    font-family: "Inter", sans-serif;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.figlio-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
+}
+
+.figlio-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent);
+}
+
+.figlio-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(14, 165, 233, 0.12);
+    border: 2px solid rgba(14, 165, 233, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Inter", sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+}
+
+.figlio-nome {
+    font-family: "Lora", serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--dark);
+    text-align: center;
+}
+
+.figlio-classe {
+    font-family: "Inter", sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--muted);
+    background: var(--light);
+    padding: 3px 12px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+}
+
+.figlio-btn {
+    margin-top: 8px;
+    width: 100%;
+    background: var(--accent) !important;
+    border: none !important;
+    border-radius: var(--radius-sm) !important;
+    font-family: "Inter", sans-serif;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    padding: 9px !important;
+    transition: background 0.2s ease !important;
+}
+
+.figlio-btn:hover {
+    background: var(--accent-hover) !important;
+}
+
+/* ─── HOMEPAGE PROFESSORE ────────────────────────────── */
+.prof-wrapper {
+    min-height: calc(100vh - 120px);
+}
+
+.prof-hero {
+    background: var(--dark);
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.prof-titolo {
+    font-family: "Lora", serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 600;
+    color: #f8fafc;
+    margin: 6px 0 4px;
+}
+
+.prof-sub {
+    font-family: "Inter", sans-serif;
+    font-size: 0.9rem;
+    color: #64748b;
+    margin: 0;
+}
+
+.prof-calendario-wrap {
+    flex-shrink: 0;
+}
+
+.prof-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 36px 24px;
+}
+
+.prof-section-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    height: 100%;
+}
+
+.prof-section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.prof-section-icona {
+    font-size: 18px;
+    color: var(--accent);
+}
+
+.prof-section-titolo {
+    font-family: "Lora", serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin: 0;
+}
+
+.prof-section-sub {
+    font-family: "Inter", sans-serif;
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 16px;
+    text-transform: capitalize;
+}
+
+.prof-stato {
+    font-family: "Inter", sans-serif;
+    font-size: 0.88rem;
+    color: var(--muted);
+    padding: 8px 0;
+}
+
+.prof-classi-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.prof-classe-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+    text-align: left;
+    width: 100%;
+}
+
+.prof-classe-btn:hover {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    transform: translateX(3px);
+}
+
+.prof-classe-nome {
+    font-family: "Inter", sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.prof-classe-arrow {
+    font-size: 14px;
+    color: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.prof-classe-btn:hover .prof-classe-arrow {
+    opacity: 1;
+}
+
+.prof-attivita-header {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    padding: 8px 12px;
+    background: var(--light);
+    border-radius: var(--radius-sm);
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+.prof-attivita-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.prof-attivita-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.prof-attivita-row:hover {
+    background: var(--light);
+    border-color: var(--accent);
+}
+
+.prof-att-corso {
+    font-family: "Inter", sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.prof-att-badge {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    width: fit-content;
+}
+
+.prof-att-inizio {
+    background: rgba(16, 185, 129, 0.1);
+    color: #065f46;
+}
+
+.prof-att-fine {
+    background: rgba(239, 68, 68, 0.1);
+    color: #991b1b;
+}
+
+.prof-att-classe {
+    background: rgba(14, 165, 233, 0.1);
+    color: #0c4a6e;
+}
+
+/* ─── CORSI EXTRA ────────────────────────────────────── */
+.corsi-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.corso-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 18px 20px;
+    transition: border-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.corso-card:hover {
+    border-color: var(--accent);
+    transform: translateX(4px);
+    box-shadow: var(--shadow-sm);
+}
+
+.corso-icona-wrap {
+    width: 42px;
+    height: 42px;
+    border-radius: var(--radius-sm);
+    background: rgba(14, 165, 233, 0.1);
+    border: 1px solid rgba(14, 165, 233, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.corso-icona {
+    font-size: 18px;
+    color: var(--accent);
+}
+
+.corso-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.corso-nome {
+    font-family: "Lora", serif;
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.corso-desc {
+    font-family: "Inter", sans-serif;
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+}

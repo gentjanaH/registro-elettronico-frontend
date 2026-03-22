@@ -1,47 +1,65 @@
 import { useSelector } from "react-redux";
-import Card from "react-bootstrap/Card";
-
 
 const Lezioni = ({ selectedDate }) => {
 
-    const { lezioni, loading, error } = useSelector(state => state.lezioni);
-    const lezioniFiltrate = lezioni.filter(lez => lez.data === selectedDate.toISOString().split("T")[0]);
+    const { lezioni, loading, error } = useSelector(s => s.lezioni);
+    const lezioniFiltrate = lezioni.filter(
+        lez => lez.data === selectedDate.toISOString().split("T")[0]
+    );
+
     return (
-        <>
-            <h3 className="lettera-logo mb-4 fw-bold fs-1">
-                LEZIONI
-            </h3>
+        <div className="lezioni-wrapper">
 
-            {loading && <p>Caricamento lezioni...</p>}
-            {error && <p className="text-danger">{error}</p>}
+            <div className="prof-section-header mb-3">
+                <i className="bi bi-journal-bookmark prof-section-icona"></i>
+                <h2 className="prof-section-titolo">Lezioni</h2>
+            </div>
 
-            {lezioniFiltrate.length === 0 && !loading && (
-                <p>Nessuna lezione registrata per questa data.</p>
+            {loading && <p className="prof-stato">Caricamento lezioni...</p>}
+            {error && <p className="prof-stato text-danger">{error}</p>}
+
+            {!loading && lezioniFiltrate.length === 0 && (
+                <div className="lezioni-empty">
+                    <i className="bi bi-journal-x lezioni-empty-icona"></i>
+                    <p className="lezioni-empty-testo">Nessuna lezione per questa data</p>
+                </div>
             )}
 
-            {lezioniFiltrate.map(lez => (
+            <div className="lezioni-list">
+                {lezioniFiltrate.map(lez => (
+                    <div key={lez.idLezione} className="lezione-card">
 
-                <Card className="mb-2" key={lez.idLezione}>
-                    <Card.Body>
-                        <Card.Title className="fs-4 mt-1">{lez.nomeMateria || "Materia non disponibile"}</Card.Title>
-                        <Card.Title className="fs-6">{(lez.nomeProfessore && lez.cognomeProfessore)
-                            ? `${lez.nomeProfessore} ${lez.cognomeProfessore}`
-                            : "Professore non disponibile"}</Card.Title>
-                        <Card.Text className="mb-1">
-                            <strong>Dalle:</strong> {lez.inizioLezione.slice(0, 5)}
-                            <strong className="ms-3">Alle:</strong> {lez.fineLezione.slice(0, 5)}
-                        </Card.Text>
-                        <Card.Text>
-                            {lez.descrizione}
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
+                        {/* Orario */}
+                        <div className="lezione-orario">
+                            <span className="lezione-orario-dalle">{lez.inizioLezione.slice(0, 5)}</span>
+                            <div className="lezione-orario-linea"></div>
+                            <span className="lezione-orario-alle">{lez.fineLezione.slice(0, 5)}</span>
+                        </div>
 
-            ))
-            }
+                        {/* Contenuto */}
+                        <div className="lezione-body">
+                            <div className="lezione-header">
+                                <span className="lezione-materia">
+                                    {lez.nomeMateria || "Materia non disponibile"}
+                                </span>
+                                <span className="lezione-professore">
+                                    <i className="bi bi-person me-1"></i>
+                                    {lez.nomeProfessore && lez.cognomeProfessore
+                                        ? `${lez.nomeProfessore} ${lez.cognomeProfessore}`
+                                        : "Professore non disponibile"}
+                                </span>
+                            </div>
+                            {lez.descrizione && (
+                                <p className="lezione-descrizione">{lez.descrizione}</p>
+                            )}
+                        </div>
 
-        </>
+                    </div>
+                ))}
+            </div>
+
+        </div>
     );
-}
+};
 
 export default Lezioni;

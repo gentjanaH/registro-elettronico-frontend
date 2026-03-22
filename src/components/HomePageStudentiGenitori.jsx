@@ -1,4 +1,4 @@
-import { Card, Col, Row, ListGroup } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import DashboardCircolari from "./DashboardCircolari";
 import DataCorrenteConCalendario from "./DataCorrenteConCalendario";
 import Compiti from "./Compiti";
@@ -9,18 +9,12 @@ import { getLezioniByClass } from "../redux/actions/lezioniAction";
 import { fetchCompitiByClass } from "../redux/actions/compitiActions";
 import { useParams } from "react-router-dom";
 
-
 const HomePageStudentiGenitori = () => {
 
-    // stato per la data
     const [selectedDate, setSelectedDate] = useState(new Date());
-
-    // STATO LEZIONI
-    // const lezioni = useSelector(currentState => currentState.lezioni.lezioni)
-
-    const token = useSelector(currentState => currentState.auth.token);
+    const token = useSelector(s => s.auth.token);
+    const { user } = useSelector(s => s.auth);
     const dispatch = useDispatch();
-
     const { idClasse, nomeClasse } = useParams();
 
     useEffect(() => {
@@ -28,72 +22,99 @@ const HomePageStudentiGenitori = () => {
             dispatch(getLezioniByClass(idClasse));
             dispatch(fetchCompitiByClass(idClasse));
         }
-
-
-
     }, [idClasse, token, nomeClasse, dispatch]);
 
+    // placeholder attività — da sostituire con dati reali
+    const attivita = [
+        { corso: "Laboratorio STEM", inizio: "09:00", fine: "11:00", classe: nomeClasse },
+        { corso: "Progetto Lettura", inizio: "11:00", fine: "12:00", classe: nomeClasse },
+        { corso: "Corso di Teatro", inizio: "14:00", fine: "16:00", classe: nomeClasse },
+        { corso: "Progetto Ambiente", inizio: "16:00", fine: "17:30", classe: nomeClasse },
+    ];
 
     return (
-        <Row className="text-center mt-5">
+        <div className="classe-wrapper">
 
-            <DataCorrenteConCalendario selectedDate={selectedDate} onChangeDate={setSelectedDate} />
-            <Col xs={12} className="d-flex align-items-start ms-5">
-                <h3 className="lettera-logo mb-4 fw-bold fs-2 me-3">
-                    Lezioni
-                </h3>
+            {/* ── Hero ── */}
+            <div className="classe-hero">
+                <div className="classe-hero-left">
+                    <span className="login-badge mb-2">
+                        {user?.ruolo?.ruolo === "GENITORE" ? "Area genitori" : "Area studenti"}
+                    </span>
+                    <h1 className="classe-titolo">{nomeClasse}</h1>
+                    <p className="prof-sub">Benvenuto nel tuo registro personale.</p>
+                </div>
+                <div className="classe-calendario-wrap">
+                    <DataCorrenteConCalendario selectedDate={selectedDate} onChangeDate={setSelectedDate} />
+                </div>
+            </div>
 
-            </Col>
+            {/* ── Corpo ── */}
+            <div className="classe-container">
+                <Row className="g-4">
 
+                    {/* ── Colonna sinistra: lezioni + compiti ── */}
+                    <Col xs={12} lg={5}>
+                        <div className="classe-section-card">
+                            <div className="prof-section-header mb-3">
+                                <i className="bi bi-journal-bookmark prof-section-icona"></i>
+                                <h2 className="prof-section-titolo">Attività del giorno</h2>
+                            </div>
+                            <Lezioni selectedDate={selectedDate} onChangeDate={setSelectedDate} />
+                            <Compiti selectedDate={selectedDate} onChangeDate={setSelectedDate} />
+                        </div>
+                    </Col>
 
+                    {/* ── Colonna destra ── */}
+                    <Col xs={12} lg={7}>
+                        <Row className="g-4">
 
-            <Col xs={12} md={6} className="d-flex flex-column align-items-center align-items-md-start ms-0 ms-md-5 ">
-                <Compiti selectedDate={selectedDate} onChangeDate={setSelectedDate} />
-                <Lezioni selectedDate={selectedDate} onChangeDate={setSelectedDate} />
-            </Col>
-            <Col>
-                <Row className="mt-5  me-md-3">
-
-                    <DashboardCircolari />
-
-                    <Col xs={12} className="mt-5">
-                        <Row>
-
-
-                            <h3 className="lettera-logo fw-bold">Attivita extra-curricolari</h3>
-                            <h4 className="lead">Previste per oggi:</h4>
-                            <Col xs={12} className="d-flex flex-column align-items-center mt-3 g-4">
-                                <div className="row">
-                                    <ListGroup horizontal className="mb-3 shadow-lg col-12">
-                                        <ListGroup.Item variant="info" className="col-3">Nome corso</ListGroup.Item>
-                                        <ListGroup.Item variant="success" className="col-3">Inizio</ListGroup.Item>
-                                        <ListGroup.Item variant="danger" className="col-3">Fine</ListGroup.Item>
-                                        <ListGroup.Item variant="primary" className="col-3">Classe</ListGroup.Item>
-                                    </ListGroup>
+                            {/* Circolari */}
+                            <Col xs={12}>
+                                <div className="classe-section-card">
+                                    <div className="prof-section-header mb-3">
+                                        <i className="bi bi-megaphone prof-section-icona"></i>
+                                        <h2 className="prof-section-titolo"></h2>
+                                    </div>
+                                    <DashboardCircolari />
                                 </div>
-                                <div className="row">
-                                    <ListGroup horizontal className="mb-3 shadow-lg col-12">
-                                        <ListGroup.Item variant="info" className="col-3">Nome corso</ListGroup.Item>
-                                        <ListGroup.Item variant="success" className="col-3">Inizio</ListGroup.Item>
-                                        <ListGroup.Item variant="danger" className="col-3">Fine</ListGroup.Item>
-                                        <ListGroup.Item variant="primary" className="col-3">Classe</ListGroup.Item>
-                                    </ListGroup>
-                                </div>
-                                <div className="row">
-                                    <ListGroup horizontal className="mb-3 shadow-lg col-12">
-                                        <ListGroup.Item variant="info" className="col-3">Nome corso</ListGroup.Item>
-                                        <ListGroup.Item variant="success" className="col-3">Inizio</ListGroup.Item>
-                                        <ListGroup.Item variant="danger" className="col-3">Fine</ListGroup.Item>
-                                        <ListGroup.Item variant="primary" className="col-3">Classe</ListGroup.Item>
-                                    </ListGroup>
-                                </div>
-                                <div className="row">
-                                    <ListGroup horizontal className="mb-3 shadow-lg col-12">
-                                        <ListGroup.Item variant="info" className="col-3">Nome corso</ListGroup.Item>
-                                        <ListGroup.Item variant="success" className="col-3">Inizio</ListGroup.Item>
-                                        <ListGroup.Item variant="danger" className="col-3">Fine</ListGroup.Item>
-                                        <ListGroup.Item variant="primary" className="col-3">Classe</ListGroup.Item>
-                                    </ListGroup>
+                            </Col>
+
+                            {/* Attività extra */}
+                            <Col xs={12}>
+                                <div className="classe-section-card">
+                                    <div className="prof-section-header mb-1">
+                                        <i className="bi bi-calendar-event prof-section-icona"></i>
+                                        <h2 className="prof-section-titolo">Attività extra-curricolari</h2>
+                                    </div>
+                                    <p className="prof-section-sub">
+                                        Previste per oggi,{" "}
+                                        {selectedDate.toLocaleDateString("it-IT", {
+                                            weekday: "long",
+                                            day: "numeric",
+                                            month: "long",
+                                        })}
+                                    </p>
+
+                                    {/* Header tabella */}
+                                    <div className="prof-attivita-header">
+                                        <span>Corso</span>
+                                        <span>Inizio</span>
+                                        <span>Fine</span>
+                                        <span>Classe</span>
+                                    </div>
+
+                                    <div className="prof-attivita-list">
+                                        {attivita.map((a, i) => (
+                                            <div key={i} className="prof-attivita-row">
+                                                <span className="prof-att-corso">{a.corso}</span>
+                                                <span className="prof-att-badge prof-att-inizio">{a.inizio}</span>
+                                                <span className="prof-att-badge prof-att-fine">{a.fine}</span>
+                                                <span className="prof-att-badge prof-att-classe">{a.classe}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+
                                 </div>
                             </Col>
 
@@ -101,8 +122,9 @@ const HomePageStudentiGenitori = () => {
                     </Col>
 
                 </Row>
-            </Col>
-        </Row>
+            </div>
+        </div>
     );
-}
+};
+
 export default HomePageStudentiGenitori;

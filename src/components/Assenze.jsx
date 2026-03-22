@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ListGroup, Row, Col, Button, Card } from "react-bootstrap";
+import { Row, Col, Button } from "react-bootstrap";
 import ModaleGiustificaAssenze from "./ModaleGiustificaAssenze";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,98 +7,111 @@ import { fetchPresenzeByStudent, giustificaAssenza } from "../redux/actions/pres
 
 const Assenze = () => {
 
-    // stato per aprire il modale utile a giustificare le assenze
     const [show, setShow] = useState(false);
     const [motivo, setMotivo] = useState("");
     const [presenzaSelezionata, setPresenzaSelezionata] = useState(null);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
     const dispatch = useDispatch();
-
-    const { user, figlioSelezionato } = useSelector(state => state.auth);
-    const { presenze, loading, error } = useSelector(currentState => currentState.presenze);
-
+    const { user, figlioSelezionato } = useSelector(s => s.auth);
+    const { presenze, loading, error } = useSelector(s => s.presenze);
     const { idStudente } = useParams();
 
     const isGenitore = user?.ruolo?.ruolo === "GENITORE";
 
-    const giustifica = () => {
+    // ✅ Fix: nome ricavato dal ruolo — studente da user, genitore da figlioSelezionato
+    const nomeStudente = isGenitore
+        ? `${figlioSelezionato?.nome || ""} ${figlioSelezionato?.cognome || ""}`
+        : `${user?.nome || ""} ${user?.cognome || ""}`;
 
+    const giustifica = () => {
         dispatch(giustificaAssenza(presenzaSelezionata.idPresenza, motivo));
         setShow(false);
         setMotivo("");
     };
 
     useEffect(() => {
-
         dispatch(fetchPresenzeByStudent(idStudente));
-    }, [idStudente])
+    }, [idStudente]);
+
+    const assenzeFiltered = presenze?.filter(p => p.stato !== "PRESENTE") || [];
 
     return (
-        <Row className="d-flex ">
-            <Col xs={12} className="d-flex flex-column align-content-center">
-                <h1 className="lettera-logo fs-1 fw-bold  my-5">
-                    Assenze Studente
-                </h1>
-                <p className="fw-bold fs-5">{figlioSelezionato.nome} {figlioSelezionato.cognome}</p>
+        <div className="classe-wrapper">
 
-                {loading && <p>Caricamento assenze...</p>}
-                {error && <p>Errore: {error}</p>}
+            {/* ── Hero ── */}
+            <div className="classe-hero">
+                <div className="classe-hero-left">
+                    <span className="login-badge mb-2">Registro presenze</span>
+                    <h1 className="classe-titolo">Assenze</h1>
+                    {nomeStudente.trim() && (
+                        <p className="prof-sub">{nomeStudente}</p>
+                    )}
+                </div>
+            </div>
 
-                <Row>
-                    <Col xs={12} md={6}>
+            {/* ── Corpo ── */}
+            <div className="classe-container">
 
-                        {presenze.map(p => (
+                {loading && <p className="prof-stato">Caricamento assenze...</p>}
+                {error && <p className="prof-stato text-danger">Errore: {error}</p>}
 
-                            <Card key={p.idPresenza} border="info" className="my-3">
-                                <ListGroup variant="flush" >
-                                    <ListGroup.Item>
-                                        Data: {p.data}
-                                        Lezione: {p.nomeMateria}
-                                    </ListGroup.Item>
-                                    <ListGroup.Item>Stato: {p.stato === "GIUSTIFICATO" ? "GIUSTIFICATA" : "DA GIUSTIFICARE"}</ListGroup.Item>
-                                    <ListGroup.Item>
-                                        {isGenitore && p.stato !== "GIUSTIFICATO" && (
-                                            <Button
-                                                variant="success"
-                                                className="ms-3"
-                                                onClick={() => {
-                                                    setPresenzaSelezionata(p);
-                                                    handleShow();
-                                                }}
-                                            >
-                                                Giustifica
-                                            </Button>
-                                        )}</ListGroup.Item>
-                                </ListGroup>
-                            </Card>
+                {!loading && assenzeFiltered.length === 0 && (
+                    <div className="assenze-empty">
+                        <i className="bi bi-check-circle assenze-empty-icona"></i>
+                        <p className="assenze-empty-testo">Nessuna assenza registrata</p>
+                    </div>
+                )}
 
+                <Row className="g-3">
+                    {assenzeFiltered.map(p => (
+                        <Col key={p.idPresenza} xs={12} md={6} lg={4}>
+                            <div className={`assenza-card ${p.stato === "GIUSTIFICATO" ? "assenza-giustificata" : "assenza-da-giustificare"}`}>
 
+                                <div className="assenza-card-header">
+                                    <span className="assenza-data">
+                                        <i className="bi bi-calendar3 me-2"></i>
+                                        {p.data}
+                                    </span>
+                                    <span className={`assenza-badge ${p.stato === "GIUSTIFICATO" ? "badge-giustificata" : "badge-da-giustificare"}`}>
+                                        {p.stato === "GIUSTIFICATO" ? "Giustificata" : "Da giustificare"}
+                                    </span>
+                                </div>
 
+                                <div className="assenza-materia">
+                                    <i className="bi bi-book me-2"></i>
+                                    {p.nomeMateria}
+                                </div>
 
-
-                        ))}
-
-                        < ModaleGiustificaAssenze
-                            show={show}
-                            handleClose={handleClose}
-                            motivo={motivo}
-                            setMotivo={setMotivo}
-                            onConfirm={giustifica}
-                            data={presenzaSelezionata?.data}
-
-                        />
-
-
-                    </Col>
-
+                                {isGenitore && p.stato !== "GIUSTIFICATO" && (
+                                    <Button
+                                        className="assenza-btn-giustifica w-100 mt-3"
+                                        onClick={() => {
+                                            setPresenzaSelezionata(p);
+                                            setShow(true);
+                                        }}
+                                    >
+                                        <i className="bi bi-pencil-square me-2"></i>
+                                        Giustifica
+                                    </Button>
+                                )}
+                            </div>
+                        </Col>
+                    ))}
                 </Row>
-            </Col>
 
+            </div>
 
-        </Row>
+            <ModaleGiustificaAssenze
+                show={show}
+                handleClose={() => setShow(false)}
+                motivo={motivo}
+                setMotivo={setMotivo}
+                onConfirm={giustifica}
+                data={presenzaSelezionata?.data}
+            />
+
+        </div>
     );
-}
+};
+
 export default Assenze;

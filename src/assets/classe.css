@@ -1,0 +1,710 @@
+/* ─── CLASSE / STUDENTI WRAPPER ──────────────────────── */
+.classe-wrapper {
+    min-height: calc(100vh - 120px);
+}
+
+.classe-hero {
+    background: var(--dark);
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.classe-hero-left {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.classe-titolo {
+    font-family: "Lora", serif;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 600;
+    color: #f8fafc;
+    margin: 0;
+}
+
+.classe-azioni {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.classe-btn-primary {
+    background: var(--accent) !important;
+    border: none !important;
+    border-radius: var(--radius-sm) !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    padding: 8px 16px !important;
+    transition: background 0.2s ease !important;
+}
+
+.classe-btn-primary:hover {
+    background: var(--accent-hover) !important;
+}
+
+.classe-btn-secondary {
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    border-radius: var(--radius-sm) !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #94a3b8 !important;
+    padding: 8px 16px !important;
+    transition: border-color 0.2s ease, color 0.2s ease !important;
+}
+
+.classe-btn-secondary:hover {
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    color: #f1f5f9 !important;
+}
+
+.classe-calendario-wrap {
+    flex-shrink: 0;
+}
+
+.classe-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 36px 24px;
+}
+
+.classe-section-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    height: 100%;
+}
+
+/* ── Lista studenti ── */
+.classe-legenda {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.classe-legenda-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted);
+}
+
+.classe-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.classe-studenti-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+}
+
+.classe-studente-toggle {
+    background: var(--light) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-sm) !important;
+    color: var(--dark) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 10px 14px !important;
+    transition: border-color 0.2s ease, background 0.2s ease !important;
+}
+
+.classe-studente-toggle:hover,
+.classe-studente-toggle:focus {
+    background: var(--accent-soft) !important;
+    border-color: var(--accent) !important;
+}
+
+.classe-studente-toggle::after {
+    display: none !important;
+}
+
+.classe-studente-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.classe-studente-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(14, 165, 233, 0.12);
+    border: 1px solid rgba(14, 165, 233, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    flex-shrink: 0;
+    text-transform: uppercase;
+}
+
+.classe-studente-nome {
+    font-family: "Inter", sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.classe-presenza-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: white;
+    flex-shrink: 0;
+}
+
+.classe-dropdown-menu {
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-md) !important;
+    padding: 6px !important;
+}
+
+.classe-dropdown-item {
+    font-family: "Inter", sans-serif !important;
+    font-size: 0.88rem !important;
+    color: var(--dark) !important;
+    border-radius: var(--radius-sm) !important;
+    padding: 8px 12px !important;
+    transition: background 0.15s ease !important;
+}
+
+.classe-dropdown-item:hover {
+    background: var(--light) !important;
+}
+
+/* ─── ASSENZE ────────────────────────────────────────── */
+.assenze-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 24px;
+    gap: 12px;
+}
+
+.assenze-empty-icona {
+    font-size: 48px;
+    color: var(--green);
+    opacity: 0.6;
+}
+
+.assenze-empty-testo {
+    font-family: "Inter", sans-serif;
+    font-size: 1rem;
+    color: var(--muted);
+}
+
+.assenza-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 18px;
+    height: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.assenza-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+
+.assenza-da-giustificare {
+    border-left: 3px solid #f87171;
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.assenza-giustificata {
+    border-left: 3px solid var(--green);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.assenza-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 8px;
+}
+
+.assenza-data {
+    font-family: "Inter", sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.assenza-badge {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.badge-da-giustificare {
+    background: rgba(248, 113, 113, 0.12);
+    color: #991b1b;
+}
+
+.badge-giustificata {
+    background: rgba(16, 185, 129, 0.12);
+    color: #065f46;
+}
+
+.assenza-materia {
+    font-family: "Inter", sans-serif;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.assenza-btn-giustifica {
+    background: var(--accent) !important;
+    border: none !important;
+    border-radius: var(--radius-sm) !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    padding: 8px !important;
+    transition: background 0.2s ease !important;
+}
+
+.assenza-btn-giustifica:hover {
+    background: var(--accent-hover) !important;
+}
+
+/* ─── VOTI ───────────────────────────────────────────── */
+.voti-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.voto-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.voto-card:hover {
+    border-color: var(--accent);
+    transform: translateX(3px);
+}
+
+.voto-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+}
+
+.voto-materia {
+    font-family: "Lora", serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.voto-data,
+.voto-tipo {
+    font-family: "Inter", sans-serif;
+    font-size: 0.78rem;
+    color: var(--muted);
+}
+
+.voto-numero {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Lora", serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.voti-reset-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 6px 14px;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    transition: border-color 0.2s ease, color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.voti-reset-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.materia-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+}
+
+.materia-card:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    transform: translateX(3px);
+}
+
+.materia-card-attiva {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.materia-nome {
+    font-family: "Inter", sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.materia-arrow {
+    font-size: 13px;
+    color: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.materia-card:hover .materia-arrow,
+.materia-card-attiva .materia-arrow {
+    opacity: 1;
+}
+
+/* ─── BACHECA ────────────────────────────────────────── */
+.bacheca-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.bacheca-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent);
+}
+
+.bacheca-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.bacheca-tipo-badge {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.bacheca-data {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.bacheca-accent-bar {
+    height: 2px;
+    width: 36px;
+    border-radius: 2px;
+}
+
+.bacheca-titolo {
+    font-family: "Lora", serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin: 0;
+}
+
+.bacheca-descrizione {
+    font-family: "Inter", sans-serif;
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.65;
+    flex: 1;
+    margin: 0;
+}
+
+.bacheca-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+}
+
+.bacheca-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(14, 165, 233, 0.12);
+    border: 1px solid rgba(14, 165, 233, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Inter", sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.bacheca-professore {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+}
+
+/* ─── LEZIONI ────────────────────────────────────────── */
+.lezioni-wrapper {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.lezioni-empty {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 0;
+}
+
+.lezioni-empty-icona {
+    font-size: 20px;
+    color: var(--muted);
+    opacity: 0.5;
+}
+
+.lezioni-empty-testo {
+    font-family: "Inter", sans-serif;
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin: 0;
+}
+
+.lezioni-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.lezione-card {
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+    background: var(--light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    transition: border-color 0.2s ease, transform 0.15s ease;
+}
+
+.lezione-card:hover {
+    border-color: var(--accent);
+    transform: translateX(3px);
+}
+
+.lezione-orario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    min-width: 44px;
+    flex-shrink: 0;
+}
+
+.lezione-orario-dalle,
+.lezione-orario-alle {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    white-space: nowrap;
+}
+
+.lezione-orario-linea {
+    flex: 1;
+    width: 2px;
+    background: rgba(14, 165, 233, 0.25);
+    border-radius: 2px;
+    min-height: 16px;
+}
+
+.lezione-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.lezione-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.lezione-materia {
+    font-family: "Lora", serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.lezione-professore {
+    font-family: "Inter", sans-serif;
+    font-size: 0.78rem;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+.lezione-descrizione {
+    font-family: "Inter", sans-serif;
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ─── DASHBOARD CIRCOLARI ────────────────────────────── */
+.dashboard-metrica-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.dashboard-metrica-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.dashboard-metrica-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.dashboard-metrica-icona {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.dashboard-metrica-label {
+    font-family: "Lora", serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--dark);
+    line-height: 1.2;
+}
+
+.dashboard-metrica-desc {
+    font-family: "Inter", sans-serif;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+.dashboard-metrica-chart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.dashboard-metrica-side {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dashboard-metrica-valore {
+    font-family: "Lora", serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.dashboard-metrica-stato {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+}

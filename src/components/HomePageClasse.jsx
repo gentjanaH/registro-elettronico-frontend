@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Compiti from "./Compiti";
-import { Row, Col, ListGroup, Dropdown, Button } from "react-bootstrap";
+import { Row, Col, Button, Dropdown } from "react-bootstrap";
 import DataCorrenteConCalendario from "./DataCorrenteConCalendario";
 import ModaleAssegnaCompiti from "./ModaleAssegnaCompiti";
 import ModaleRegistraLezione from "./modaleRegistraLEzione";
@@ -13,111 +13,48 @@ import Lezioni from "./Lezioni";
 import { fetchCompitiByClass } from "../redux/actions/compitiActions";
 import ModaleAssegnaValutazione from "./ModaleAssegnaValutazione";
 
-
-
 const HomePageClasse = () => {
 
-    // stato  e metodi per modale compiti
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
-    // STATO E METODI PER IL MODALE CHE REGISTRA LA LEZIONE
     const [showLezione, setShowLezione] = useState(false);
-    const openLezione = () => setShowLezione(true);
-    const closeLezione = () => setShowLezione(false);
-
-    // STATO PER SALVARE L'ID DELLO STUDENTE SELEZIONATO
     const [studenteSelezionato, setStudenteSelezionato] = useState(null);
-
-    // STATO E METODI PER IL MODALE CHE REGISTRA I VOTI
     const [showValutazione, setShowValutazione] = useState(false);
-    const openValutazione = (idStudente) => {
-        setShowValutazione(true);
-        setStudenteSelezionato(idStudente);
-    };
-    const closeValutazione = () => {
-        setShowValutazione(false);
-        setStudenteSelezionato(null);
-    };
-
-
-
-    // stato per la data
     const [selectedDate, setSelectedDate] = useState(new Date());
-
-    // stato presenza
     const [presenze, setPresenze] = useState({});
 
     const dispatch = useDispatch();
-
     const { idClasse, nomeClasse } = useParams();
+    const token = useSelector(s => s.auth.token);
+    const { studenti, loading } = useSelector(s => s.studenti);
+    const lezioni = useSelector(s => s.lezioni.lezioni);
 
-    const token = useSelector(currentState => currentState.auth.token);
-
-    const { studenti, loading, } = useSelector(currentState => currentState.studenti);
-
-    // STATO LEZIONI
-    const lezioni = useSelector(currentState => currentState.lezioni.lezioni)
-
-
-
-    // placeholder
+    const openValutazione = (idStudente) => { setShowValutazione(true); setStudenteSelezionato(idStudente); };
+    const closeValutazione = () => { setShowValutazione(false); setStudenteSelezionato(null); };
 
     const recuperoLezioneAttiva = (selectedDay) => {
-        if (!lezioni || lezioni.length === 0) return null;
-        if (!selectedDay) return null;
-
-        const today = new Date();
-        const oggi = today.toISOString().split("T")[0];
+        if (!lezioni?.length || !selectedDay) return null;
+        const oggi = new Date().toISOString().split("T")[0];
         const selected = new Date(selectedDay).toISOString().split("T")[0];
-
-        // Se la data selezionata non è oggi, non c'è lezione attiva
         if (selected !== oggi) return null;
-
-        const now = today;
+        const now = new Date();
         const minutiCorrenti = now.getHours() * 60 + now.getMinutes();
-
-        return (
-            lezioni.find(lez => {
-                if (lez.data !== oggi) return false;
-
-                if (!lez.inizioLezione || !lez.fineLezione) return false;
-
-                const [hInizio, mInizio] = lez.inizioLezione.split(":").map(Number);
-                const [hFine, mFine] = lez.fineLezione.split(":").map(Number);
-
-                const minutiInizio = hInizio * 60 + mInizio;
-                const minutiFine = hFine * 60 + mFine;
-
-                return minutiCorrenti >= minutiInizio && minutiCorrenti <= minutiFine;
-            }) || null
-        );
+        return lezioni.find(lez => {
+            if (lez.data !== oggi || !lez.inizioLezione || !lez.fineLezione) return false;
+            const [hI, mI] = lez.inizioLezione.split(":").map(Number);
+            const [hF, mF] = lez.fineLezione.split(":").map(Number);
+            return minutiCorrenti >= hI * 60 + mI && minutiCorrenti <= hF * 60 + mF;
+        }) || null;
     };
 
-
-    // FUNZIONE PER ASSEGNARE UNA PRESENZA/ASSENZA
     const handlePresenza = (idStudente, stato) => {
         const lezioneAttiva = recuperoLezioneAttiva(selectedDate);
-
         if (!lezioneAttiva) {
-            console.log("nessuna lezione selezionata")
-            alert("Registra prima la tua lezione per poter assegnare le assenze/presenze")
+            alert("Registra prima la tua lezione per poter assegnare le assenze/presenze");
             return;
         }
-
-        const presenzaData = {
-            idLezione: lezioneAttiva.idLezione,
-            stato: stato,
-        }
-
-        dispatch(registraPresenza(idStudente, presenzaData));
-        setPresenze((prev) => ({
-            ...prev,
-            [idStudente]: stato
-        }));
-    }
-
+        dispatch(registraPresenza(idStudente, { idLezione: lezioneAttiva.idLezione, stato }));
+        setPresenze(prev => ({ ...prev, [idStudente]: stato }));
+    };
 
     useEffect(() => {
         if (token) {
@@ -125,110 +62,139 @@ const HomePageClasse = () => {
             dispatch(getLezioniByClass(idClasse));
             dispatch(fetchCompitiByClass(idClasse));
         }
-
     }, [idClasse, token, nomeClasse, dispatch]);
 
     const lezioneAttiva = recuperoLezioneAttiva(selectedDate);
 
+    const getPresenzaConfig = (idStudente) => {
+        if (!lezioneAttiva) return { bg: "#94a3b8", icon: "bi-question-circle", label: "—" };
+        const stato = presenze[idStudente];
+        if (stato === "PRESENTE") return { bg: "#10b981", icon: "bi-check-circle-fill", label: "Presente" };
+        if (stato === "ASSENTE") return { bg: "#f87171", icon: "bi-x-circle-fill", label: "Assente" };
+        return { bg: "#94a3b8", icon: "bi-question-circle", label: "—" };
+    };
+
     return (
-        <Row>
-            <DataCorrenteConCalendario selectedDate={selectedDate} onChangeDate={setSelectedDate} />
-            {loading && <p>Caricamento studenti...</p>}
-            <Col xs={12} className="d-flex align-items-start ms-5">
-                <h2 className="lettera-logo mb-4 fw-bold fs-2 me-3">
-                    {nomeClasse}
-                </h2>
-                {/* apère modale per rigistrare i compiti */}
-                <Button
-                    variant="success"
-                    className="mx-3"
-                    onClick={handleShow}>
-                    Assegna Compiti
-                </Button>
-                <Button variant="primary" onClick={openLezione} >
-                    Registra lezione
-                </Button>
-                <ModaleRegistraLezione show={showLezione} handleClose={closeLezione} />
-                <ModaleAssegnaCompiti show={show} handleClose={handleClose} />
-            </Col>
+        <div className="classe-wrapper">
 
+            {/* ── Hero ── */}
+            <div className="classe-hero">
+                <div className="classe-hero-left">
+                    <span className="login-badge mb-2">Registro di classe</span>
+                    <h1 className="classe-titolo">{nomeClasse}</h1>
+                    <div className="classe-azioni">
+                        <Button className="classe-btn-primary" onClick={() => setShow(true)}>
+                            <i className="bi bi-pencil-square me-2"></i>Assegna compiti
+                        </Button>
+                        <Button className="classe-btn-secondary" onClick={() => setShowLezione(true)}>
+                            <i className="bi bi-journal-text me-2"></i>Registra lezione
+                        </Button>
+                    </div>
+                </div>
+                <div className="classe-calendario-wrap">
+                    <DataCorrenteConCalendario selectedDate={selectedDate} onChangeDate={setSelectedDate} />
+                </div>
+            </div>
 
+            {/* ── Modali ── */}
+            <ModaleRegistraLezione show={showLezione} handleClose={() => setShowLezione(false)} />
+            <ModaleAssegnaCompiti show={show} handleClose={() => setShow(false)} />
+            <ModaleAssegnaValutazione show={showValutazione} handleClose={closeValutazione} idStudente={studenteSelezionato} />
 
-            <Col xs={12} md={6} className="d-flex flex-column align-items-center align-items-md-start ms-0 ms-md-5 ">
-                <Lezioni selectedDate={selectedDate} onChangeDate={setSelectedDate} />
-                <Compiti selectedDate={selectedDate} onChangeDate={setSelectedDate} />
-            </Col>
-            <Col>
-                <Row>
+            {/* ── Corpo ── */}
+            <div className="classe-container">
+                <Row className="g-4">
 
-                    <Col className="d-flex flex-column align-items-center mt-3 gap-2">
-                        <h3 className="lettera-logo fw-bold">Lista studenti</h3>
-                        {
-                            studenti?.content?.map(stud => (
-                                <>
-
-
-
-                                    <Dropdown
-                                        key={stud.idStudente}
-                                        className="dropdown-card w-100">
-
-                                        <Dropdown.Toggle variant="light"
-                                            className="dropdown-card-toggle d-flex justify-content-between align-items-center w-100" >
-                                            {stud.nome} {stud.cognome}
-                                            <span
-                                                className={
-                                                    "d-inline-flex align-items-center justify-content-center rounded-circle " +
-                                                    (!lezioneAttiva
-                                                        ? "bg-secondary text-white"
-                                                        : presenze[stud.idStudente] === "PRESENTE"
-                                                            ? "bg-success text-white"
-                                                            : presenze[stud.idStudente] === "ASSENTE"
-                                                                ? "bg-danger text-white"
-                                                                : "bg-secondary text-white")
-                                                }
-                                                style={{ width: 24, height: 24 }}
-                                            >
-                                                {!lezioneAttiva ? (
-                                                    <i className="bi bi-question-circle"></i>
-                                                ) : presenze[stud.idStudente] === "PRESENTE" ? (
-                                                    <i className="bi bi-check-circle-fill"></i>
-                                                ) : presenze[stud.idStudente] === "ASSENTE" ? (
-                                                    <i className="bi bi-x-circle-fill"></i>
-                                                ) : (
-                                                    <i className="bi bi-question-circle"></i>
-                                                )}
-                                            </span>
-                                        </Dropdown.Toggle>
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item onClick={() =>
-                                                handlePresenza(stud.idStudente, "PRESENTE")
-                                            }>Presente</Dropdown.Item>
-                                            <Dropdown.Item
-                                                onClick={() =>
-                                                    handlePresenza(stud.idStudente, "ASSENTE")
-                                                }>Assente</Dropdown.Item>
-                                            <Dropdown.Item onClick={() => openValutazione(stud.idStudente)}>Assegna voto</Dropdown.Item>
-                                            <ModaleAssegnaValutazione
-                                                show={showValutazione}
-                                                handleClose={closeValutazione}
-                                                idStudente={studenteSelezionato} />
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </>
-                            ))
-                        }
-
+                    {/* ── Colonna sinistra: lezioni + compiti ── */}
+                    <Col xs={12} lg={7}>
+                        <div className="classe-section-card">
+                            <div className="prof-section-header mb-3">
+                                <i className="bi bi-journal-bookmark prof-section-icona"></i>
+                                <h2 className="prof-section-titolo">Attività del giorno</h2>
+                            </div>
+                            <Lezioni selectedDate={selectedDate} onChangeDate={setSelectedDate} />
+                            <Compiti selectedDate={selectedDate} onChangeDate={setSelectedDate} />
+                        </div>
                     </Col>
 
+                    {/* ── Colonna destra: studenti ── */}
+                    <Col xs={12} lg={5}>
+                        <div className="classe-section-card">
+                            <div className="prof-section-header mb-1">
+                                <i className="bi bi-people prof-section-icona"></i>
+                                <h2 className="prof-section-titolo">Lista studenti</h2>
+                            </div>
+
+                            {/* Legenda */}
+                            <div className="classe-legenda">
+                                <span className="classe-legenda-item">
+                                    <span className="classe-dot" style={{ background: "#10b981" }}></span>Presente
+                                </span>
+                                <span className="classe-legenda-item">
+                                    <span className="classe-dot" style={{ background: "#f87171" }}></span>Assente
+                                </span>
+                                <span className="classe-legenda-item">
+                                    <span className="classe-dot" style={{ background: "#94a3b8" }}></span>N/D
+                                </span>
+                            </div>
+
+                            {loading && <p className="prof-stato">Caricamento studenti...</p>}
+
+                            <div className="classe-studenti-list">
+                                {studenti?.content?.map(stud => {
+                                    const cfg = getPresenzaConfig(stud.idStudente);
+                                    return (
+                                        <Dropdown key={stud.idStudente} className="w-100">
+                                            <Dropdown.Toggle className="classe-studente-toggle w-100">
+                                                <div className="classe-studente-info">
+                                                    <div className="classe-studente-avatar">
+                                                        {stud.nome?.charAt(0)}{stud.cognome?.charAt(0)}
+                                                    </div>
+                                                    <span className="classe-studente-nome">
+                                                        {stud.nome} {stud.cognome}
+                                                    </span>
+                                                </div>
+                                                <span
+                                                    className="classe-presenza-dot"
+                                                    style={{ background: cfg.bg }}
+                                                    title={cfg.label}
+                                                >
+                                                    <i className={`bi ${cfg.icon}`}></i>
+                                                </span>
+                                            </Dropdown.Toggle>
+
+                                            <Dropdown.Menu className="classe-dropdown-menu">
+                                                <Dropdown.Item
+                                                    className="classe-dropdown-item"
+                                                    onClick={() => handlePresenza(stud.idStudente, "PRESENTE")}
+                                                >
+                                                    <i className="bi bi-check-circle me-2 text-success"></i>Presente
+                                                </Dropdown.Item>
+                                                <Dropdown.Item
+                                                    className="classe-dropdown-item"
+                                                    onClick={() => handlePresenza(stud.idStudente, "ASSENTE")}
+                                                >
+                                                    <i className="bi bi-x-circle me-2 text-danger"></i>Assente
+                                                </Dropdown.Item>
+                                                <Dropdown.Divider />
+                                                <Dropdown.Item
+                                                    className="classe-dropdown-item"
+                                                    onClick={() => openValutazione(stud.idStudente)}
+                                                >
+                                                    <i className="bi bi-star me-2 text-warning"></i>Assegna voto
+                                                </Dropdown.Item>
+                                            </Dropdown.Menu>
+                                        </Dropdown>
+                                    );
+                                })}
+                            </div>
+
+                        </div>
+                    </Col>
                 </Row>
-
-
-            </Col>
-
-        </Row>
+            </div>
+        </div>
     );
-
-}
+};
 
 export default HomePageClasse;
