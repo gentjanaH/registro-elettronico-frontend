@@ -3,86 +3,118 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { registraCompito } from "../redux/actions/compitiActions";
-import { current } from "@reduxjs/toolkit";
-
+import { fetchAllMaterie } from "../redux/actions/materieActions";
 
 const ModaleAssegnaCompiti = ({ show, handleClose }) => {
-    // tramite l'api deve assegnare la classe, e l'id del professore 
-    const dispatch = useDispatch();
 
+    const dispatch = useDispatch();
     const { idClasse } = useParams();
-    const idProf = useSelector(currentState => currentState.auth.user.idUser);
+    const { professore } = useSelector(s => s.auth);
+    const { materie } = useSelector(s => s.materie);
 
     const [dataConsegna, setDataConsegna] = useState("");
     const [descrizione, setDescrizione] = useState("");
     const [idMateria, setIdMateria] = useState("");
+    const [materieProf, setMaterieProf] = useState([]);
 
+    useEffect(() => {
+        if (!materie?.length) {
+            dispatch(fetchAllMaterie());
+        }
+    }, []);
 
+    useEffect(() => {
+        if (!professore?.materie?.length || !materie?.length) return;
 
+        console.log("prima materia professore:", professore.materie[0]);
+        console.log("prima materia store:", materie[0]);
+
+        const idMaterieProf = professore.materie.map(m => String(m.idMateria));
+        const filtrate = materie.filter(m => idMaterieProf.includes(String(m.idMateria)));
+
+        console.log("filtrate:", filtrate);
+        setMaterieProf(filtrate);
+
+    }, [professore, materie]);
+
+    // ✅ Aggiunto handleAssegna mancante
+    const handleAssegna = () => {
+        if (!idMateria || !dataConsegna || !descrizione) {
+            alert("Compila tutti i campi prima di procedere.");
+            return;
+        }
+        dispatch(registraCompito(idClasse, {
+            descrizione,
+            dataDiConsegna: dataConsegna,
+            idMateria,
+        }));
+        setDataConsegna("");
+        setDescrizione("");
+        setIdMateria("");
+        handleClose();
+        alert("Compito assegnato con successo!");
+    };
 
     return (
-        <Modal
+        <Modal show={show} onHide={handleClose} centered>
 
-            show={show} onHide={handleClose} centered
-        >
+            <Modal.Header closeButton>
+                <Modal.Title className="prof-section-titolo">Assegna compito</Modal.Title>
+            </Modal.Header>
 
             <Form className="p-3">
-                <Form.Group controlId="dataNascita">
-                    <Form.Label>Data di consegna prevista</Form.Label>
+                <Form.Group className="mb-3" controlId="dataConsegna">
+                    <Form.Label className="login-label">Data di consegna</Form.Label>
                     <Form.Control
                         type="date"
                         value={dataConsegna}
-                        onChange={(e) => setDataConsegna(e.target.value)} />
+                        onChange={(e) => setDataConsegna(e.target.value)}
+                        className="login-input"
+                    />
                 </Form.Group>
-                <Form.Select
-                    aria-label="Default select example"
-                    className="my-2"
-                    value={idMateria}
-                    onChange={(e) => setIdMateria(e.target.value)}>
 
-                    <option>Materia</option>
-                    <option
-                        value="b638e177-72b3-46cf-ac54-bedfbba8b53d"
-                    // value={idMateria}
-                    >Matematica</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </Form.Select>
+                <Form.Group className="mb-3" controlId="selectMateria">
+                    <Form.Label className="login-label">Materia</Form.Label>
+                    <Form.Select
+                        value={idMateria}
+                        onChange={(e) => setIdMateria(e.target.value)}
+                        className="login-input"
+                    >
+                        <option value="">Seleziona una materia</option>
+                        {(materieProf.length > 0 ? materieProf : materie).map(m => (
+                            <option key={m.idMateria} value={m.idMateria}>
+                                {m.nome}
+                            </option>
+                        ))}
+                    </Form.Select>
+                </Form.Group>
 
-                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-                    <Form.Label>Descrizione del compito</Form.Label>
+                <Form.Group className="mb-3" controlId="descrizioneCompito">
+                    <Form.Label className="login-label">Descrizione</Form.Label>
                     <Form.Control
-                        value={descrizione}
-                        onChange={(e) => setDescrizione(e.target.value)}
                         as="textarea"
                         rows={3}
-                        placeholder="massimo 100 caratteri" />
+                        placeholder="Massimo 100 caratteri"
+                        maxLength={100}
+                        value={descrizione}
+                        onChange={(e) => setDescrizione(e.target.value)}
+                        className="login-input"
+                    />
+                    <Form.Text className="text-muted">
+                        {descrizione.length}/100 caratteri
+                    </Form.Text>
                 </Form.Group>
             </Form>
 
-
-
-
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>Annulla</Button>
-                <Button variant="primary"
-                    onClick={() => {
-
-                        const compitoData = {
-                            descrizione,
-                            dataDiConsegna: dataConsegna,
-                            idMateria
-                        };
-                        dispatch(registraCompito(idClasse, compitoData));
-                        handleClose();
-                        alert("Compito aggiunto con successo con successo!")
-                    }}>Assegna</Button>
+                <Button className="classe-btn-secondary" onClick={handleClose}>Annulla</Button>
+                <Button className="classe-btn-primary" onClick={handleAssegna}>Assegna compito</Button>
             </Modal.Footer>
 
         </Modal>
     );
-}
+};
 
 export default ModaleAssegnaCompiti;

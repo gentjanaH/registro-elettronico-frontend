@@ -3,6 +3,7 @@ import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, SELEZIONA_FIGLIO }
 const initialState = {
     user: JSON.parse(localStorage.getItem("user")) || null,
     studente: JSON.parse(localStorage.getItem("studente")) || null,
+    professore: JSON.parse(localStorage.getItem("professore")) || null,
     genitore: JSON.parse(localStorage.getItem("genitore")) || null,
     figlioSelezionato: JSON.parse(localStorage.getItem("figlioSelezionato")) || null,
     token: localStorage.getItem("token") || null,
@@ -31,6 +32,7 @@ const authReducer = (currentState = initialState, action) => {
                 user: action.payload.user,
                 studente: action.payload.studente,
                 genitore: action.payload.genitore,
+                professore: action.payload.professore,
 
             };
 
@@ -41,6 +43,7 @@ const authReducer = (currentState = initialState, action) => {
                 user: null,
                 studente: null,
                 genitore: null,
+                professore: null,
                 figlioSelezionato: null,
                 loading: false,
                 error: null

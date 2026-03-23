@@ -44,14 +44,17 @@ export const login = (email, password) => {
             })
 
             .then((data) => {
-                console.log("Dati login: ", data)
+
+                console.log("Dati login completi:", data);
+                console.log("professore:", data.professore);
+                console.log("chiavi disponibili:", Object.keys(data));
                 dispatch({
                     type: LOGIN_SUCCESS,
                     payload: data,
 
                 })
                 localStorage.setItem("user", JSON.stringify(data.user));
-
+                localStorage.setItem("professore", JSON.stringify(data.professore));
                 localStorage.setItem("token", data.accessToken)
                 return data;
             })

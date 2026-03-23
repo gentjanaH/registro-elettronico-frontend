@@ -11,18 +11,49 @@ const ModaleAssegnaValutazione = ({ show, handleClose, idStudente }) => {
     const dispatch = useDispatch();
 
 
-
-
     const [lezione, setLezione] = useState("");
     const [valore, setValore] = useState("");
     const [tipo, setTipo] = useState("");
 
     const { lezioni } = useSelector(state => state.lezioni);
+    const { user } = useSelector(state => state.auth);
+
+    // Lista unica di professori ricavata direttamente dalle lezioni
+    const professoriMap = {};
+    lezioni.forEach(lez => {
+        if (!professoriMap[lez.idProfessore]) {
+            professoriMap[lez.idProfessore] = {
+                id: lez.idProfessore,
+                nome: `${lez.nomeProfessore ?? ""} ${lez.cognomeProfessore}`.trim(),
+            };
+        }
+    });
 
 
+    // Lezioni filtrate per il professore selezionato
+    const lezioniFiltrate = lezioni.filter(
+        lez => String(lez.idProfessore) === String(user.professore.idProfessore)
+    );
+
+    const lezioneSelezionata = lezioniFiltrate.find(
+        l => String(l.idLezione) === String(lezione)
+    );
+
+
+
+    const handleReset = () => {
+
+        setLezione("");
+        setValore("");
+        setTipo("");
+    };
+
+    const handleClose_ = () => {
+        handleReset();
+        handleClose();
+    };
 
     const handleSubmit = () => {
-
         if (!lezione || !valore || !tipo) {
             alert("Compila tutti i campi");
             return;
@@ -34,116 +65,152 @@ const ModaleAssegnaValutazione = ({ show, handleClose, idStudente }) => {
             tipo: tipo.toUpperCase(),
         };
 
-        console.log("Invio valutazione payload:", valutazioneData);
-
         dispatch(assegnaValutazione(idStudente, valutazioneData));
-        console.log("Voto: ", valutazioneData)
         alert("Voto salvato con successo!");
-        handleClose();
+        handleClose_();
     };
 
     return (
-        <>
-            <Modal
+        <Modal show={show} onHide={handleClose_} centered>
+            <Modal.Header closeButton>
+                <Modal.Title>Assegna Voto</Modal.Title>
+            </Modal.Header>
 
-                show={show} onHide={handleClose} centered
-            >
-                <Modal.Header closeButton>
-                    <Modal.Title>Assegna Voto</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Lezione</Form.Label>
+            <Modal.Body>
 
+                <Form.Group className="mb-3">
+                    <Form.Label>
+                        <span className="text-muted me-1" style={{ fontSize: "0.8rem" }}>1.</span>
+                        Lezione
+                    </Form.Label>
+
+                    {lezioniFiltrate.length === 0 ? (
+                        <div
+                            className="text-muted text-center py-3"
+                            style={{
+                                border: "1px dashed #ced4da",
+                                borderRadius: "8px",
+                                fontSize: "0.9rem"
+                            }}
+                        >
+                            Nessuna lezione trovata per questo professore
+                        </div>
+                    ) : (
                         <div
                             style={{
-                                maxHeight: "220px",
+                                maxHeight: "200px",
                                 overflowY: "auto",
                                 border: "1px solid #ced4da",
                                 borderRadius: "8px",
-                                padding: "8px",
+                                padding: "6px",
                                 background: "#f8f9fa"
                             }}
                         >
-                            {lezioni.length === 0 && (
-                                <div className="text-muted">Nessuna lezione trovata</div>
-                            )}
-
-                            {lezioni.map(lez => {
-                                const isSelected = lezione === lez.idLezione;
-
+                            {lezioniFiltrate.map(lez => {
+                                const isSelected = String(lezione) === String(lez.idLezione);
                                 return (
                                     <div
                                         key={lez.idLezione}
                                         onClick={() => setLezione(lez.idLezione)}
                                         style={{
-                                            padding: "12px",
-                                            marginBottom: "8px",
-                                            borderRadius: "8px",
+                                            padding: "10px 12px",
+                                            marginBottom: "5px",
+                                            borderRadius: "6px",
                                             cursor: "pointer",
                                             backgroundColor: isSelected ? "#e7f1ff" : "white",
                                             border: isSelected ? "2px solid #0d6efd" : "1px solid #ddd",
-                                            transition: "0.2s"
+                                            transition: "border 0.15s, background-color 0.15s",
                                         }}
                                     >
-                                        <strong>{lez.nomeMateria}</strong>
-                                        <div className="text-muted" style={{ fontSize: "0.85rem" }}>
-                                            {lez.data} — {lez.descrizione}
+                                        <div className="d-flex justify-content-between align-items-center">
+                                            <strong style={{ fontSize: "0.92rem" }}>{lez.nomeMateria}</strong>
+                                            <span className="text-muted" style={{ fontSize: "0.8rem" }}>{lez.data}</span>
                                         </div>
-                                        <div style={{ fontSize: "0.85rem" }}>
-                                            Prof: {lez.cognomeProfessore}
-                                        </div>
+                                        {lez.descrizione && (
+                                            <div className="text-muted" style={{ fontSize: "0.82rem", marginTop: "2px" }}>
+                                                {lez.descrizione}
+                                            </div>
+                                        )}
                                     </div>
                                 );
                             })}
                         </div>
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                        <Form.Label>Voto</Form.Label>
-                        {/* map delle lezioni della giornata */}
-                        <Form.Select
-                            value={valore}
-                            onChange={(e) => setValore(e.target.value)}
-                        >
-                            <option value="">Seleziona un voto</option>
-                            <option value="4" className="fw-bold text-danger">4</option>
-                            <option value="5" className="fw-bold text-warning">5</option>
-                            <option value="6" className="fw-bold text-success">6</option>
-                            <option value="7" className="fw-bold text-success">7</option>
-                            <option value="8" className="fw-bold text-success">8</option>
-                            <option value="9" className="fw-bold text-success">9</option>
-                            <option value="10" className="fw-bold text-success">10</option>
+                    )}
+                </Form.Group>
 
-                        </Form.Select>
-                    </Form.Group>
 
-                    <Form.Group className="mb-3">
-                        <Form.Label>Tipo</Form.Label>
-                        <Form.Select
-                            value={tipo}
-                            onChange={(e) => setTipo(e.target.value)}
-                        >
-                            <option value="">Seleziona tipo</option>
-                            <option value="ORALE">Orale</option>
-                            <option value="SCRITTO">Scritto</option>
-                            <option value="PRATICO">Pratico</option>
-                        </Form.Select>
-                    </Form.Group>
-                </Modal.Body>
+                {/* Step 3 — Voto e Tipo (visibili solo dopo aver scelto la lezione) */}
+                {lezione && (
+                    <>
+                        {/* Riepilogo lezione selezionata */}
+                        {lezioneSelezionata && (
+                            <div
+                                className="mb-3 p-2 px-3"
+                                style={{
+                                    background: "#e7f1ff",
+                                    border: "1px solid #b6d4fe",
+                                    borderRadius: "8px",
+                                    fontSize: "0.85rem"
+                                }}
+                            >
+                                <span className="text-primary fw-bold">{lezioneSelezionata.nomeMateria}</span>
+                                <span className="text-muted mx-1">—</span>
+                                <span className="text-muted">{lezioneSelezionata.data}</span>
+                            </div>
+                        )}
 
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Annulla
-                    </Button>
-                    <Button variant="primary" onClick={handleSubmit}>
-                        Invia
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </>
+                        <div className="row g-2">
+                            <div className="col-6">
+                                <Form.Group>
+                                    <Form.Label>
+                                        <span className="text-muted me-1" style={{ fontSize: "0.8rem" }}>2.</span>
+                                        Voto
+                                    </Form.Label>
+                                    <Form.Select value={valore} onChange={(e) => setValore(e.target.value)}>
+                                        <option value="">—</option>
+                                        {[4, 5, 6, 7, 8, 9, 10].map(v => (
+                                            <option key={v} value={v}>
+                                                {v}
+                                            </option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                            </div>
+
+                            <div className="col-6">
+                                <Form.Group>
+                                    <Form.Label>
+                                        <span className="text-muted me-1" style={{ fontSize: "0.8rem" }}>3.</span>
+                                        Tipo
+                                    </Form.Label>
+                                    <Form.Select value={tipo} onChange={(e) => setTipo(e.target.value)}>
+                                        <option value="">—</option>
+                                        <option value="ORALE">Orale</option>
+                                        <option value="SCRITTO">Scritto</option>
+                                        <option value="PRATICO">Pratico</option>
+                                    </Form.Select>
+                                </Form.Group>
+                            </div>
+                        </div>
+                    </>
+                )}
+
+            </Modal.Body>
+
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose_}>
+                    Annulla
+                </Button>
+                <Button
+                    variant="primary"
+                    onClick={handleSubmit}
+                    disabled={!lezione || !valore || !tipo}
+                >
+                    Invia
+                </Button>
+            </Modal.Footer>
+        </Modal>
     );
-
-
-}
+};
 
 export default ModaleAssegnaValutazione;
