@@ -23,6 +23,7 @@ import HomePageClasse from "./components/HomePageClasse"
 import { Provider } from 'react-redux'
 import store from "./redux/store";
 import SelezioneProfiloFigli from "./components/SelezioneProfiloFigli"
+import PaginaAmministratore from "./components/PaginaAmministratore"
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
               <Routes>
 
                 <Route path="/" element={<HomePage />} />
+                <Route path="/admin/:id_Amdin" element={<PaginaAmministratore />} />
                 <Route path="/register" element={<FormRegistrazione />} />
                 <Route path="/login" element={<FormLogin />} />
                 <Route path="/offerta_formativa" element={<OffertaFormativa />} />

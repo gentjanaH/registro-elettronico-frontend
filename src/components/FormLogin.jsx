@@ -25,6 +25,8 @@ const FormLogin = () => {
                 return navigate(`/genitore/${user.idUser}`);
             if (user.ruolo.ruolo === "PROFESSORE")
                 return navigate(`/professore/${user.idUser}`);
+            if (user.ruolo.ruolo === "ADMIN")
+                return navigate(`/ADMIN/${user.idUser}`);
         }
     }, [token, user, navigate]);
 

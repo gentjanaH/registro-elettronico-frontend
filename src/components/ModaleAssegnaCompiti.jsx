@@ -39,7 +39,7 @@ const ModaleAssegnaCompiti = ({ show, handleClose }) => {
 
     }, [professore, materie]);
 
-    // ✅ Aggiunto handleAssegna mancante
+
     const handleAssegna = () => {
         if (!idMateria || !dataConsegna || !descrizione) {
             alert("Compila tutti i campi prima di procedere.");
