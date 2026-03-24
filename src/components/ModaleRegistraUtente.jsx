@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 
 import { fetchAllMaterie } from "../redux/actions/materieActions";
-import { register } from "../redux/actions/authActions";
+
+import { registraUtente } from "../redux/actions/utentiActions";
 
 const RUOLI = ["AMMINISTRATORE", "PROFESSORE", "GENITORE", "STUDENTE"];
 
@@ -25,7 +26,7 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
 
     const dispatch = useDispatch();
     const { materie } = useSelector(s => s.materie);
-    const { loading, error } = useSelector(s => s.auth);
+    const { loading, error } = useSelector(s => s.utenti);
 
     const [form, setForm] = useState(defaultForm);
 
@@ -52,10 +53,9 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
             alert("Compila tutti i campi obbligatori.");
             return;
         }
+        console.log("Form inviato:", JSON.stringify(form));
+        dispatch(registraUtente(form, handleClose_));
 
-        dispatch(register(form));
-        alert("Utente registrato con successo!");
-        handleClose_();
     };
 
     const campiBaseCompilati =
@@ -228,32 +228,37 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                             <Form.Label className="d-flex align-items-center gap-2">
                                 ID Figlio
                                 {form.ruolo !== "GENITORE" && (
-                                    <span
-                                        className="badge text-bg-secondary"
-                                        style={{ fontSize: "0.72rem", fontWeight: 400 }}
-                                    >
+                                    <span className="badge text-bg-secondary" style={{ fontSize: "0.72rem", fontWeight: 400 }}>
                                         non applicabile per {form.ruolo.charAt(0) + form.ruolo.slice(1).toLowerCase()}
                                     </span>
                                 )}
                             </Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="UUID dello studente"
-                                disabled={form.ruolo !== "GENITORE"}
-                                onKeyDown={e => {
-                                    if (e.key === "Enter") {
-                                        const val = e.target.value.trim();
+                            <div className="d-flex gap-2">
+                                <Form.Control
+                                    type="text"
+                                    id="inputFiglio"
+                                    placeholder="UUID dello studente"
+                                    disabled={form.ruolo !== "GENITORE"}
+                                />
+                                <Button
+                                    variant="outline-primary"
+                                    disabled={form.ruolo !== "GENITORE"}
+                                    onClick={() => {
+                                        const input = document.getElementById("inputFiglio");
+                                        const val = input.value.trim();
                                         if (!val) return;
                                         const current = form.idFiglio ?? [];
                                         if (!current.includes(val)) {
                                             handleChange("idFiglio", [...current, val]);
                                         }
-                                        e.target.value = "";
-                                    }
-                                }}
-                            />
+                                        input.value = "";
+                                    }}
+                                >
+                                    Aggiungi
+                                </Button>
+                            </div>
                             <Form.Text className="text-muted" style={{ fontSize: "0.78rem" }}>
-                                Premi Invio per aggiungere un figlio
+                                Aggiungi uno o più figli
                             </Form.Text>
 
                             {form.idFiglio?.length > 0 && (

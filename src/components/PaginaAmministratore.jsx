@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Button, Col, Row } from "react-bootstrap";
 import ModaleRegistraUtente from "./ModaleRegistraUtente";
 import ModaleAssegnaMateria from "./ModaleAssegnaMateria";
+import ModaleVisualizzaUtenti from "./ModaleVisualizzaUtenti";
 
 const PaginaAmministratore = () => {
 
     const [showRegistraUtente, setShowRegistraUtente] = useState(false);
     const [showAssegnaMaterie, setShowAssegnaMaterie] = useState(false);
+    const [showGetUtenti, setShowGetUtenti] = useState(false);
 
     return (
         <>
@@ -43,7 +45,7 @@ const PaginaAmministratore = () => {
                 <Col md={6} lg={3}>
                     <div className="p-3 border rounded h-100 d-flex flex-column gap-3">
                         <h5 className="mb-0">Visualizza utenti per ruolo</h5>
-                        <Button variant="primary" disabled>
+                        <Button variant="primary" onClick={() => setShowGetUtenti(true)}>
                             Apri modale
                         </Button>
                     </div>
@@ -58,6 +60,11 @@ const PaginaAmministratore = () => {
             <ModaleAssegnaMateria
                 show={showAssegnaMaterie}
                 handleClose={() => setShowAssegnaMaterie(false)}
+            />
+
+            <ModaleVisualizzaUtenti
+                show={showGetUtenti}
+                handleClose={() => setShowGetUtenti(false)}
             />
         </>
     );

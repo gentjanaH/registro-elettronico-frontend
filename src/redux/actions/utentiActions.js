@@ -7,6 +7,34 @@ export const FETCH_UTENTI_SUCCESS = "FETCH_UTENTI_SUCCESS";
 export const FETCH_UTENTI_FAILURE = "FETCH_UTENTI_FAILURE";
 
 
+export const registraUtente = (payload, onSuccess) => {
+    return (dispatch, getState) => {
+        const token = getState().auth.token;
+
+        dispatch({ type: REGISTRA_UTENTE_REQUEST });
+
+        fetch("http://localhost:8081/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(payload)
+        })
+            .then(res => {
+                if (!res.ok) throw new Error("Errore nella registrazione dell'utente");
+                return res.json();
+            })
+            .then(data => {
+                dispatch({ type: REGISTRA_UTENTE_SUCCESS, payload: data });
+                alert("Utente registrato con successo!");
+                if (onSuccess) onSuccess();
+            })
+            .catch(err => {
+                dispatch({ type: REGISTRA_UTENTE_FAILURE, payload: err.message });
+            });
+    };
+};
 
 
 export const fetchUtentiPerRuolo = () => {

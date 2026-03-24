@@ -28,7 +28,7 @@ const docenteReducer = (currentState = initialState, action) => {
             return {
                 ...currentState,
                 loading: false,
-                professori: action.payload.content
+                professori: action.payload
             };
 
         case ASSEGNA_MATERIE_SUCCESS:

@@ -13,7 +13,7 @@ export const fetchAllProfessori = () => {
 
         dispatch({ type: FETCH_PROFESSORI_REQUEST });
 
-        fetch("http://localhost:8081/professori?page=0&size=100", {
+        fetch("http://localhost:8081/professori", {
             headers: {
                 Authorization: `Bearer ${token}`
             }
