@@ -1,4 +1,4 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, SELEZIONA_FIGLIO } from "../actions/authActions";
+import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE, LOGOUT, SELEZIONA_FIGLIO, REGISTRA_UTENTE_REQUEST, REGISTRA_UTENTE_SUCCESS, REGISTRA_UTENTE_FAILURE } from "../actions/authActions";
 
 const initialState = {
     user: JSON.parse(localStorage.getItem("user")) || null,
@@ -6,6 +6,7 @@ const initialState = {
     professore: JSON.parse(localStorage.getItem("professore")) || null,
     genitore: JSON.parse(localStorage.getItem("genitore")) || null,
     figlioSelezionato: JSON.parse(localStorage.getItem("figlioSelezionato")) || null,
+    utenteRegistrato: null,
     token: localStorage.getItem("token") || null,
     loading: false,
     error: null
@@ -18,6 +19,7 @@ const authReducer = (currentState = initialState, action) => {
     switch (action.type) {
 
         case LOGIN_REQUEST:
+        case REGISTRA_UTENTE_REQUEST:
             return {
                 ...currentState,
                 loading: true,
@@ -34,6 +36,13 @@ const authReducer = (currentState = initialState, action) => {
                 genitore: action.payload.genitore,
                 professore: action.payload.professore,
 
+            };
+
+        case REGISTRA_UTENTE_SUCCESS:
+            return {
+                ...currentState,
+                loading: false,
+                utenteRegistrato: action.payload
             };
 
         case LOGOUT:
@@ -53,6 +62,13 @@ const authReducer = (currentState = initialState, action) => {
             return {
                 ...currentState,
                 figlioSelezionato: action.payload
+            };
+
+        case REGISTRA_UTENTE_FAILURE:
+            return {
+                ...currentState,
+                loading: false,
+                error: action.payload
             };
 
         case LOGIN_FAILURE:

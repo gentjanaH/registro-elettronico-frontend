@@ -1,8 +1,14 @@
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
+
 export const LOGOUT = "LOGOUT";
+
 export const SELEZIONA_FIGLIO = "SELEZIONA_FIGLIO";
+
+export const REGISTRA_UTENTE_REQUEST = "REGISTRA_UTENTE_REQUEST";
+export const REGISTRA_UTENTE_SUCCESS = "REGISTRA_UTENTE_SUCCESS";
+export const REGISTRA_UTENTE_FAILURE = "REGISTRA_UTENTE_FAILURE";
 
 export const logout = () => {
 
@@ -15,7 +21,6 @@ export const logout = () => {
         localStorage.removeItem("figlioSelezionato");
         dispatch({ type: LOGOUT });
 
-        // localStorage.setItem("studente", JSON.stringify(data.studente));
     }
 }
 
@@ -80,3 +85,33 @@ export const selezionaFiglio = (figlio) => {
         });
     };
 };
+
+export const register = (payload) => {
+
+    return (dispatch, getState) => {
+        const token = getState().auth.token;
+
+        dispatch({ type: REGISTRA_UTENTE_REQUEST });
+
+        fetch("http://localhost:8081/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(payload)
+        })
+            .then(res => {
+                if (!res.ok) throw new Error("Errore nella registrazione dell'utente");
+                return res.json();
+            })
+            .then(data => {
+                dispatch({ type: REGISTRA_UTENTE_SUCCESS, payload: data });
+                console.log("Utente registrato:", data);
+            })
+            .catch(err => {
+                dispatch({ type: REGISTRA_UTENTE_FAILURE, payload: err.message });
+
+            });
+    };
+}
