@@ -160,21 +160,36 @@ const ModaleAssegnaValutazione = ({ show, handleClose, idStudente, idClasse }) =
                             </div>
                         )}
 
-                        <div className="row g-2">
-                            <div className="col-6">
+                        <div className="row g-2 mt-1">
+                            <div className="col-12">
                                 <Form.Group>
                                     <Form.Label>
                                         <span className="text-muted me-1" style={{ fontSize: "0.8rem" }}>2.</span>
                                         Voto
                                     </Form.Label>
-                                    <Form.Select value={valore} onChange={(e) => setValore(e.target.value)}>
-                                        <option value="">—</option>
+                                    <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
                                         {[4, 5, 6, 7, 8, 9, 10].map(v => (
-                                            <option key={v} value={v}>
+                                            <button
+                                                key={v}
+                                                type="button"
+                                                onClick={() => setValore(String(v))}
+                                                style={{
+                                                    width: "42px",
+                                                    height: "42px",
+                                                    borderRadius: "8px",
+                                                    border: String(valore) === String(v) ? "2px solid #0d6efd" : "1px solid #ddd",
+                                                    background: String(valore) === String(v) ? "#e7f1ff" : "white",
+                                                    color: String(valore) === String(v) ? "#0a3872" : v <= 5 ? "#dc3545" : "#198754",
+                                                    fontWeight: 500,
+                                                    fontSize: "0.95rem",
+                                                    cursor: "pointer",
+                                                    transition: "all 0.15s"
+                                                }}
+                                            >
                                                 {v}
-                                            </option>
+                                            </button>
                                         ))}
-                                    </Form.Select>
+                                    </div>
                                 </Form.Group>
                             </div>
 

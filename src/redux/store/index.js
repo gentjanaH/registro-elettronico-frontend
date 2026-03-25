@@ -9,6 +9,7 @@ import valutazioniReducer from "../reducers/ValutazioniReducer"
 import materieReducer from "../reducers/materieReducer"
 import docenteReducer from "../reducers/docenteReducer"
 import utentiReducer from "../reducers/utentiReducer"
+import corsiExtraReducer from "../reducers/corsiExtraReducer"
 
 const store = configureStore({
 
@@ -22,7 +23,8 @@ const store = configureStore({
         valutazioni: valutazioniReducer,
         materie: materieReducer,
         docenti: docenteReducer,
-        utenti: utentiReducer
+        utenti: utentiReducer,
+        corsiExtra: corsiExtraReducer
     }
 
 
