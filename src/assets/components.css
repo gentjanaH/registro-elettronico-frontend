@@ -30,3 +30,126 @@
     cursor: pointer;
     font-size: 13px;
 }
+
+/* ─── MODALE VISUALIZZA UTENTI ───────────────────────── */
+.utenti-tab-wrapper {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.utenti-tab {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.utenti-tab-count {
+    border-radius: 10px;
+    padding: 1px 7px;
+    font-size: 0.78rem;
+}
+
+.utenti-lista {
+    max-height: 380px;
+    overflow-y: auto;
+}
+
+.utenti-stato {
+    text-align: center;
+    padding: 1.5rem 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.utenti-card {
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+}
+
+.utenti-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.utenti-email {
+    font-size: 0.82rem;
+    color: #555;
+}
+
+.utenti-sub {
+    font-size: 0.82rem;
+    color: #555;
+    margin-top: 4px;
+}
+
+.utenti-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 6px;
+}
+
+.utenti-chip {
+    background: white;
+    border-radius: 6px;
+    font-size: 0.78rem;
+    padding: 2px 8px;
+}
+
+/* ─── CLASSI FORM MODALI ─────────────────────────────── */
+.form-step-numero {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-right: 4px;
+}
+
+.form-badge-na {
+    font-size: 0.72rem;
+    font-weight: 400;
+    background: #e9ecef;
+    color: #6c757d;
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+
+.form-chips-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.form-chip {
+    background: #e7f1ff;
+    color: #0a3872;
+    border: 1px solid #b6d4fe;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-weight: 400;
+}
+
+.form-chip:hover {
+    background: #d0e4ff;
+}
+
+.form-hint {
+    font-size: 0.78rem;
+    color: var(--muted);
+}
+
+.form-error {
+    font-size: 0.85rem;
+}

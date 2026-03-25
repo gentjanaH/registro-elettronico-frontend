@@ -61,6 +61,7 @@ const ModaleRegistraLezione = ({ show, handleClose }) => {
         const filtrate = materie.filter(m => idMaterieProf.includes(String(m.idMateria)));
 
         console.log("filtrate:", filtrate);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMaterieProf(filtrate);
 
     }, [professore, materie]);

@@ -3,9 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-
 import { fetchAllMaterie } from "../redux/actions/materieActions";
-
 import { registraUtente } from "../redux/actions/utentiActions";
 
 const RUOLI = ["AMMINISTRATORE", "PROFESSORE", "GENITORE", "STUDENTE"];
@@ -53,9 +51,7 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
             alert("Compila tutti i campi obbligatori.");
             return;
         }
-        console.log("Form inviato:", JSON.stringify(form));
         dispatch(registraUtente(form, handleClose_));
-
     };
 
     const campiBaseCompilati =
@@ -75,7 +71,7 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                     <div className="col-6">
                         <Form.Group>
                             <Form.Label>
-                                <span className="text-muted me-1" style={{ fontSize: "0.8rem" }}>1.</span>
+                                <span className="form-step-numero">1.</span>
                                 Nome
                             </Form.Label>
                             <Form.Control
@@ -89,7 +85,7 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                     <div className="col-6">
                         <Form.Group>
                             <Form.Label>
-                                <span className="text-muted me-1" style={{ fontSize: "0.8rem" }}>2.</span>
+                                <span className="form-step-numero">2.</span>
                                 Cognome
                             </Form.Label>
                             <Form.Control
@@ -104,7 +100,7 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
 
                 <Form.Group className="mb-3">
                     <Form.Label>
-                        <span className="text-muted me-1" style={{ fontSize: "0.8rem" }}>3.</span>
+                        <span className="form-step-numero">3.</span>
                         Data di nascita
                     </Form.Label>
                     <Form.Control
@@ -116,7 +112,7 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
 
                 <Form.Group className="mb-3">
                     <Form.Label>
-                        <span className="text-muted me-1" style={{ fontSize: "0.8rem" }}>4.</span>
+                        <span className="form-step-numero">4.</span>
                         Email
                     </Form.Label>
                     <Form.Control
@@ -129,7 +125,7 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
 
                 <Form.Group className="mb-3">
                     <Form.Label>
-                        <span className="text-muted me-1" style={{ fontSize: "0.8rem" }}>5.</span>
+                        <span className="form-step-numero">5.</span>
                         Password
                     </Form.Label>
                     <Form.Control
@@ -142,7 +138,7 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
 
                 <Form.Group className="mb-4">
                     <Form.Label>
-                        <span className="text-muted me-1" style={{ fontSize: "0.8rem" }}>6.</span>
+                        <span className="form-step-numero">6.</span>
                         Ruolo
                     </Form.Label>
                     <Form.Select
@@ -166,10 +162,7 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                             <Form.Label className="d-flex align-items-center gap-2">
                                 Materie insegnate
                                 {form.ruolo !== "PROFESSORE" && (
-                                    <span
-                                        className="badge text-bg-secondary"
-                                        style={{ fontSize: "0.72rem", fontWeight: 400 }}
-                                    >
+                                    <span className="form-badge-na">
                                         non applicabile per {form.ruolo.charAt(0) + form.ruolo.slice(1).toLowerCase()}
                                     </span>
                                 )}
@@ -192,28 +185,15 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                                 ))}
                             </Form.Select>
 
-                            {/* Chip materie selezionate */}
                             {form.idMaterie?.length > 0 && (
-                                <div className="d-flex flex-wrap gap-1 mt-2">
+                                <div className="form-chips-wrapper">
                                     {form.idMaterie.map(id => {
                                         const m = materie.find(x => String(x.idMateria) === String(id));
                                         return (
                                             <span
                                                 key={id}
-                                                className="badge"
-                                                style={{
-                                                    background: "#e7f1ff",
-                                                    color: "#0a3872",
-                                                    border: "1px solid #b6d4fe",
-                                                    fontWeight: 400,
-                                                    fontSize: "0.82rem",
-                                                    cursor: "pointer",
-                                                    padding: "5px 10px"
-                                                }}
-                                                onClick={() => handleChange(
-                                                    "idMaterie",
-                                                    form.idMaterie.filter(x => x !== id)
-                                                )}
+                                                className="form-chip"
+                                                onClick={() => handleChange("idMaterie", form.idMaterie.filter(x => x !== id))}
                                             >
                                                 {m?.nome ?? id} ✕
                                             </span>
@@ -228,7 +208,7 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                             <Form.Label className="d-flex align-items-center gap-2">
                                 ID Figlio
                                 {form.ruolo !== "GENITORE" && (
-                                    <span className="badge text-bg-secondary" style={{ fontSize: "0.72rem", fontWeight: 400 }}>
+                                    <span className="form-badge-na">
                                         non applicabile per {form.ruolo.charAt(0) + form.ruolo.slice(1).toLowerCase()}
                                     </span>
                                 )}
@@ -257,29 +237,17 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                                     Aggiungi
                                 </Button>
                             </div>
-                            <Form.Text className="text-muted" style={{ fontSize: "0.78rem" }}>
+                            <Form.Text className="form-hint">
                                 Aggiungi uno o più figli
                             </Form.Text>
 
                             {form.idFiglio?.length > 0 && (
-                                <div className="d-flex flex-wrap gap-1 mt-2">
+                                <div className="form-chips-wrapper">
                                     {form.idFiglio.map(id => (
                                         <span
                                             key={id}
-                                            className="badge"
-                                            style={{
-                                                background: "#e7f1ff",
-                                                color: "#0a3872",
-                                                border: "1px solid #b6d4fe",
-                                                fontWeight: 400,
-                                                fontSize: "0.82rem",
-                                                cursor: "pointer",
-                                                padding: "5px 10px"
-                                            }}
-                                            onClick={() => handleChange(
-                                                "idFiglio",
-                                                form.idFiglio.filter(x => x !== id)
-                                            )}
+                                            className="form-chip"
+                                            onClick={() => handleChange("idFiglio", form.idFiglio.filter(x => x !== id))}
                                         >
                                             {id} ✕
                                         </span>
@@ -293,10 +261,7 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                             <Form.Label className="d-flex align-items-center gap-2">
                                 ID Classe
                                 {form.ruolo !== "STUDENTE" && (
-                                    <span
-                                        className="badge text-bg-secondary"
-                                        style={{ fontSize: "0.72rem", fontWeight: 400 }}
-                                    >
+                                    <span className="form-badge-na">
                                         non applicabile per {form.ruolo.charAt(0) + form.ruolo.slice(1).toLowerCase()}
                                     </span>
                                 )}
@@ -313,7 +278,7 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                 )}
 
                 {error && (
-                    <div className="alert alert-danger mt-3 py-2" style={{ fontSize: "0.85rem" }}>
+                    <div className="alert alert-danger mt-3 py-2 form-error">
                         {error}
                     </div>
                 )}

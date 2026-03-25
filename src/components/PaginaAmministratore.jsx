@@ -4,6 +4,7 @@ import ModaleRegistraUtente from "./ModaleRegistraUtente";
 import ModaleAssegnaMateria from "./ModaleAssegnaMateria";
 import ModaleVisualizzaUtenti from "./ModaleVisualizzaUtenti";
 import ModaleRegistraCorsoExtra from "./ModaleRegistraCorsoExtra";
+import ModaleVisualizzaCorsiExtra from "./ModaleVisualizzaCorsiExtra";
 
 const azioni = [
     {
@@ -34,6 +35,13 @@ const azioni = [
         descrizione: "Consulta tutti gli utenti del sistema divisi per ruolo",
         icona: "👥",
         colore: "#6f42c1"
+    },
+    {
+        key: "visualizzaCorsi",
+        titolo: "Visualizza corsi-extra-curricolari",
+        descrizione: "Consulta tutti i corsi del sistema",
+        icona: "🎨",
+        colore: "#42c1c1"
     }
 ];
 
@@ -55,7 +63,7 @@ const PaginaAmministratore = () => {
             {/* Card azioni */}
             <Row className="g-3">
                 {azioni.map(azione => (
-                    <Col key={azione.key} xs={12} sm={6} xl={3}>
+                    <Col key={azione.key} xs={12} sm={6} xl={4}>
                         <div
                             style={{
                                 background: "white",
@@ -136,6 +144,13 @@ const PaginaAmministratore = () => {
                 show={modaleAperto === "corsoExtra"}
                 handleClose={() => setModaleAperto(null)}
             />
+
+            <ModaleVisualizzaCorsiExtra
+                show={modaleAperto === "visualizzaCorsi"}
+                handleClose={() => setModaleAperto(null)}
+            />
+
+
         </div>
     );
 };

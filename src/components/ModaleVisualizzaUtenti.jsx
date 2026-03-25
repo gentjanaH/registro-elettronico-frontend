@@ -39,15 +39,17 @@ const ModaleVisualizzaUtenti = ({ show, handleClose }) => {
         switch (ruoloAttivo) {
             case "professori":
                 return (
-                    <div key={index} style={styles.card(colori)}>
-                        <div style={styles.cardHeader}>
+                    <div key={index} className="utenti-card" style={{ background: colori.bg, border: `1px solid ${colori.border}` }}>
+                        <div className="utenti-card-header">
                             <strong>{utente.nome} {utente.cognome}</strong>
-                            <span style={styles.email}>{utente.email}</span>
+                            <span className="utenti-email">{utente.email}</span>
                         </div>
                         {utente.materie?.length > 0 && (
-                            <div style={styles.chips}>
+                            <div className="utenti-chips">
                                 {utente.materie.map((m, i) => (
-                                    <span key={i} style={styles.chip(colori)}>{m.nome}</span>
+                                    <span key={i} className="utenti-chip" style={{ border: `1px solid ${colori.border}`, color: colori.text }}>
+                                        {m.nome}
+                                    </span>
                                 ))}
                             </div>
                         )}
@@ -56,13 +58,13 @@ const ModaleVisualizzaUtenti = ({ show, handleClose }) => {
 
             case "studenti":
                 return (
-                    <div key={index} style={styles.card(colori)}>
-                        <div style={styles.cardHeader}>
+                    <div key={index} className="utenti-card" style={{ background: colori.bg, border: `1px solid ${colori.border}` }}>
+                        <div className="utenti-card-header">
                             <strong>{utente.nome} {utente.cognome}</strong>
-                            <span style={styles.email}>{utente.email}</span>
+                            <span className="utenti-email">{utente.email}</span>
                         </div>
                         {(utente.nomeGenitore || utente.cognomeGenitore) && (
-                            <div style={{ fontSize: "0.82rem", color: "#555", marginTop: "4px" }}>
+                            <div className="utenti-sub">
                                 Genitore: {utente.nomeGenitore} {utente.cognomeGenitore}
                             </div>
                         )}
@@ -71,15 +73,15 @@ const ModaleVisualizzaUtenti = ({ show, handleClose }) => {
 
             case "genitori":
                 return (
-                    <div key={index} style={styles.card(colori)}>
-                        <div style={styles.cardHeader}>
+                    <div key={index} className="utenti-card" style={{ background: colori.bg, border: `1px solid ${colori.border}` }}>
+                        <div className="utenti-card-header">
                             <strong>{utente.nome} {utente.cognome}</strong>
-                            <span style={styles.email}>{utente.email}</span>
+                            <span className="utenti-email">{utente.email}</span>
                         </div>
                         {utente.figli?.length > 0 && (
-                            <div style={styles.chips}>
+                            <div className="utenti-chips">
                                 {utente.figli.map((f, i) => (
-                                    <span key={i} style={styles.chip(colori)}>
+                                    <span key={i} className="utenti-chip" style={{ border: `1px solid ${colori.border}`, color: colori.text }}>
                                         {f.nome} {f.cognome}
                                     </span>
                                 ))}
@@ -90,10 +92,10 @@ const ModaleVisualizzaUtenti = ({ show, handleClose }) => {
 
             case "amministratori":
                 return (
-                    <div key={index} style={styles.card(colori)}>
-                        <div style={styles.cardHeader}>
+                    <div key={index} className="utenti-card" style={{ background: colori.bg, border: `1px solid ${colori.border}` }}>
+                        <div className="utenti-card-header">
                             <strong>{utente.nome} {utente.cognome}</strong>
-                            <span style={styles.email}>{utente.email}</span>
+                            <span className="utenti-email">{utente.email}</span>
                         </div>
                     </div>
                 );
@@ -112,7 +114,7 @@ const ModaleVisualizzaUtenti = ({ show, handleClose }) => {
             <Modal.Body className="px-4 py-3">
 
                 {/* Tab ruoli */}
-                <div style={{ display: "flex", gap: "8px", marginBottom: "1rem", flexWrap: "wrap" }}>
+                <div className="utenti-tab-wrapper">
                     {RUOLI.map(r => {
                         const c = COLORS[r];
                         const attivo = ruoloAttivo === r;
@@ -120,27 +122,22 @@ const ModaleVisualizzaUtenti = ({ show, handleClose }) => {
                             <button
                                 key={r}
                                 onClick={() => setRuoloAttivo(r)}
+                                className={`utenti-tab ${attivo ? "utenti-tab-attivo" : ""}`}
                                 style={{
-                                    padding: "6px 14px",
-                                    borderRadius: "20px",
                                     border: `1px solid ${attivo ? c.border : "#ddd"}`,
                                     background: attivo ? c.bg : "white",
                                     color: attivo ? c.text : "#555",
-                                    fontSize: "0.85rem",
-                                    cursor: "pointer",
                                     fontWeight: attivo ? 500 : 400,
-                                    transition: "0.15s"
                                 }}
                             >
                                 {LABELS[r]}
-                                <span style={{
-                                    marginLeft: "6px",
-                                    background: attivo ? c.border : "#eee",
-                                    color: attivo ? c.text : "#555",
-                                    borderRadius: "10px",
-                                    padding: "1px 7px",
-                                    fontSize: "0.78rem"
-                                }}>
+                                <span
+                                    className="utenti-tab-count"
+                                    style={{
+                                        background: attivo ? c.border : "#eee",
+                                        color: attivo ? c.text : "#555",
+                                    }}
+                                >
                                     {dati[r]?.length ?? 0}
                                 </span>
                             </button>
@@ -149,19 +146,15 @@ const ModaleVisualizzaUtenti = ({ show, handleClose }) => {
                 </div>
 
                 {/* Lista */}
-                <div style={{ maxHeight: "380px", overflowY: "auto" }}>
+                <div className="utenti-lista">
                     {loading && (
-                        <div className="text-muted text-center py-4" style={{ fontSize: "0.9rem" }}>
-                            Caricamento...
-                        </div>
+                        <div className="utenti-stato">Caricamento...</div>
                     )}
                     {!loading && error && (
                         <div className="alert alert-danger py-2" style={{ fontSize: "0.85rem" }}>{error}</div>
                     )}
                     {!loading && !error && lista.length === 0 && (
-                        <div className="text-muted text-center py-4" style={{ fontSize: "0.9rem" }}>
-                            Nessun utente trovato
-                        </div>
+                        <div className="utenti-stato">Nessun utente trovato</div>
                     )}
                     {!loading && lista.map((u, i) => renderRiga(u, i))}
                 </div>
@@ -175,41 +168,6 @@ const ModaleVisualizzaUtenti = ({ show, handleClose }) => {
             </Modal.Footer>
         </Modal>
     );
-};
-
-const styles = {
-    card: (c) => ({
-        padding: "10px 14px",
-        marginBottom: "8px",
-        borderRadius: "8px",
-        border: `1px solid ${c.border}`,
-        background: c.bg,
-    }),
-    cardHeader: {
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexWrap: "wrap",
-        gap: "6px"
-    },
-    email: {
-        fontSize: "0.82rem",
-        color: "#555"
-    },
-    chips: {
-        display: "flex",
-        flexWrap: "wrap",
-        gap: "5px",
-        marginTop: "6px"
-    },
-    chip: (c) => ({
-        background: "white",
-        border: `1px solid ${c.border}`,
-        color: c.text,
-        borderRadius: "6px",
-        fontSize: "0.78rem",
-        padding: "2px 8px"
-    })
 };
 
 export default ModaleVisualizzaUtenti;
