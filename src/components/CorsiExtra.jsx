@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCorsiExtra } from "../redux/actions/corsiExtraActions";
+import { fetchCorsiExtra, rimuoviStudente } from "../redux/actions/corsiExtraActions";
 import ModaleIscrizioneCorsoExtra from "./ModaleIscrizioneCorsoExtra";
 
 const GIORNI_LABEL = {
@@ -15,12 +15,18 @@ const CorsiExtra = () => {
 
     const dispatch = useDispatch();
     const { corsi, loading, error } = useSelector(s => s.corsiExtra);
-    const { user } = useSelector(s => s.auth);
+    const { user, figlioSelezionato } = useSelector(s => s.auth);
 
     const [showIscrizione, setShowIscrizione] = useState(false);
     const [corsoSelezionato, setCorsoSelezionato] = useState(null);
 
     const isGenitore = user?.ruolo?.ruolo === "GENITORE";
+
+
+    const idFiglioAttivo = figlioSelezionato?.idStudente;
+
+    const isIscritto = (corso) =>
+        corso.studentiIscritti?.some(s => s.idStudente === idFiglioAttivo);
 
     useEffect(() => {
         dispatch(fetchCorsiExtra());
@@ -29,6 +35,16 @@ const CorsiExtra = () => {
     const handleApriIscrizione = (corso) => {
         setCorsoSelezionato(corso);
         setShowIscrizione(true);
+    };
+
+    const handleToggleIscrizione = (corso) => {
+        if (isIscritto(corso)) {
+            dispatch(rimuoviStudente(corso.idCorso, idFiglioAttivo, () => {
+                dispatch(fetchCorsiExtra());
+            }));
+        } else {
+            handleApriIscrizione(corso);
+        }
     };
 
     return (
@@ -104,20 +120,20 @@ const CorsiExtra = () => {
 
                                     {isGenitore && (
                                         <button
-                                            onClick={() => handleApriIscrizione(c)}
+                                            onClick={() => handleToggleIscrizione(c)}
                                             style={{
                                                 width: "100%",
                                                 padding: "7px 0",
                                                 borderRadius: "8px",
-                                                border: "none",
-                                                background: "#0d6efd",
-                                                color: "white",
+                                                border: isIscritto(c) ? "1px solid #dc3545" : "none",
+                                                background: isIscritto(c) ? "white" : "#0d6efd",
+                                                color: isIscritto(c) ? "#dc3545" : "white",
                                                 fontSize: "0.85rem",
                                                 fontWeight: 500,
                                                 cursor: "pointer"
                                             }}
                                         >
-                                            Iscriviti
+                                            {isIscritto(c) ? "Annulla iscrizione" : "Iscriviti"}
                                         </button>
                                     )}
 

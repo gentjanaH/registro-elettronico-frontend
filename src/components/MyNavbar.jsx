@@ -74,9 +74,14 @@ const MyNavbar = () => {
                 {/* ── Destra: link + login ── */}
                 <Navbar.Collapse id="navbar-main">
                     <Nav className="ms-auto d-flex align-items-lg-center gap-1">
-                        <Link className="nav-link" to="/">Home</Link>
-                        <Link className="nav-link" to="/offerta_formativa">Offerta formativa</Link>
-                        <Link className="nav-link" to="/contatti">Contatti</Link>
+                        {!token && (
+                            <>
+                                <Link className="nav-link" to="/">Home</Link>
+                                <Link className="nav-link" to="/offerta_formativa">Offerta formativa</Link>
+                                <Link className="nav-link" to="/contatti">Contatti</Link>
+                            </>
+                        )}
+
 
                         {/* Link mobile per studente/genitore */}
                         {token && mostraIcone && (
@@ -89,6 +94,7 @@ const MyNavbar = () => {
                                 <Link className="nav-link" to={`/assenze/${idStudente}`}>Assenze</Link>
                                 <Link className="nav-link" to="/bacheca">Bacheca</Link>
                                 <Link className="nav-link" to={`/voti/${idStudente}`}>Voti</Link>
+                                <Link className="nav-link" to="/corsi-extra">Corsi extra</Link>
                             </div>
                         )}
 

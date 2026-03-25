@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { HiOutlineCalendarDays } from "react-icons/hi2";
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
 import { IoSchoolOutline } from "react-icons/io5";
+import { MdOutlineExtension } from "react-icons/md";
 
 const IconeNavbar = ({ idStudente }) => {
     return (
@@ -20,6 +21,11 @@ const IconeNavbar = ({ idStudente }) => {
             <Link to={`/voti/${idStudente}`} className="navbar-icona-link">
                 <IoSchoolOutline className="navbar-icona-svg" />
                 <span className="navbar-icona-label">Voti</span>
+            </Link>
+
+            <Link to="/corsi-extra" className="navbar-icona-link">
+                <MdOutlineExtension className="navbar-icona-svg" />
+                <span className="navbar-icona-label">Corsi extra</span>
             </Link>
 
         </div>

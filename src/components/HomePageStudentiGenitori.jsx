@@ -13,16 +13,18 @@ import { fetchCorsiExtra } from "../redux/actions/corsiExtraActions";
 const HomePageStudentiGenitori = () => {
 
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const token = useSelector(s => s.auth.token);
-    const { user } = useSelector(s => s.auth);
+
+
     const dispatch = useDispatch();
     const { idClasse, nomeClasse } = useParams();
 
     const { corsi } = useSelector(s => s.corsiExtra);
-    const { studente } = useSelector(s => s.auth);
+    const { studente, figlioSelezionato, user, token } = useSelector(s => s.auth);
 
-    console.log("idStudente auth:", studente?.idStudente);
-    console.log("studentiIscritti:", corsi[0]?.studentiIscritti);
+    // studente attivo — se genitore usa il figlio selezionato, altrimenti lo studente loggato
+    const studenteAttivo = user?.ruolo?.ruolo === "GENITORE" ? figlioSelezionato : studente;
+
+
 
     useEffect(() => {
         if (token) {
@@ -92,13 +94,13 @@ const HomePageStudentiGenitori = () => {
 
                                     {/* Corsi a cui lo studente è iscritto */}
                                     {corsi
-                                        .filter(c => c.studentiIscritti?.some(s => s.idStudente === studente?.idStudente))
+                                        .filter(c => c.studentiIscritti?.some(s => s.idStudente === studenteAttivo?.idStudente))
                                         .length === 0 ? (
                                         <p className="prof-stato">Nessun corso extra a cui sei iscritto.</p>
                                     ) : (
                                         <div className="prof-attivita-list">
                                             {corsi
-                                                .filter(c => c.studentiIscritti?.some(s => s.idStudente === studente?.idStudente))
+                                                .filter(c => c.studentiIscritti?.some(s => s.idStudente === studenteAttivo?.idStudente))
                                                 .map(c => (
                                                     <div key={c.idCorso} className="prof-attivita-row">
                                                         <span className="prof-att-corso">{c.nome}</span>

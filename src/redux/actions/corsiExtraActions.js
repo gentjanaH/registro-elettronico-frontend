@@ -84,6 +84,26 @@ export const iscriviStudente = (idCorso, idStudente, onSuccess) => {
     };
 };
 
+export const rimuoviStudente = (idCorso, idStudente, onSuccess) => {
+    return (dispatch, getState) => {
+        const token = getState().auth.token;
+        dispatch({ type: ISCRIVI_STUDENTE_REQUEST });
+
+        fetch(`http://localhost:8081/corsi-extra-curricolari/${idCorso}/studenti/${idStudente}`, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` }
+        })
+            .then(res => {
+                if (!res.ok) throw new Error("Errore nella rimozione dal corso");
+                return res.json();
+            })
+            .then(data => {
+                dispatch({ type: ISCRIVI_STUDENTE_SUCCESS, payload: data });
+                if (onSuccess) onSuccess();
+            })
+            .catch(err => dispatch({ type: ISCRIVI_STUDENTE_FAILURE, payload: err.message }));
+    };
+};
 
 export const deleteCorsoExtra = (idCorso) => {
     return (dispatch, getState) => {

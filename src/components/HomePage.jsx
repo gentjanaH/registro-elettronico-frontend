@@ -13,7 +13,7 @@ const HomePage = () => {
                 <div className="offerta-hero">
 
                     <h1 className="offerta-titolo">
-                        Benvenuto{token && user
+                        Welcome{token && user
                             ? `, ${user.nome} ${user.cognome}!`
                             : " nel registro elettronico!"}
                     </h1>
