@@ -15,7 +15,7 @@ const HomePageProfessore = () => {
 
     useEffect(() => { dispatch(fetchClassi()); }, []);
 
-    const vaiAllaClasse = (id, nome) => navigate(`/classe/${id}/${nome}`);
+    const vaiAllaClasse = (idClasse, nome) => navigate(`/classe/${idClasse}/${nome}`);
 
     // placeholder attività — da sostituire con dati reali
     const attivita = [

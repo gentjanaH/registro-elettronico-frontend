@@ -1,9 +1,14 @@
 export const FETCH_COMPITI_REQUEST = "FETCH_COMPITI_REQUEST";
 export const FETCH_COMPITI_SUCCESS = "FETCH_COMPITI_SUCCESS";
 export const FETCH_COMPITI_FAILURE = "FETCH_COMPITI_FAILURE";
+
 export const REGISTRA_COMPITI_REQUEST = "REGISTRA_COMPITI_REQUEST";
 export const REGISTRA_COMPITI_SUCCESS = "REGISTRA_COMPITI_SUCCESS";
 export const REGISTRA_COMPITI_FAILURE = "REGISTRA_COMPITI_FAILURE";
+
+export const DELETE_COMPITO_REQUEST = "DELETE_COMPITO_REQUEST";
+export const DELETE_COMPITO_SUCCESS = "DELETE_COMPITO_SUCCESS";
+export const DELETE_COMPITO_FAILURE = "DELETE_COMPITO_FAILURE";
 
 
 export const registraCompito = (idClasse, compitoData) => {
@@ -93,3 +98,29 @@ export const fetchCompitiByClass = (idClasse) => {
 
     }
 }
+
+
+export const deleteCompito = (idCompito) => {
+    return (dispatch, getState) => {
+        const token = getState().auth.token;
+
+        dispatch({ type: DELETE_COMPITO_REQUEST });
+
+        fetch(`http://localhost:8081/compiti/${idCompito}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                if (!res.ok) throw new Error("Errore nella cancellazione del compito");
+                dispatch({
+                    type: DELETE_COMPITO_SUCCESS,
+                    payload: idCompito
+                });
+            })
+            .catch(err => {
+                dispatch({ type: DELETE_COMPITO_FAILURE, payload: err.message });
+            });
+    };
+};

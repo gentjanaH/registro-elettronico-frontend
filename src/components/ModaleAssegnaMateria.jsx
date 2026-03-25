@@ -88,44 +88,51 @@ const ModaleAssegnaMateria = ({ show, handleClose }) => {
                         <span className="text-muted me-1" style={{ fontSize: "0.8rem" }}>2.</span>
                         Materie
                     </Form.Label>
-                    <Form.Select
-                        value=""
-                        disabled={!idProfessore}
-                        onChange={e => handleAddMateria(String(e.target.value))}
-                    >
-                        <option value="">
-                            {idProfessore ? "Aggiungi una materia" : "Prima seleziona un professore"}
-                        </option>
-                        {materieDisponibili.map(m => (
-                            <option key={m.idMateria} value={m.idMateria}>
-                                {m.nome}
-                            </option>
-                        ))}
-                    </Form.Select>
 
-                    {/* Chip materie selezionate */}
-                    {idMaterieSelezionate.length > 0 && (
-                        <div className="d-flex flex-wrap gap-1 mt-2">
-                            {idMaterieSelezionate.map(id => {
-                                const m = materie.find(x => String(x.idMateria) === id);
-                                return (
-                                    <span
-                                        key={id}
+                    {!idProfessore ? (
+                        <div
+                            className="text-muted text-center py-3"
+                            style={{ border: "1px dashed #ced4da", borderRadius: "8px", fontSize: "0.9rem" }}
+                        >
+                            Prima seleziona un professore
+                        </div>
+                    ) : (
+                        <div
+                            style={{
+                                maxHeight: "200px",
+                                overflowY: "auto",
+                                border: "1px solid #ced4da",
+                                borderRadius: "8px",
+                                padding: "6px",
+                                background: "#f8f9fa"
+                            }}
+                        >
+                            {materieDisponibili.length === 0 ? (
+                                <div className="text-muted text-center py-2" style={{ fontSize: "0.85rem" }}>
+                                    Tutte le materie sono già state assegnate
+                                </div>
+                            ) : (
+                                materieDisponibili.map(m => (
+                                    <div
+                                        key={m.idMateria}
+                                        onClick={() => handleAddMateria(String(m.idMateria))}
                                         style={{
-                                            background: "#e7f1ff",
-                                            color: "#0a3872",
-                                            border: "1px solid #b6d4fe",
+                                            padding: "8px 12px",
+                                            marginBottom: "4px",
                                             borderRadius: "6px",
-                                            fontSize: "0.82rem",
-                                            padding: "4px 10px",
-                                            cursor: "pointer"
+                                            cursor: "pointer",
+                                            background: "white",
+                                            border: "1px solid #ddd",
+                                            fontSize: "0.9rem",
+                                            transition: "background 0.15s"
                                         }}
-                                        onClick={() => handleRemoveMateria(id)}
+                                        onMouseEnter={e => e.currentTarget.style.background = "#e7f1ff"}
+                                        onMouseLeave={e => e.currentTarget.style.background = "white"}
                                     >
-                                        {m?.nome ?? id} ✕
-                                    </span>
-                                );
-                            })}
+                                        {m.nome}
+                                    </div>
+                                ))
+                            )}
                         </div>
                     )}
                 </Form.Group>

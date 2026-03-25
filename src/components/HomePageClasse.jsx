@@ -99,7 +99,7 @@ const HomePageClasse = () => {
             {/* ── Modali ── */}
             <ModaleRegistraLezione show={showLezione} handleClose={() => setShowLezione(false)} />
             <ModaleAssegnaCompiti show={show} handleClose={() => setShow(false)} />
-            <ModaleAssegnaValutazione show={showValutazione} handleClose={closeValutazione} idStudente={studenteSelezionato} />
+            <ModaleAssegnaValutazione show={showValutazione} handleClose={closeValutazione} idStudente={studenteSelezionato} idClasse={idClasse} />
 
             {/* ── Corpo ── */}
             <div className="classe-container">
@@ -112,8 +112,8 @@ const HomePageClasse = () => {
                                 <i className="bi bi-journal-bookmark prof-section-icona"></i>
                                 <h2 className="prof-section-titolo">Attività del giorno</h2>
                             </div>
-                            <Lezioni selectedDate={selectedDate} onChangeDate={setSelectedDate} />
-                            <Compiti selectedDate={selectedDate} onChangeDate={setSelectedDate} />
+                            <Lezioni selectedDate={selectedDate} onChangeDate={setSelectedDate} idClasse={idClasse} />
+                            <Compiti selectedDate={selectedDate} onChangeDate={setSelectedDate} idClasse={idClasse} />
                         </div>
                     </Col>
 

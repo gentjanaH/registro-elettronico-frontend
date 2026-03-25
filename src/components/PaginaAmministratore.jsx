@@ -4,69 +4,133 @@ import ModaleRegistraUtente from "./ModaleRegistraUtente";
 import ModaleAssegnaMateria from "./ModaleAssegnaMateria";
 import ModaleVisualizzaUtenti from "./ModaleVisualizzaUtenti";
 
+const azioni = [
+    {
+        key: "registraUtente",
+        titolo: "Registra utente",
+        descrizione: "Aggiungi un nuovo professore, studente, genitore o amministratore",
+        icona: "👤",
+        colore: "#0d6efd"
+    },
+    {
+        key: "assegnaMateria",
+        titolo: "Assegna materie",
+        descrizione: "Collega uno o più materie a un docente esistente",
+        icona: "📚",
+        colore: "#198754"
+    },
+    {
+        key: "corsoExtra",
+        titolo: "Corso extra-curricolare",
+        descrizione: "Registra un nuovo corso extra-curricolare",
+        icona: "🎨",
+        colore: "#fd7e14",
+        disabilitato: true
+    },
+    {
+        key: "visualizzaUtenti",
+        titolo: "Visualizza utenti",
+        descrizione: "Consulta tutti gli utenti del sistema divisi per ruolo",
+        icona: "👥",
+        colore: "#6f42c1"
+    }
+];
+
 const PaginaAmministratore = () => {
 
-    const [showRegistraUtente, setShowRegistraUtente] = useState(false);
-    const [showAssegnaMaterie, setShowAssegnaMaterie] = useState(false);
-    const [showGetUtenti, setShowGetUtenti] = useState(false);
+    const [modaleAperto, setModaleAperto] = useState(null);
 
     return (
-        <>
-            <h1>Area Amministratore</h1>
+        <div style={{ padding: "2rem 1.5rem", maxWidth: "960px", margin: "0 auto" }}>
 
-            <Row className="g-3 mt-2">
-                <Col md={6} lg={3}>
-                    <div className="p-3 border rounded h-100 d-flex flex-column gap-3">
-                        <h5 className="mb-0">Registra un nuovo utente</h5>
-                        <Button variant="primary" onClick={() => setShowRegistraUtente(true)}>
-                            Apri modale
-                        </Button>
-                    </div>
-                </Col>
+            {/* Header */}
+            <div style={{ marginBottom: "2rem" }}>
+                <h2 style={{ fontWeight: 500, marginBottom: "4px" }}>Area Amministratore</h2>
+                <p style={{ color: "#6c757d", fontSize: "0.95rem", margin: 0 }}>
+                    Gestione utenti e configurazione del sistema
+                </p>
+            </div>
 
-                <Col md={6} lg={3}>
-                    <div className="p-3 border rounded h-100 d-flex flex-column gap-3">
-                        <h5 className="mb-0">Assegna una materia ad un docente</h5>
-                        <Button variant="primary" onClick={() => setShowAssegnaMaterie(true)}>
-                            Apri modale
-                        </Button>
-                    </div>
-                </Col>
+            {/* Card azioni */}
+            <Row className="g-3">
+                {azioni.map(azione => (
+                    <Col key={azione.key} xs={12} sm={6} xl={3}>
+                        <div
+                            style={{
+                                background: "white",
+                                border: "1px solid #e9ecef",
+                                borderRadius: "12px",
+                                padding: "1.25rem",
+                                height: "100%",
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "12px",
+                                opacity: azione.disabilitato ? 0.55 : 1,
+                                transition: "box-shadow 0.15s",
+                            }}
+                        >
+                            {/* Icona */}
+                            <div
+                                style={{
+                                    width: "42px",
+                                    height: "42px",
+                                    borderRadius: "10px",
+                                    background: `${azione.colore}18`,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    fontSize: "20px"
+                                }}
+                            >
+                                {azione.icona}
+                            </div>
 
-                <Col md={6} lg={3}>
-                    <div className="p-3 border rounded h-100 d-flex flex-column gap-3">
-                        <h5 className="mb-0">Registra un corso extra-curricolare</h5>
-                        <Button variant="primary" disabled>
-                            Apri modale
-                        </Button>
-                    </div>
-                </Col>
+                            {/* Testo */}
+                            <div style={{ flex: 1 }}>
+                                <div style={{ fontWeight: 500, fontSize: "0.95rem", marginBottom: "4px" }}>
+                                    {azione.titolo}
+                                </div>
+                                <div style={{ fontSize: "0.82rem", color: "#6c757d", lineHeight: 1.4 }}>
+                                    {azione.descrizione}
+                                </div>
+                            </div>
 
-                <Col md={6} lg={3}>
-                    <div className="p-3 border rounded h-100 d-flex flex-column gap-3">
-                        <h5 className="mb-0">Visualizza utenti per ruolo</h5>
-                        <Button variant="primary" onClick={() => setShowGetUtenti(true)}>
-                            Apri modale
-                        </Button>
-                    </div>
-                </Col>
+                            {/* Bottone */}
+                            <Button
+                                size="sm"
+                                disabled={azione.disabilitato}
+                                onClick={() => setModaleAperto(azione.key)}
+                                style={{
+                                    background: azione.disabilitato ? "#e9ecef" : azione.colore,
+                                    border: "none",
+                                    borderRadius: "8px",
+                                    padding: "7px 0",
+                                    fontSize: "0.85rem",
+                                    color: azione.disabilitato ? "#adb5bd" : "white",
+                                    width: "100%"
+                                }}
+                            >
+                                {azione.disabilitato ? "Non disponibile" : "Apri"}
+                            </Button>
+                        </div>
+                    </Col>
+                ))}
             </Row>
 
+            {/* Modali */}
             <ModaleRegistraUtente
-                show={showRegistraUtente}
-                handleClose={() => setShowRegistraUtente(false)}
+                show={modaleAperto === "registraUtente"}
+                handleClose={() => setModaleAperto(null)}
             />
-
             <ModaleAssegnaMateria
-                show={showAssegnaMaterie}
-                handleClose={() => setShowAssegnaMaterie(false)}
+                show={modaleAperto === "assegnaMateria"}
+                handleClose={() => setModaleAperto(null)}
             />
-
             <ModaleVisualizzaUtenti
-                show={showGetUtenti}
-                handleClose={() => setShowGetUtenti(false)}
+                show={modaleAperto === "visualizzaUtenti"}
+                handleClose={() => setModaleAperto(null)}
             />
-        </>
+        </div>
     );
 };
 

@@ -1,4 +1,4 @@
-import { FETCH_COMPITI_FAILURE, FETCH_COMPITI_REQUEST, FETCH_COMPITI_SUCCESS, REGISTRA_COMPITI_FAILURE, REGISTRA_COMPITI_REQUEST, REGISTRA_COMPITI_SUCCESS } from "../actions/compitiActions";
+import { DELETE_COMPITO_FAILURE, DELETE_COMPITO_REQUEST, DELETE_COMPITO_SUCCESS, FETCH_COMPITI_FAILURE, FETCH_COMPITI_REQUEST, FETCH_COMPITI_SUCCESS, REGISTRA_COMPITI_FAILURE, REGISTRA_COMPITI_REQUEST, REGISTRA_COMPITI_SUCCESS } from "../actions/compitiActions";
 
 const initialState = {
     compiti: [],
@@ -10,6 +10,7 @@ const compitiReducer = (currentState = initialState, action) => {
 
     switch (action.type) {
 
+        case DELETE_COMPITO_REQUEST:
         case REGISTRA_COMPITI_REQUEST:
         case FETCH_COMPITI_REQUEST:
             return {
@@ -32,6 +33,14 @@ const compitiReducer = (currentState = initialState, action) => {
                 compiti: action.payload.content
             };
 
+        case DELETE_COMPITO_SUCCESS:
+            return {
+                ...currentState,
+                loading: false,
+                compiti: currentState.compiti.filter(c => c.idCompito !== action.payload)
+            };
+
+        case DELETE_COMPITO_FAILURE:
         case REGISTRA_COMPITI_FAILURE:
         case FETCH_COMPITI_FAILURE:
             return {

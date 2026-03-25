@@ -50,7 +50,7 @@ function App() {
                 <Route path="/classe/:idClasse/:nome/studente/:id_studente" element={<HomePageStudentiGenitori />} />
                 <Route path="/genitore/:idGenitore" element={<SelezioneProfiloFigli />} />
                 <Route path="/professore/:id_professore" element={<HomePageProfessore />}></Route>
-                <Route path="/classe/:idClasse/:nomeClasse" element={<HomePageClasse />}></Route>
+                <Route path="/classe/:idClasse/:nome" element={<HomePageClasse />}></Route>
                 <Route path="/assenze/:idStudente" element={<Assenze />} />
                 <Route path="/giustifica-assenze" element={<ModaleGiustificaAssenze />} />
                 <Route path="/voti/:idStudente" element={<VotiPerMateria />} />

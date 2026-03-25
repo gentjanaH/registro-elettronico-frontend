@@ -6,7 +6,7 @@ import { assegnaValutazione } from "../redux/actions/valutazioniActions";
 import { useState } from "react";
 
 
-const ModaleAssegnaValutazione = ({ show, handleClose, idStudente }) => {
+const ModaleAssegnaValutazione = ({ show, handleClose, idStudente, idClasse }) => {
 
     const dispatch = useDispatch();
 
@@ -16,7 +16,7 @@ const ModaleAssegnaValutazione = ({ show, handleClose, idStudente }) => {
     const [tipo, setTipo] = useState("");
 
     const { lezioni } = useSelector(state => state.lezioni);
-    const { user } = useSelector(state => state.auth);
+    const { professore } = useSelector(state => state.auth);
 
     // Lista unica di professori ricavata direttamente dalle lezioni
     const professoriMap = {};
@@ -32,7 +32,8 @@ const ModaleAssegnaValutazione = ({ show, handleClose, idStudente }) => {
 
     // Lezioni filtrate per il professore selezionato
     const lezioniFiltrate = lezioni.filter(
-        lez => String(lez.idProfessore) === String(user.professore.idProfessore)
+        lez => String(lez.idProfessore) === String(professore?.idProfessore)
+            && (!idClasse || String(lez.idClasse) === String(idClasse))
     );
 
     const lezioneSelezionata = lezioniFiltrate.find(

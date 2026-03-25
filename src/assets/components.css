@@ -1,0 +1,32 @@
+/* MODALE LEZIONI */
+
+.btnElimina {
+    background: transparent;
+    border: 1px solid #f8d7da;
+    border-radius: 8px;
+    color: #dc3545;
+    padding: 5px 9px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.15s;
+}
+
+.btnConferma {
+    background: #dc3545;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.btnAnnulla {
+    background: transparent;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    color: #6c757d;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 13px;
+}

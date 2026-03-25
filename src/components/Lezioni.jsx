@@ -1,11 +1,25 @@
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteLezione } from "../redux/actions/lezioniAction";
 
-const Lezioni = ({ selectedDate }) => {
+const Lezioni = ({ selectedDate, idClasse }) => {
+
+    const dispatch = useDispatch();
 
     const { lezioni, loading, error } = useSelector(s => s.lezioni);
+    const { professore } = useSelector(s => s.auth);
+
+    const [confermaId, setConfermaId] = useState(null);
+
     const lezioniFiltrate = lezioni.filter(
         lez => lez.data === selectedDate.toISOString().split("T")[0]
+            && String(lez.idClasse) === String(idClasse)
     );
+
+    const handleDelete = (idLezione) => {
+        dispatch(deleteLezione(idLezione));
+        setConfermaId(null);
+    };
 
     return (
         <div className="lezioni-wrapper">
@@ -54,6 +68,38 @@ const Lezioni = ({ selectedDate }) => {
                             )}
                         </div>
 
+                        {/* Elimina — visibile solo se la lezione è del professore loggato */}
+                        {String(lez.idProfessore) === String(professore?.idProfessore) && (
+                            <div style={{ display: "flex", alignItems: "center", marginLeft: "auto", paddingLeft: "12px" }}>
+                                {confermaId === lez.idLezione ? (
+                                    <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+                                        <span style={{ fontSize: "0.78rem", color: "#dc3545" }}>Eliminare?</span>
+                                        <button
+                                            onClick={() => handleDelete(lez.idLezione)}
+                                            className="btnConferma"
+                                            title="Conferma eliminazione"
+                                        >
+                                            <i className="bi bi-check-lg"></i>
+                                        </button>
+                                        <button
+                                            onClick={() => setConfermaId(null)}
+                                            className="btnAnnulla"
+                                            title="Annulla"
+                                        >
+                                            <i className="bi bi-x-lg"></i>
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <button
+                                        onClick={() => setConfermaId(lez.idLezione)}
+                                        className="btnElimina"
+                                        title="Elimina lezione"
+                                    >
+                                        <i className="bi bi-trash3"></i>
+                                    </button>
+                                )}
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>

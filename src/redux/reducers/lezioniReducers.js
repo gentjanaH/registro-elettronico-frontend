@@ -1,4 +1,4 @@
-import { FETCH_LEZIONI_FAILURE, FETCH_LEZIONI_REQUEST, FETCH_LEZIONI_SUCCESS, REGISTRA_LEZIONE_FAILURE, REGISTRA_LEZIONE_REQUEST, REGISTRA_LEZIONE_SUCCESS } from "../actions/lezioniAction";
+import { DELETE_LEZIONE_SUCCESS, FETCH_LEZIONI_FAILURE, FETCH_LEZIONI_REQUEST, FETCH_LEZIONI_SUCCESS, REGISTRA_LEZIONE_FAILURE, REGISTRA_LEZIONE_REQUEST, REGISTRA_LEZIONE_SUCCESS } from "../actions/lezioniAction";
 
 
 const initialState = {
@@ -34,6 +34,14 @@ const lezioniReducers = (currentState = initialState, action) => {
                 loading: false,
                 lezioni: [...currentState.lezioni, action.payload]
             };
+
+        case DELETE_LEZIONE_SUCCESS:
+            return {
+                ...currentState,
+                loading: false,
+                lezioni: currentState.lezioni.filter(l => l.idLezione !== action.payload)
+            };
+
         case FETCH_LEZIONI_FAILURE:
         case REGISTRA_LEZIONE_FAILURE:
             return {
