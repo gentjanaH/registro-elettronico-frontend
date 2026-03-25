@@ -8,6 +8,7 @@ import Lezioni from "./Lezioni";
 import { getLezioniByClass } from "../redux/actions/lezioniAction";
 import { fetchCompitiByClass } from "../redux/actions/compitiActions";
 import { useParams } from "react-router-dom";
+import { fetchCorsiExtra } from "../redux/actions/corsiExtraActions";
 
 const HomePageStudentiGenitori = () => {
 
@@ -17,20 +18,21 @@ const HomePageStudentiGenitori = () => {
     const dispatch = useDispatch();
     const { idClasse, nomeClasse } = useParams();
 
+    const { corsi } = useSelector(s => s.corsiExtra);
+    const { studente } = useSelector(s => s.auth);
+
+    console.log("idStudente auth:", studente?.idStudente);
+    console.log("studentiIscritti:", corsi[0]?.studentiIscritti);
+
     useEffect(() => {
         if (token) {
             dispatch(getLezioniByClass(idClasse));
             dispatch(fetchCompitiByClass(idClasse));
+            dispatch(fetchCorsiExtra());
         }
     }, [idClasse, token, nomeClasse, dispatch]);
 
-    // placeholder attività — da sostituire con dati reali
-    const attivita = [
-        { corso: "Laboratorio STEM", inizio: "09:00", fine: "11:00", classe: nomeClasse },
-        { corso: "Progetto Lettura", inizio: "11:00", fine: "12:00", classe: nomeClasse },
-        { corso: "Corso di Teatro", inizio: "14:00", fine: "16:00", classe: nomeClasse },
-        { corso: "Progetto Ambiente", inizio: "16:00", fine: "17:30", classe: nomeClasse },
-    ];
+
 
     return (
         <div className="classe-wrapper">
@@ -87,34 +89,27 @@ const HomePageStudentiGenitori = () => {
                                         <i className="bi bi-calendar-event prof-section-icona"></i>
                                         <h2 className="prof-section-titolo">Attività extra-curricolari</h2>
                                     </div>
-                                    <p className="prof-section-sub">
-                                        Previste per oggi,{" "}
-                                        {selectedDate.toLocaleDateString("it-IT", {
-                                            weekday: "long",
-                                            day: "numeric",
-                                            month: "long",
-                                        })}
-                                    </p>
 
-                                    {/* Header tabella */}
-                                    <div className="prof-attivita-header">
-                                        <span>Corso</span>
-                                        <span>Inizio</span>
-                                        <span>Fine</span>
-                                        <span>Classe</span>
-                                    </div>
-
-                                    <div className="prof-attivita-list">
-                                        {attivita.map((a, i) => (
-                                            <div key={i} className="prof-attivita-row">
-                                                <span className="prof-att-corso">{a.corso}</span>
-                                                <span className="prof-att-badge prof-att-inizio">{a.inizio}</span>
-                                                <span className="prof-att-badge prof-att-fine">{a.fine}</span>
-                                                <span className="prof-att-badge prof-att-classe">{a.classe}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-
+                                    {/* Corsi a cui lo studente è iscritto */}
+                                    {corsi
+                                        .filter(c => c.studentiIscritti?.some(s => s.idStudente === studente?.idStudente))
+                                        .length === 0 ? (
+                                        <p className="prof-stato">Nessun corso extra a cui sei iscritto.</p>
+                                    ) : (
+                                        <div className="prof-attivita-list">
+                                            {corsi
+                                                .filter(c => c.studentiIscritti?.some(s => s.idStudente === studente?.idStudente))
+                                                .map(c => (
+                                                    <div key={c.idCorso} className="prof-attivita-row">
+                                                        <span className="prof-att-corso">{c.nome}</span>
+                                                        <span className="prof-att-badge prof-att-inizio">{c.inizio?.slice(0, 5)}</span>
+                                                        <span className="prof-att-badge prof-att-fine">{c.fine?.slice(0, 5)}</span>
+                                                        <span className="prof-att-badge prof-att-classe">{c.nomeClasse}</span>
+                                                    </div>
+                                                ))
+                                            }
+                                        </div>
+                                    )}
                                 </div>
                             </Col>
 

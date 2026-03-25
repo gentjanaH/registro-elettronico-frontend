@@ -7,7 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 const FormLogin = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { loading, error, user, token, genitore } = useSelector((s) => s.auth);
+    const { loading, error, user, token, genitore, studente } = useSelector((s) => s.auth);
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -19,8 +19,11 @@ const FormLogin = () => {
 
     useEffect(() => {
         if (token && user) {
-            if (user.ruolo.ruolo === "STUDENTE" && user.studente)
-                return navigate(`/classe/${user.studente.classe.idClasse}/${user.studente.classe.nome}/studente/${user.studente.idStudente}`);
+            if (user.ruolo.ruolo === "STUDENTE" && studente) {
+                const url = `/classe/${studente.classe.idClasse}/${studente.classe.nome}/studente/${studente.idStudente}`;
+                console.log("Navigating to:", url);
+                return navigate(url);
+            }
             if (user.ruolo.ruolo === "GENITORE" && genitore)
                 return navigate(`/genitore/${user.idUser}`);
             if (user.ruolo.ruolo === "PROFESSORE")
@@ -28,7 +31,7 @@ const FormLogin = () => {
             if (user.ruolo.ruolo === "ADMIN")
                 return navigate(`/ADMIN/${user.idUser}`);
         }
-    }, [token, user, navigate]);
+    }, [token, user, studente, genitore, navigate]);
 
     return (
         <Row className="g-0 login-page-row">

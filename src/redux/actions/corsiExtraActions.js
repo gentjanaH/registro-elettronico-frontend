@@ -26,7 +26,13 @@ export const fetchCorsiExtra = () => {
                 if (!res.ok) throw new Error("Errore nel recupero dei corsi extra");
                 return res.json();
             })
-            .then(data => dispatch({ type: FETCH_CORSI_EXTRA_SUCCESS, payload: data.content }))
+            .then(data => {
+                console.log("Primo corso:", data.content[1]);
+                dispatch({
+                    type: FETCH_CORSI_EXTRA_SUCCESS,
+                    payload: data.content
+                });
+            })
             .catch(err => dispatch({ type: FETCH_CORSI_EXTRA_FAILURE, payload: err.message }));
     };
 };
