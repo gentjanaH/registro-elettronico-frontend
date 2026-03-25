@@ -3,6 +3,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import ModaleRegistraUtente from "./ModaleRegistraUtente";
 import ModaleAssegnaMateria from "./ModaleAssegnaMateria";
 import ModaleVisualizzaUtenti from "./ModaleVisualizzaUtenti";
+import ModaleRegistraCorsoExtra from "./ModaleRegistraCorsoExtra";
 
 const azioni = [
     {
@@ -25,7 +26,7 @@ const azioni = [
         descrizione: "Registra un nuovo corso extra-curricolare",
         icona: "🎨",
         colore: "#fd7e14",
-        disabilitato: true
+
     },
     {
         key: "visualizzaUtenti",
@@ -128,6 +129,11 @@ const PaginaAmministratore = () => {
             />
             <ModaleVisualizzaUtenti
                 show={modaleAperto === "visualizzaUtenti"}
+                handleClose={() => setModaleAperto(null)}
+            />
+
+            <ModaleRegistraCorsoExtra
+                show={modaleAperto === "corsoExtra"}
                 handleClose={() => setModaleAperto(null)}
             />
         </div>

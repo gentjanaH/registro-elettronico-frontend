@@ -1,36 +1,40 @@
-const corsi = [
-    {
-        nome: "Laboratorio di Coding e Robotica",
-        desc: "Programmazione, Arduino e pensiero computazionale per esplorare il mondo digitale.",
-        icona: "bi-cpu",
-    },
-    {
-        nome: "Teatro e Espressione Creativa",
-        desc: "Recitazione, improvvisazione e scrittura scenica per sviluppare creatività e comunicazione.",
-        icona: "bi-mask",
-    },
-    {
-        nome: "Giornalino Scolastico",
-        desc: "Redazione, fotografia e impaginazione per raccontare la vita scolastica.",
-        icona: "bi-newspaper",
-    },
-    {
-        nome: "Laboratorio Musicale",
-        desc: "Strumenti, teoria musicale e musica d'insieme per avvicinarsi al mondo della musica.",
-        icona: "bi-music-note-beamed",
-    },
-    {
-        nome: "Sport e Benessere",
-        desc: "Attività motorie, giochi di squadra e educazione alla salute per il benessere psicofisico.",
-        icona: "bi-trophy",
-    },
-];
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCorsiExtra } from "../redux/actions/corsiExtraActions";
+import ModaleIscrizioneCorsoExtra from "./ModaleIscrizioneCorsoExtra";
+
+const GIORNI_LABEL = {
+    LUNEDI: "Lunedì",
+    MARTEDI: "Martedì",
+    MERCOLEDI: "Mercoledì",
+    GIOVEDI: "Giovedì",
+    VENERDI: "Venerdì"
+};
 
 const CorsiExtra = () => {
+
+    const dispatch = useDispatch();
+    const { corsi, loading, error } = useSelector(s => s.corsiExtra);
+    const { user } = useSelector(s => s.auth);
+
+    const [showIscrizione, setShowIscrizione] = useState(false);
+    const [corsoSelezionato, setCorsoSelezionato] = useState(null);
+
+    const isGenitore = user?.ruolo?.ruolo === "GENITORE";
+
+    useEffect(() => {
+        dispatch(fetchCorsiExtra());
+    }, []);
+
+    const handleApriIscrizione = (corso) => {
+        setCorsoSelezionato(corso);
+        setShowIscrizione(true);
+    };
+
     return (
         <div className="offerta-wrapper">
 
-            {/* ── Hero ── */}
+            {/* Hero */}
             <div className="offerta-hero">
                 <span className="login-badge mb-3">Attività extra-curricolari</span>
                 <h1 className="offerta-titolo">Corsi extra</h1>
@@ -53,24 +57,98 @@ const CorsiExtra = () => {
                         <span className="offerta-accent">Laboratori</span> e attività
                     </h2>
 
+                    {loading && <p className="prof-stato mt-3">Caricamento corsi...</p>}
+                    {error && <p className="prof-stato text-danger mt-3">{error}</p>}
+
+                    {!loading && corsi.length === 0 && (
+                        <div
+                            className="text-muted text-center py-4 mt-3"
+                            style={{ border: "1px dashed #ced4da", borderRadius: "8px" }}
+                        >
+                            Nessun corso extra disponibile al momento
+                        </div>
+                    )}
+
                     <div className="corsi-grid mt-3">
-                        {corsi.map((c) => (
-                            <div key={c.nome} className="corso-card">
+                        {corsi.map(c => (
+                            <div key={c.idCorso} className="corso-card">
+
                                 <div className="corso-icona-wrap">
-                                    <i className={`bi ${c.icona} corso-icona`}></i>
+                                    <i className="bi bi-star corso-icona"></i>
                                 </div>
+
                                 <div className="corso-body">
+
                                     <div className="corso-nome">{c.nome}</div>
-                                    <div className="corso-desc">{c.desc}</div>
+
+                                    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", margin: "6px 0" }}>
+                                        <span style={styles.badge("#e7f1ff", "#0a3872")}>
+                                            📅 {GIORNI_LABEL[c.giorno]}
+                                        </span>
+                                        <span style={styles.badge("#e6f4ea", "#0a3d1f")}>
+                                            🕐 {c.inizio?.slice(0, 5)} – {c.fine?.slice(0, 5)}
+                                        </span>
+                                        <span style={styles.badge("#fff4e5", "#7a3e00")}>
+                                            🏫 {c.nomeClasse}
+                                        </span>
+                                    </div>
+
+                                    <div style={{ fontSize: "0.82rem", color: "#555", marginBottom: "6px" }}>
+                                        <i className="bi bi-person me-1"></i>
+                                        {c.nomeProfessore} {c.cognomeProfessore}
+                                    </div>
+
+                                    <div style={{ fontSize: "0.78rem", color: "#888", marginBottom: "10px" }}>
+                                        {c.studentiIscritti?.length ?? 0} studenti iscritti
+                                    </div>
+
+                                    {isGenitore && (
+                                        <button
+                                            onClick={() => handleApriIscrizione(c)}
+                                            style={{
+                                                width: "100%",
+                                                padding: "7px 0",
+                                                borderRadius: "8px",
+                                                border: "none",
+                                                background: "#0d6efd",
+                                                color: "white",
+                                                fontSize: "0.85rem",
+                                                fontWeight: 500,
+                                                cursor: "pointer"
+                                            }}
+                                        >
+                                            Iscriviti
+                                        </button>
+                                    )}
+
                                 </div>
                             </div>
                         ))}
                     </div>
                 </section>
-
             </div>
+
+            <ModaleIscrizioneCorsoExtra
+                show={showIscrizione}
+                handleClose={() => {
+                    setShowIscrizione(false);
+                    setCorsoSelezionato(null);
+                }}
+                corsoPreselezionato={corsoSelezionato}
+            />
         </div>
     );
+};
+
+const styles = {
+    badge: (bg, color) => ({
+        background: bg,
+        color: color,
+        borderRadius: "6px",
+        fontSize: "0.75rem",
+        padding: "3px 8px",
+        border: `1px solid ${color}22`
+    })
 };
 
 export default CorsiExtra;
