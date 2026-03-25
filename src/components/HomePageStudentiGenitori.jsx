@@ -92,6 +92,7 @@ const HomePageStudentiGenitori = () => {
                                         <h2 className="prof-section-titolo">Attività extra-curricolari</h2>
                                     </div>
 
+
                                     {/* Corsi a cui lo studente è iscritto */}
                                     {corsi
                                         .filter(c => c.studentiIscritti?.some(s => s.idStudente === studenteAttivo?.idStudente))
@@ -102,12 +103,26 @@ const HomePageStudentiGenitori = () => {
                                             {corsi
                                                 .filter(c => c.studentiIscritti?.some(s => s.idStudente === studenteAttivo?.idStudente))
                                                 .map(c => (
-                                                    <div key={c.idCorso} className="prof-attivita-row">
-                                                        <span className="prof-att-corso">{c.nome}</span>
-                                                        <span className="prof-att-badge prof-att-inizio">{c.inizio?.slice(0, 5)}</span>
-                                                        <span className="prof-att-badge prof-att-fine">{c.fine?.slice(0, 5)}</span>
-                                                        <span className="prof-att-badge prof-att-classe">{c.nomeClasse}</span>
-                                                    </div>
+                                                    <>
+                                                        <div key={c.idCorso} className="prof-attivita-row d-flex justify-content-between">
+                                                            <div className="d-flex flex-column w-50">
+                                                                <span className="prof-att-corso fw-bold mb-3">{c.giorno}</span>
+                                                                <span className="prof-att-corso">{c.nome}</span>
+
+                                                            </div>
+                                                            <div className="d-flex flex-column w-50">
+                                                                <div className="d-flex justify-content-evenly mb-3">
+                                                                    <span className="prof-att-badge prof-att-inizio">{c.inizio?.slice(0, 5)}</span>
+                                                                    <span className="prof-att-badge prof-att-fine">{c.fine?.slice(0, 5)}</span>
+                                                                </div>
+
+                                                                <div className="d-flex justify-content-center">
+                                                                    <span className="prof-att-badge prof-att-classe">{c.nomeClasse}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </>
                                                 ))
                                             }
                                         </div>

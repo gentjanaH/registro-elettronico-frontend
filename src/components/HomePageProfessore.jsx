@@ -4,26 +4,32 @@ import DataCorrenteConCalendario from "./DataCorrenteConCalendario";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchClassi } from "../redux/actions/classiActions";
+import { fetchCorsiExtra } from "../redux/actions/corsiExtraActions";
 
 const HomePageProfessore = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const { classi, loading, error } = useSelector(s => s.classi);
-    const { user } = useSelector(s => s.auth);
+    const { corsi } = useSelector(s => s.corsiExtra);
+    const { user, professore } = useSelector(s => s.auth);
+
     const [selectedDate, setSelectedDate] = useState(new Date());
 
-    useEffect(() => { dispatch(fetchClassi()); }, []);
+    const corsiProfessore = corsi.filter(
+        c =>
+            c.nomeProfessore?.toLowerCase() === user?.nome?.toLowerCase() &&
+            c.cognomeProfessore?.toLowerCase() === user?.cognome?.toLowerCase())
+
+    useEffect(() => {
+        dispatch(fetchClassi());
+        dispatch(fetchCorsiExtra())
+
+    }, []);
 
     const vaiAllaClasse = (idClasse, nome) => navigate(`/classe/${idClasse}/${nome}`);
 
-    // placeholder attività — da sostituire con dati reali
-    const attivita = [
-        { corso: "Laboratorio STEM", inizio: "09:00", fine: "11:00", classe: "3A" },
-        { corso: "Progetto Lettura", inizio: "11:00", fine: "12:00", classe: "2B" },
-        { corso: "Corso di Teatro", inizio: "14:00", fine: "16:00", classe: "4C" },
-        { corso: "Progetto Ambiente", inizio: "16:00", fine: "17:30", classe: "1A" },
-    ];
 
     return (
         <div className="prof-wrapper">
@@ -85,29 +91,39 @@ const HomePageProfessore = () => {
                                 <i className="bi bi-calendar-event prof-section-icona"></i>
                                 <h2 className="prof-section-titolo">Attività extra-curricolari</h2>
                             </div>
-                            <p className="prof-section-sub">
-                                Previste per oggi, {selectedDate.toLocaleDateString("it-IT", { weekday: "long", day: "numeric", month: "long" })}
-                            </p>
 
-                            {/* Header tabella */}
-                            <div className="prof-attivita-header">
-                                <span>Corso</span>
-                                <span>Inizio</span>
-                                <span>Fine</span>
-                                <span>Classe</span>
-                            </div>
 
-                            {/* Righe */}
-                            <div className="prof-attivita-list">
-                                {attivita.map((a, i) => (
-                                    <div key={i} className="prof-attivita-row">
-                                        <span className="prof-att-corso">{a.corso}</span>
-                                        <span className="prof-att-badge prof-att-inizio">{a.inizio}</span>
-                                        <span className="prof-att-badge prof-att-fine">{a.fine}</span>
-                                        <span className="prof-att-badge prof-att-classe">{a.classe}</span>
-                                    </div>
-                                ))}
-                            </div>
+                            {corsiProfessore.length === 0 ? (
+                                <p className="prof-stato">Nessun corso extra a cui sei iscritto.</p>
+                            ) : (
+                                <div className="prof-attivita-list">
+                                    {corsiProfessore.map(c => (
+                                        <>
+                                            <div key={c.idCorso} className="prof-attivita-row d-flex justify-content-between">
+                                                <div className="d-flex flex-column w-50">
+                                                    <span className="prof-att-corso fw-bold mb-3">{c.giorno}</span>
+                                                    <span className="prof-att-corso">{c.nome}</span>
+
+                                                </div>
+                                                <div className="d-flex flex-column w-50">
+                                                    <div className="d-flex justify-content-evenly mb-3">
+                                                        <span className="prof-att-badge prof-att-inizio">{c.inizio?.slice(0, 5)}</span>
+                                                        <span className="prof-att-badge prof-att-fine">{c.fine?.slice(0, 5)}</span>
+                                                    </div>
+
+                                                    <div className="d-flex justify-content-center">
+                                                        <span className="prof-att-badge prof-att-classe">{c.nomeClasse}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </>
+                                    ))
+                                    }
+                                </div>
+                            )}
+
+
                         </div>
                     </Col>
 
