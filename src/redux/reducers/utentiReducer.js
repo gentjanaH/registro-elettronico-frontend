@@ -1,3 +1,4 @@
+import { ADD_FIGLIO_FAILURE, ADD_FIGLIO_REQUEST, ADD_FIGLIO_SUCCESS, REMOVE_FIGLIO_FAILURE, REMOVE_FIGLIO_REQUEST, REMOVE_FIGLIO_SUCCESS } from "../actions/genitoriActions";
 import {
     REGISTRA_UTENTE_REQUEST,
     REGISTRA_UTENTE_SUCCESS,
@@ -20,6 +21,8 @@ const initialState = {
 const utentiReducer = (currentState = initialState, action) => {
     switch (action.type) {
 
+        case ADD_FIGLIO_REQUEST:
+        case REMOVE_FIGLIO_REQUEST:
         case REGISTRA_UTENTE_REQUEST:
         case FETCH_UTENTI_REQUEST:
             return {
@@ -45,6 +48,18 @@ const utentiReducer = (currentState = initialState, action) => {
                 amministratori: action.payload.amministratori ?? []
             };
 
+        case ADD_FIGLIO_SUCCESS:
+        case REMOVE_FIGLIO_SUCCESS:
+            return {
+                ...currentState,
+                loading: false,
+                genitori: currentState.genitori.map(g =>
+                    g.idGenitore === action.payload.idGenitore ? action.payload : g
+                )
+            };
+
+        case ADD_FIGLIO_FAILURE:
+        case REMOVE_FIGLIO_FAILURE:
         case REGISTRA_UTENTE_FAILURE:
         case FETCH_UTENTI_FAILURE:
             return {
