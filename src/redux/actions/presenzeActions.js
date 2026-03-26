@@ -142,7 +142,7 @@ export const giustificaAssenza = (idPresenza, motivo) => {
                     type: GIUSTIFICA_ASSENZA_SUCCESS,
                     payload: data
                 });
-                console.log("GIUSTIFICAZIONE: ", data)
+                console.log("GIUSTIFICAZIONE: ", data.content)
             })
             .catch(err => {
                 dispatch({

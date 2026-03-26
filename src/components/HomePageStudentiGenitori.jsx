@@ -10,21 +10,28 @@ import { fetchCompitiByClass } from "../redux/actions/compitiActions";
 import { useParams } from "react-router-dom";
 import { fetchCorsiExtra } from "../redux/actions/corsiExtraActions";
 
+const GIORNI_LABEL = {
+    LUNEDI: "Lunedì",
+    MARTEDI: "Martedì",
+    MERCOLEDI: "Mercoledì",
+    GIOVEDI: "Giovedì",
+    VENERDI: "Venerdì"
+};
+
 const HomePageStudentiGenitori = () => {
 
     const [selectedDate, setSelectedDate] = useState(new Date());
-
-
     const dispatch = useDispatch();
     const { idClasse, nomeClasse } = useParams();
 
     const { corsi } = useSelector(s => s.corsiExtra);
     const { studente, figlioSelezionato, user, token } = useSelector(s => s.auth);
 
-    // studente attivo — se genitore usa il figlio selezionato, altrimenti lo studente loggato
     const studenteAttivo = user?.ruolo?.ruolo === "GENITORE" ? figlioSelezionato : studente;
 
-
+    const corsiIscritto = corsi.filter(
+        c => c.studentiIscritti?.some(s => s.idStudente === studenteAttivo?.idStudente)
+    );
 
     useEffect(() => {
         if (token) {
@@ -34,12 +41,10 @@ const HomePageStudentiGenitori = () => {
         }
     }, [idClasse, token, nomeClasse, dispatch]);
 
-
-
     return (
         <div className="classe-wrapper">
 
-            {/* ── Hero ── */}
+            {/* Hero */}
             <div className="classe-hero">
                 <div className="classe-hero-left">
                     <span className="login-badge mb-2">
@@ -53,23 +58,23 @@ const HomePageStudentiGenitori = () => {
                 </div>
             </div>
 
-            {/* ── Corpo ── */}
+            {/* Corpo */}
             <div className="classe-container">
                 <Row className="g-4">
 
-                    {/* ── Colonna sinistra: lezioni + compiti ── */}
+                    {/* Colonna sinistra: lezioni + compiti */}
                     <Col xs={12} lg={5}>
                         <div className="classe-section-card">
                             <div className="prof-section-header mb-3">
                                 <i className="bi bi-journal-bookmark prof-section-icona"></i>
                                 <h2 className="prof-section-titolo">Attività del giorno</h2>
                             </div>
-                            <Lezioni selectedDate={selectedDate} onChangeDate={setSelectedDate} />
-                            <Compiti selectedDate={selectedDate} onChangeDate={setSelectedDate} />
+                            <Lezioni selectedDate={selectedDate} idClasse={idClasse} />
+                            <Compiti selectedDate={selectedDate} idClasse={idClasse} />
                         </div>
                     </Col>
 
-                    {/* ── Colonna destra ── */}
+                    {/* Colonna destra */}
                     <Col xs={12} lg={7}>
                         <Row className="g-4">
 
@@ -78,7 +83,7 @@ const HomePageStudentiGenitori = () => {
                                 <div className="classe-section-card">
                                     <div className="prof-section-header mb-3">
                                         <i className="bi bi-megaphone prof-section-icona"></i>
-                                        <h2 className="prof-section-titolo"></h2>
+                                        <h2 className="prof-section-titolo">Circolari</h2>
                                     </div>
                                     <DashboardCircolari />
                                 </div>
@@ -87,44 +92,48 @@ const HomePageStudentiGenitori = () => {
                             {/* Attività extra */}
                             <Col xs={12}>
                                 <div className="classe-section-card">
-                                    <div className="prof-section-header mb-1">
+                                    <div className="prof-section-header mb-2">
                                         <i className="bi bi-calendar-event prof-section-icona"></i>
                                         <h2 className="prof-section-titolo">Attività extra-curricolari</h2>
                                     </div>
 
-
-                                    {/* Corsi a cui lo studente è iscritto */}
-                                    {corsi
-                                        .filter(c => c.studentiIscritti?.some(s => s.idStudente === studenteAttivo?.idStudente))
-                                        .length === 0 ? (
-                                        <p className="prof-stato">Nessun corso extra a cui sei iscritto.</p>
+                                    {corsiIscritto.length === 0 ? (
+                                        <div className="lezioni-empty">
+                                            <i className="bi bi-calendar-x lezioni-empty-icona"></i>
+                                            <p className="lezioni-empty-testo">Nessun corso extra a cui sei iscritto</p>
+                                        </div>
                                     ) : (
-                                        <div className="prof-attivita-list">
-                                            {corsi
-                                                .filter(c => c.studentiIscritti?.some(s => s.idStudente === studenteAttivo?.idStudente))
-                                                .map(c => (
-                                                    <>
-                                                        <div key={c.idCorso} className="prof-attivita-row d-flex justify-content-between">
-                                                            <div className="d-flex flex-column w-50">
-                                                                <span className="prof-att-corso fw-bold mb-3">{c.giorno}</span>
-                                                                <span className="prof-att-corso">{c.nome}</span>
+                                        <div className="lezioni-list mt-2">
+                                            {corsiIscritto.map(c => (
+                                                <div key={c.idCorso} className="lezione-card">
 
-                                                            </div>
-                                                            <div className="d-flex flex-column w-50">
-                                                                <div className="d-flex justify-content-evenly mb-3">
-                                                                    <span className="prof-att-badge prof-att-inizio">{c.inizio?.slice(0, 5)}</span>
-                                                                    <span className="prof-att-badge prof-att-fine">{c.fine?.slice(0, 5)}</span>
-                                                                </div>
+                                                    {/* Orario */}
+                                                    <div className="lezione-orario">
+                                                        <span className="lezione-orario-dalle">{c.inizio?.slice(0, 5)}</span>
+                                                        <div className="lezione-orario-linea"></div>
+                                                        <span className="lezione-orario-alle">{c.fine?.slice(0, 5)}</span>
+                                                    </div>
 
-                                                                <div className="d-flex justify-content-center">
-                                                                    <span className="prof-att-badge prof-att-classe">{c.nomeClasse}</span>
-                                                                </div>
-                                                            </div>
+                                                    {/* Contenuto */}
+                                                    <div className="lezione-body">
+                                                        <div className="lezione-header">
+                                                            <span className="lezione-materia">{c.nome}</span>
+                                                            <span className="prof-att-badge prof-att-classe">
+                                                                {c.nomeClasse}
+                                                            </span>
                                                         </div>
+                                                        <div className="lezione-professore">
+                                                            <i className="bi bi-calendar3 me-1"></i>
+                                                            {GIORNI_LABEL[c.giorno] ?? c.giorno}
+                                                        </div>
+                                                        <div className="lezione-professore">
+                                                            <i className="bi bi-person me-1"></i>
+                                                            {c.nomeProfessore} {c.cognomeProfessore}
+                                                        </div>
+                                                    </div>
 
-                                                    </>
-                                                ))
-                                            }
+                                                </div>
+                                            ))}
                                         </div>
                                     )}
                                 </div>

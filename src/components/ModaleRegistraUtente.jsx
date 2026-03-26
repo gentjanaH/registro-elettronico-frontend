@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { fetchAllMaterie } from "../redux/actions/materieActions";
+import { fetchClassi } from "../redux/actions/classiActions";
 import { registraUtente } from "../redux/actions/utentiActions";
 
 const RUOLI = ["AMMINISTRATORE", "PROFESSORE", "GENITORE", "STUDENTE"];
@@ -24,14 +25,14 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
 
     const dispatch = useDispatch();
     const { materie } = useSelector(s => s.materie);
+    const { classi } = useSelector(s => s.classi);
     const { loading, error } = useSelector(s => s.utenti);
 
     const [form, setForm] = useState(defaultForm);
 
     useEffect(() => {
-        if (!materie?.length) {
-            dispatch(fetchAllMaterie());
-        }
+        if (!materie?.length) dispatch(fetchAllMaterie());
+        if (!classi?.content?.length) dispatch(fetchClassi());
     }, []);
 
     const handleChange = (field, value) => {
@@ -57,6 +58,26 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
     const campiBaseCompilati =
         form.nome && form.cognome && form.dataDiNascita &&
         form.email && form.password && form.ruolo;
+
+    const scrollList = {
+        maxHeight: "200px",
+        overflowY: "auto",
+        border: "1px solid #ced4da",
+        borderRadius: "8px",
+        padding: "6px",
+        background: "#f8f9fa"
+    };
+
+    const itemBase = (isSelected) => ({
+        padding: "8px 12px",
+        marginBottom: "4px",
+        borderRadius: "6px",
+        cursor: "pointer",
+        backgroundColor: isSelected ? "#e7f1ff" : "white",
+        border: isSelected ? "2px solid #0d6efd" : "1px solid #ddd",
+        fontSize: "0.9rem",
+        transition: "all 0.15s"
+    });
 
     return (
         <Modal show={show} onHide={handleClose_} centered size="lg">
@@ -107,7 +128,19 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                         type="date"
                         value={form.dataDiNascita}
                         onChange={e => handleChange("dataDiNascita", e.target.value)}
+                        max={new Date().toISOString().split("T")[0]}
+                        placeholder="gg/mm/aaaa"
                     />
+                    {form.dataDiNascita && (
+                        <Form.Text className="form-hint">
+                            {new Date(form.dataDiNascita).toLocaleDateString("it-IT", {
+                                weekday: "long",
+                                day: "numeric",
+                                month: "long",
+                                year: "numeric"
+                            })}
+                        </Form.Text>
+                    )}
                 </Form.Group>
 
                 <Form.Group className="mb-3">
@@ -120,6 +153,7 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                         placeholder="giuseppe@rossi.com"
                         value={form.email}
                         onChange={e => handleChange("email", e.target.value)}
+                        autoComplete="off"
                     />
                 </Form.Group>
 
@@ -133,23 +167,27 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                         placeholder="Min. 8 caratteri, maiuscola e simbolo"
                         value={form.password}
                         onChange={e => handleChange("password", e.target.value)}
+                        autoComplete="new-password"
                     />
                 </Form.Group>
 
+                {/* Ruolo — lista scrollabile */}
                 <Form.Group className="mb-4">
                     <Form.Label>
                         <span className="form-step-numero">6.</span>
                         Ruolo
                     </Form.Label>
-                    <Form.Select
-                        value={form.ruolo}
-                        onChange={e => handleChange("ruolo", e.target.value)}
-                    >
-                        <option value="">Seleziona un ruolo</option>
+                    <div style={scrollList}>
                         {RUOLI.map(r => (
-                            <option key={r} value={r}>{r.charAt(0) + r.slice(1).toLowerCase()}</option>
+                            <div
+                                key={r}
+                                onClick={() => handleChange("ruolo", r)}
+                                style={itemBase(form.ruolo === r)}
+                            >
+                                {r.charAt(0) + r.slice(1).toLowerCase()}
+                            </div>
                         ))}
-                    </Form.Select>
+                    </div>
                 </Form.Group>
 
                 {/* Sezione ruolo-specifica */}
@@ -157,7 +195,7 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                     <>
                         <hr className="my-3" />
 
-                        {/* PROFESSORE — materie */}
+                        {/* PROFESSORE — materie scrollabili */}
                         <Form.Group className="mb-3">
                             <Form.Label className="d-flex align-items-center gap-2">
                                 Materie insegnate
@@ -167,23 +205,30 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                                     </span>
                                 )}
                             </Form.Label>
-                            <Form.Select
-                                disabled={form.ruolo !== "PROFESSORE"}
-                                value=""
-                                onChange={e => {
-                                    const val = e.target.value;
-                                    if (!val) return;
-                                    const current = form.idMaterie ?? [];
-                                    if (!current.includes(val)) {
-                                        handleChange("idMaterie", [...current, val]);
+
+                            {form.ruolo === "PROFESSORE" ? (
+                                <div style={scrollList}>
+                                    {materie
+                                        .filter(m => !(form.idMaterie ?? []).includes(String(m.idMateria)))
+                                        .map(m => (
+                                            <div
+                                                key={m.idMateria}
+                                                onClick={() => {
+                                                    const current = form.idMaterie ?? [];
+                                                    handleChange("idMaterie", [...current, String(m.idMateria)]);
+                                                }}
+                                                style={itemBase(false)}
+                                                onMouseEnter={e => e.currentTarget.style.background = "#e7f1ff"}
+                                                onMouseLeave={e => e.currentTarget.style.background = "white"}
+                                            >
+                                                {m.nome}
+                                            </div>
+                                        ))
                                     }
-                                }}
-                            >
-                                <option value="">Aggiungi una materia</option>
-                                {materie.map(m => (
-                                    <option key={m.idMateria} value={m.idMateria}>{m.nome}</option>
-                                ))}
-                            </Form.Select>
+                                </div>
+                            ) : (
+                                <Form.Control disabled placeholder="Seleziona prima il ruolo Professore" />
+                            )}
 
                             {form.idMaterie?.length > 0 && (
                                 <div className="form-chips-wrapper">
@@ -256,23 +301,45 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                             )}
                         </Form.Group>
 
-                        {/* STUDENTE — classe */}
+                        {/* STUDENTE — classe scrollabile */}
                         <Form.Group className="mb-1">
                             <Form.Label className="d-flex align-items-center gap-2">
-                                ID Classe
+                                Classe
                                 {form.ruolo !== "STUDENTE" && (
                                     <span className="form-badge-na">
                                         non applicabile per {form.ruolo.charAt(0) + form.ruolo.slice(1).toLowerCase()}
                                     </span>
                                 )}
                             </Form.Label>
-                            <Form.Control
-                                type="text"
-                                placeholder="UUID della classe"
-                                disabled={form.ruolo !== "STUDENTE"}
-                                value={form.idClasse ?? ""}
-                                onChange={e => handleChange("idClasse", e.target.value || null)}
-                            />
+
+                            {form.ruolo === "STUDENTE" ? (
+                                <div style={scrollList}>
+                                    {classi?.content?.map(c => (
+                                        <div
+                                            key={c.idClasse}
+                                            onClick={() => handleChange("idClasse", c.idClasse)}
+                                            style={itemBase(form.idClasse === c.idClasse)}
+                                        >
+                                            {c.nome}
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <Form.Control disabled placeholder="Seleziona prima il ruolo Studente" />
+                            )}
+
+                            {form.idClasse && (
+                                <div className="mt-2">
+                                    <span className="form-chip">
+                                        {classi?.content?.find(c => c.idClasse === form.idClasse)?.nome ?? form.idClasse} ✕
+                                        <span
+                                            style={{ marginLeft: "6px", cursor: "pointer" }}
+                                            onClick={() => handleChange("idClasse", null)}
+                                        >
+                                        </span>
+                                    </span>
+                                </div>
+                            )}
                         </Form.Group>
                     </>
                 )}

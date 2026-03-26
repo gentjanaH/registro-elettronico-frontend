@@ -1,10 +1,18 @@
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import DataCorrenteConCalendario from "./DataCorrenteConCalendario";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { fetchClassi } from "../redux/actions/classiActions";
 import { fetchCorsiExtra } from "../redux/actions/corsiExtraActions";
+
+const GIORNI_LABEL = {
+    LUNEDI: "Lunedì",
+    MARTEDI: "Martedì",
+    MERCOLEDI: "Mercoledì",
+    GIOVEDI: "Giovedì",
+    VENERDI: "Venerdì"
+};
 
 const HomePageProfessore = () => {
 
@@ -13,28 +21,27 @@ const HomePageProfessore = () => {
 
     const { classi, loading, error } = useSelector(s => s.classi);
     const { corsi } = useSelector(s => s.corsiExtra);
-    const { user, professore } = useSelector(s => s.auth);
+    const { user } = useSelector(s => s.auth);
 
     const [selectedDate, setSelectedDate] = useState(new Date());
 
     const corsiProfessore = corsi.filter(
         c =>
             c.nomeProfessore?.toLowerCase() === user?.nome?.toLowerCase() &&
-            c.cognomeProfessore?.toLowerCase() === user?.cognome?.toLowerCase())
+            c.cognomeProfessore?.toLowerCase() === user?.cognome?.toLowerCase()
+    );
 
     useEffect(() => {
         dispatch(fetchClassi());
-        dispatch(fetchCorsiExtra())
-
+        dispatch(fetchCorsiExtra());
     }, []);
 
     const vaiAllaClasse = (idClasse, nome) => navigate(`/classe/${idClasse}/${nome}`);
 
-
     return (
         <div className="prof-wrapper">
 
-            {/* ── Header ── */}
+            {/* Hero */}
             <div className="prof-hero">
                 <div>
                     <span className="login-badge mb-2">Area docenti</span>
@@ -51,11 +58,11 @@ const HomePageProfessore = () => {
                 </div>
             </div>
 
-            {/* ── Contenuto ── */}
+            {/* Contenuto */}
             <div className="prof-container">
                 <Row className="g-4">
 
-                    {/* ── Classi ── */}
+                    {/* Classi */}
                     <Col xs={12} lg={5}>
                         <div className="prof-section-card">
                             <div className="prof-section-header">
@@ -64,13 +71,9 @@ const HomePageProfessore = () => {
                             </div>
 
                             <div className="prof-classi-grid">
-                                {loading && (
-                                    <p className="prof-stato">Caricamento classi...</p>
-                                )}
-                                {error && (
-                                    <p className="prof-stato text-danger">{error}</p>
-                                )}
-                                {classi?.content?.map((classe) => (
+                                {loading && <p className="prof-stato">Caricamento classi...</p>}
+                                {error && <p className="prof-stato text-danger">{error}</p>}
+                                {classi?.content?.map(classe => (
                                     <button
                                         key={classe.idClasse}
                                         className="prof-classe-btn"
@@ -84,7 +87,7 @@ const HomePageProfessore = () => {
                         </div>
                     </Col>
 
-                    {/* ── Attività extra ── */}
+                    {/* Corsi extra */}
                     <Col xs={12} lg={7}>
                         <div className="prof-section-card">
                             <div className="prof-section-header">
@@ -92,38 +95,41 @@ const HomePageProfessore = () => {
                                 <h2 className="prof-section-titolo">Attività extra-curricolari</h2>
                             </div>
 
-
                             {corsiProfessore.length === 0 ? (
-                                <p className="prof-stato">Nessun corso extra a cui sei iscritto.</p>
+                                <div className="lezioni-empty">
+                                    <i className="bi bi-calendar-x lezioni-empty-icona"></i>
+                                    <p className="lezioni-empty-testo">Nessun corso extra assegnato</p>
+                                </div>
                             ) : (
-                                <div className="prof-attivita-list">
+                                <div className="lezioni-list mt-2">
                                     {corsiProfessore.map(c => (
-                                        <>
-                                            <div key={c.idCorso} className="prof-attivita-row d-flex justify-content-between">
-                                                <div className="d-flex flex-column w-50">
-                                                    <span className="prof-att-corso fw-bold mb-3">{c.giorno}</span>
-                                                    <span className="prof-att-corso">{c.nome}</span>
+                                        <div key={c.idCorso} className="lezione-card">
 
+                                            {/* Giorno + orario */}
+                                            <div className="lezione-orario">
+                                                <span className="lezione-orario-dalle">{c.inizio?.slice(0, 5)}</span>
+                                                <div className="lezione-orario-linea"></div>
+                                                <span className="lezione-orario-alle">{c.fine?.slice(0, 5)}</span>
+                                            </div>
+
+                                            {/* Contenuto */}
+                                            <div className="lezione-body">
+                                                <div className="lezione-header">
+                                                    <span className="lezione-materia">{c.nome}</span>
+                                                    <span className="prof-att-badge prof-att-classe">
+                                                        {c.nomeClasse}
+                                                    </span>
                                                 </div>
-                                                <div className="d-flex flex-column w-50">
-                                                    <div className="d-flex justify-content-evenly mb-3">
-                                                        <span className="prof-att-badge prof-att-inizio">{c.inizio?.slice(0, 5)}</span>
-                                                        <span className="prof-att-badge prof-att-fine">{c.fine?.slice(0, 5)}</span>
-                                                    </div>
-
-                                                    <div className="d-flex justify-content-center">
-                                                        <span className="prof-att-badge prof-att-classe">{c.nomeClasse}</span>
-                                                    </div>
+                                                <div className="lezione-professore">
+                                                    <i className="bi bi-calendar3 me-1"></i>
+                                                    {GIORNI_LABEL[c.giorno] ?? c.giorno}
                                                 </div>
                                             </div>
 
-                                        </>
-                                    ))
-                                    }
+                                        </div>
+                                    ))}
                                 </div>
                             )}
-
-
                         </div>
                     </Col>
 

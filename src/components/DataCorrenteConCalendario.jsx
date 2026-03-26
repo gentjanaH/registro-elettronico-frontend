@@ -1,7 +1,6 @@
-
-import { addDays, subDays, format, isValid } from "date-fns";
+import { addDays, subDays, format, isValid, isToday } from "date-fns";
 import { it } from "date-fns/locale";
-import { Button } from "react-bootstrap";
+
 const DataCorrenteConCalendario = ({ selectedDate, onChangeDate }) => {
 
     const baseDate = selectedDate ? new Date(selectedDate) : new Date();
@@ -9,46 +8,45 @@ const DataCorrenteConCalendario = ({ selectedDate, onChangeDate }) => {
 
     const prevDay = () => onChangeDate(subDays(validDate, 1));
     const nextDay = () => onChangeDate(addDays(validDate, 1));
+    const goToToday = () => onChangeDate(new Date());
 
-    const isToday = (date) => {
-        const today = new Date();
-        return date?.toDateString() === today.toDateString();
-    };
-
+    const oggi = isToday(validDate);
 
     return (
+        <div className="datepicker-wrapper">
 
+            {/* Giorno e mese grandi */}
+            <div className="datepicker-main">
+                <button className="datepicker-arrow" onClick={prevDay} title="Giorno precedente">
+                    ‹
+                </button>
 
+                <div className="datepicker-center">
+                    <div className="datepicker-giorno">
+                        {format(validDate, "EEEE", { locale: it })}
+                    </div>
+                    <div className="datepicker-data">
+                        {format(validDate, "d MMMM yyyy", { locale: it })}
+                    </div>
+                    {oggi && (
+                        <div className="datepicker-oggi-badge">oggi</div>
+                    )}
+                </div>
 
-        <div className="d-flex align-items-center gap-3 my-3">
-
-            <Button variant="light" onClick={prevDay}>
-                ‹
-            </Button>
-
-            <div
-                className="px-4 py-2 rounded"
-                style={{
-                    backgroundColor: isToday(validDate) ? "#d1e7dd" : "#f8f9fa",
-                    border: "1px solid #ccc",
-                    fontWeight: "bold"
-                }}
-            >
-                {isValid(validDate)
-                    ? format(validDate, "dd/MM/yyyy", { locale: it })
-                    : "Data non valida"}
+                <button className="datepicker-arrow" onClick={nextDay} title="Giorno successivo">
+                    ›
+                </button>
             </div>
 
-            <Button variant="light" onClick={nextDay}>
-                ›
-            </Button>
+            {/* Bottone torna ad oggi */}
+            {!oggi && (
+                <button className="datepicker-oggi-btn" onClick={goToToday}>
+                    Torna ad oggi
+                </button>
+            )}
 
         </div>
-
-
-
     );
-
-}
+};
 
 export default DataCorrenteConCalendario;

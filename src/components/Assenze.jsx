@@ -18,7 +18,7 @@ const Assenze = () => {
 
     const isGenitore = user?.ruolo?.ruolo === "GENITORE";
 
-    // ✅ Fix: nome ricavato dal ruolo — studente da user, genitore da figlioSelezionato
+
     const nomeStudente = isGenitore
         ? `${figlioSelezionato?.nome || ""} ${figlioSelezionato?.cognome || ""}`
         : `${user?.nome || ""} ${user?.cognome || ""}`;
@@ -81,6 +81,12 @@ const Assenze = () => {
                                     <i className="bi bi-book me-2"></i>
                                     {p.nomeMateria}
                                 </div>
+                                {p.motivo && (
+                                    <div className="assenza-materia mt-1">
+                                        <i className="bi bi-chat-left-text me-2"></i>
+                                        {p.motivo}
+                                    </div>
+                                )}
 
                                 {isGenitore && p.stato !== "GIUSTIFICATO" && (
                                     <Button
