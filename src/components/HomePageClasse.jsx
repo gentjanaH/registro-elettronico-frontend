@@ -4,7 +4,7 @@ import Compiti from "./Compiti";
 import { Row, Col, Button, Dropdown, Alert } from "react-bootstrap";
 import DataCorrenteConCalendario from "./DataCorrenteConCalendario";
 import ModaleAssegnaCompiti from "./ModaleAssegnaCompiti";
-import ModaleRegistraLezione from "./modaleRegistraLEzione";
+import ModaleRegistraLezione from "./modaleRegistraLezione";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchStudentiByClasse } from "../redux/actions/studentiActions";
 import { getLezioniByClass } from "../redux/actions/lezioniAction";
