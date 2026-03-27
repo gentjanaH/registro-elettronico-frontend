@@ -1,6 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -18,6 +19,8 @@ const ModaleAssegnaCompiti = ({ show, handleClose }) => {
     const [descrizione, setDescrizione] = useState("");
     const [idMateria, setIdMateria] = useState("");
     const [materieProf, setMaterieProf] = useState([]);
+    const [alertMsg, setAlertMsg] = useState(null);
+    const [alertVariant, setAlertVariant] = useState("danger");
 
     useEffect(() => {
         if (!materie?.length) {
@@ -42,7 +45,8 @@ const ModaleAssegnaCompiti = ({ show, handleClose }) => {
 
     const handleAssegna = () => {
         if (!idMateria || !dataConsegna || !descrizione) {
-            alert("Compila tutti i campi prima di procedere.");
+            setAlertMsg("Compila tutti i campi prima di procedere.");
+            setAlertVariant("danger");
             return;
         }
         dispatch(registraCompito(idClasse, {
@@ -53,8 +57,9 @@ const ModaleAssegnaCompiti = ({ show, handleClose }) => {
         setDataConsegna("");
         setDescrizione("");
         setIdMateria("");
-        handleClose();
-        alert("Compito assegnato con successo!");
+        setAlertMsg("Compito assegnato con successo!");
+        setAlertVariant("success");
+        setTimeout(() => { setAlertMsg(null); handleClose(); }, 1500);
     };
 
     return (
@@ -107,6 +112,23 @@ const ModaleAssegnaCompiti = ({ show, handleClose }) => {
                     </Form.Text>
                 </Form.Group>
             </Form>
+
+            {alertMsg && (
+                <div className="px-3 pb-2">
+                    <Alert
+                        variant={alertVariant}
+                        onClose={() => setAlertMsg(null)}
+                        dismissible
+                        className="mb-0 py-2"
+                        style={{ fontSize: "0.88rem" }}
+                    >
+                        {alertVariant === "success"
+                            ? <><i className="bi bi-check-circle me-2"></i>{alertMsg}</>
+                            : <><i className="bi bi-exclamation-triangle me-2"></i>{alertMsg}</>
+                        }
+                    </Alert>
+                </div>
+            )}
 
             <Modal.Footer>
                 <Button className="classe-btn-secondary" onClick={handleClose}>Annulla</Button>

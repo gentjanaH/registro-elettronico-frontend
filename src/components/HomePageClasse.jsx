@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Compiti from "./Compiti";
-import { Row, Col, Button, Dropdown } from "react-bootstrap";
+import { Row, Col, Button, Dropdown, Alert } from "react-bootstrap";
 import DataCorrenteConCalendario from "./DataCorrenteConCalendario";
 import ModaleAssegnaCompiti from "./ModaleAssegnaCompiti";
 import ModaleRegistraLezione from "./modaleRegistraLEzione";
@@ -12,6 +12,7 @@ import { registraPresenza } from "../redux/actions/presenzeActions";
 import Lezioni from "./Lezioni";
 import { fetchCompitiByClass } from "../redux/actions/compitiActions";
 import ModaleAssegnaValutazione from "./ModaleAssegnaValutazione";
+import { fetchCorsiExtra } from "../redux/actions/corsiExtraActions";
 
 const HomePageClasse = () => {
 
@@ -21,12 +22,20 @@ const HomePageClasse = () => {
     const [showValutazione, setShowValutazione] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [presenze, setPresenze] = useState({});
+    const [alertPresenza, setAlertPresenza] = useState(null);
 
     const dispatch = useDispatch();
-    const { idClasse, nomeClasse } = useParams();
+    const { idClasse, nome: nomeClasse } = useParams();
     const token = useSelector(s => s.auth.token);
     const { studenti, loading } = useSelector(s => s.studenti);
     const lezioni = useSelector(s => s.lezioni.lezioni);
+
+
+
+    // filtra i corsi di questa classe
+    const corsiExtra = useSelector(s => s.corsiExtra.corsi).filter(
+        c => String(c.idClasse) === String(idClasse)
+    );
 
     const openValutazione = (idStudente) => { setShowValutazione(true); setStudenteSelezionato(idStudente); };
     const closeValutazione = () => { setShowValutazione(false); setStudenteSelezionato(null); };
@@ -49,7 +58,8 @@ const HomePageClasse = () => {
     const handlePresenza = (idStudente, stato) => {
         const lezioneAttiva = recuperoLezioneAttiva(selectedDate);
         if (!lezioneAttiva) {
-            alert("Registra prima la tua lezione per poter assegnare le assenze/presenze");
+            setAlertPresenza("Devi prima registrare una lezione attiva per poter segnare presenze e assenze.");
+            setTimeout(() => setAlertPresenza(null), 4000);
             return;
         }
         dispatch(registraPresenza(idStudente, { idLezione: lezioneAttiva.idLezione, stato }));
@@ -58,6 +68,7 @@ const HomePageClasse = () => {
 
     useEffect(() => {
         if (token) {
+            dispatch(fetchCorsiExtra());
             dispatch(fetchStudentiByClasse(idClasse, nomeClasse));
             dispatch(getLezioniByClass(idClasse));
             dispatch(fetchCompitiByClass(idClasse));
@@ -125,70 +136,124 @@ const HomePageClasse = () => {
                                 <h2 className="prof-section-titolo">Lista studenti</h2>
                             </div>
 
-                            {/* Legenda */}
-                            <div className="classe-legenda">
-                                <span className="classe-legenda-item">
-                                    <span className="classe-dot" style={{ background: "#10b981" }}></span>Presente
-                                </span>
-                                <span className="classe-legenda-item">
-                                    <span className="classe-dot" style={{ background: "#f87171" }}></span>Assente
-                                </span>
-                                <span className="classe-legenda-item">
-                                    <span className="classe-dot" style={{ background: "#94a3b8" }}></span>N/D
-                                </span>
-                            </div>
-
                             {loading && <p className="prof-stato">Caricamento studenti...</p>}
 
-                            <div className="classe-studenti-list">
-                                {studenti?.content?.map(stud => {
-                                    const cfg = getPresenzaConfig(stud.idStudente);
-                                    return (
-                                        <Dropdown key={stud.idStudente} className="w-100">
-                                            <Dropdown.Toggle className="classe-studente-toggle w-100">
-                                                <div className="classe-studente-info">
-                                                    <div className="classe-studente-avatar">
-                                                        {stud.nome?.charAt(0)}{stud.cognome?.charAt(0)}
-                                                    </div>
-                                                    <span className="classe-studente-nome">
-                                                        {stud.nome} {stud.cognome}
-                                                    </span>
-                                                </div>
-                                                <span
-                                                    className="classe-presenza-dot"
-                                                    style={{ background: cfg.bg }}
-                                                    title={cfg.label}
-                                                >
-                                                    <i className={`bi ${cfg.icon}`}></i>
-                                                </span>
-                                            </Dropdown.Toggle>
+                            {alertPresenza && (
+                                <Alert
+                                    variant="warning"
+                                    onClose={() => setAlertPresenza(null)}
+                                    dismissible
+                                    className="py-2 mb-2"
+                                    style={{ fontSize: "0.85rem" }}
+                                >
+                                    <i className="bi bi-exclamation-triangle me-2"></i>
+                                    {alertPresenza}
+                                </Alert>
+                            )}
 
-                                            <Dropdown.Menu className="classe-dropdown-menu">
-                                                <Dropdown.Item
-                                                    className="classe-dropdown-item"
-                                                    onClick={() => handlePresenza(stud.idStudente, "PRESENTE")}
-                                                >
-                                                    <i className="bi bi-check-circle me-2 text-success"></i>Presente
-                                                </Dropdown.Item>
-                                                <Dropdown.Item
-                                                    className="classe-dropdown-item"
-                                                    onClick={() => handlePresenza(stud.idStudente, "ASSENTE")}
-                                                >
-                                                    <i className="bi bi-x-circle me-2 text-danger"></i>Assente
-                                                </Dropdown.Item>
-                                                <Dropdown.Divider />
-                                                <Dropdown.Item
-                                                    className="classe-dropdown-item"
-                                                    onClick={() => openValutazione(stud.idStudente)}
-                                                >
-                                                    <i className="bi bi-star me-2 text-warning"></i>Assegna voto
-                                                </Dropdown.Item>
-                                            </Dropdown.Menu>
-                                        </Dropdown>
-                                    );
-                                })}
-                            </div>
+                            {/* Classe normale — studenti diretti */}
+                            {studenti?.content?.length > 0 && (
+                                <>
+                                    <div className="classe-legenda">
+                                        <span className="classe-legenda-item">
+                                            <span className="classe-dot" style={{ background: "#10b981" }}></span>Presente
+                                        </span>
+                                        <span className="classe-legenda-item">
+                                            <span className="classe-dot" style={{ background: "#f87171" }}></span>Assente
+                                        </span>
+                                        <span className="classe-legenda-item">
+                                            <span className="classe-dot" style={{ background: "#94a3b8" }}></span>N/D
+                                        </span>
+                                    </div>
 
+
+                                    <div className="classe-studenti-list">
+                                        {studenti?.content?.map(stud => {
+                                            const cfg = getPresenzaConfig(stud.idStudente);
+                                            return (
+                                                <Dropdown key={stud.idStudente} className="w-100">
+                                                    <Dropdown.Toggle className="classe-studente-toggle w-100">
+                                                        <div className="classe-studente-info">
+                                                            <div className="classe-studente-avatar">
+                                                                {stud.nome?.charAt(0)}{stud.cognome?.charAt(0)}
+                                                            </div>
+                                                            <span className="classe-studente-nome">
+                                                                {stud.nome} {stud.cognome}
+                                                            </span>
+                                                        </div>
+                                                        <span
+                                                            className="classe-presenza-dot"
+                                                            style={{ background: cfg.bg }}
+                                                            title={cfg.label}
+                                                        >
+                                                            <i className={`bi ${cfg.icon}`}></i>
+                                                        </span>
+                                                    </Dropdown.Toggle>
+
+                                                    <Dropdown.Menu className="classe-dropdown-menu">
+                                                        <Dropdown.Item
+                                                            className="classe-dropdown-item"
+                                                            onClick={() => handlePresenza(stud.idStudente, "PRESENTE")}
+                                                        >
+                                                            <i className="bi bi-check-circle me-2 text-success"></i>Presente
+                                                        </Dropdown.Item>
+                                                        <Dropdown.Item
+                                                            className="classe-dropdown-item"
+                                                            onClick={() => handlePresenza(stud.idStudente, "ASSENTE")}
+                                                        >
+                                                            <i className="bi bi-x-circle me-2 text-danger"></i>Assente
+                                                        </Dropdown.Item>
+                                                        <Dropdown.Divider />
+                                                        <Dropdown.Item
+                                                            className="classe-dropdown-item"
+                                                            onClick={() => openValutazione(stud.idStudente)}
+                                                        >
+                                                            <i className="bi bi-star me-2 text-warning"></i>Assegna voto
+                                                        </Dropdown.Item>
+                                                    </Dropdown.Menu>
+                                                </Dropdown>
+                                            );
+                                        })}
+                                    </div>
+                                </>
+                            )}
+
+                            {/* Classe corsi extra — studenti iscritti ai corsi */}
+                            {(!studenti?.content?.length) && (
+                                <>
+                                    {corsiExtra.length === 0 ? (
+                                        <div className="lezioni-empty">
+                                            <i className="bi bi-people lezioni-empty-icona"></i>
+                                            <p className="lezioni-empty-testo">Nessuno studente iscritto</p>
+                                        </div>
+                                    ) : (
+                                        <div className="classe-studenti-list">
+                                            {corsiExtra.flatMap(c => c.studentiIscritti ?? [])
+                                                .filter((s, i, arr) => arr.findIndex(x => x.idStudente === s.idStudente) === i)
+                                                .map(stud => (
+                                                    <Dropdown key={stud.idStudente} className="w-100">
+                                                        <Dropdown.Toggle className="classe-studente-toggle w-100">
+                                                            <div className="classe-studente-info">
+                                                                <div className="classe-studente-avatar">
+                                                                    {stud.nome?.charAt(0)}{stud.cognome?.charAt(0)}
+                                                                </div>
+                                                                <span className="classe-studente-nome">
+                                                                    {stud.nome} {stud.cognome}
+                                                                </span>
+                                                            </div>
+                                                        </Dropdown.Toggle>
+                                                        <Dropdown.Menu className="classe-dropdown-menu">
+                                                            <Dropdown.Item className="classe-dropdown-item" onClick={() => openValutazione(stud.idStudente)}>
+                                                                <i className="bi bi-star me-2 text-warning"></i>Assegna voto
+                                                            </Dropdown.Item>
+                                                        </Dropdown.Menu>
+                                                    </Dropdown>
+                                                ))
+                                            }
+                                        </div>
+                                    )}
+                                </>
+                            )}
                         </div>
                     </Col>
                 </Row>

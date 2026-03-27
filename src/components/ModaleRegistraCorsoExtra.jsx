@@ -1,6 +1,7 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 
@@ -35,6 +36,8 @@ const ModaleRegistraCorsoExtra = ({ show, handleClose }) => {
     const { loading, error } = useSelector(s => s.corsiExtra);
 
     const [form, setForm] = useState(defaultForm);
+    const [alertMsg, setAlertMsg] = useState(null);
+    const [alertVariant, setAlertVariant] = useState("danger");
 
     useEffect(() => {
         if (!professori?.length) dispatch(fetchAllProfessori());
@@ -47,13 +50,15 @@ const ModaleRegistraCorsoExtra = ({ show, handleClose }) => {
 
     const handleClose_ = () => {
         handleReset();
+        setAlertMsg(null);
         handleClose();
     };
 
     const handleSubmit = () => {
         const { nome, inizio, fine, giorno, idProfessore, idClasse } = form;
         if (!nome || !inizio || !fine || !giorno || !idProfessore || !idClasse) {
-            alert("Compila tutti i campi.");
+            setAlertMsg("Compila tutti i campi prima di procedere.");
+            setAlertVariant("danger");
             return;
         }
 
@@ -65,8 +70,9 @@ const ModaleRegistraCorsoExtra = ({ show, handleClose }) => {
             idProfessore,
             idClasse
         }, () => {
-            alert("Corso registrato con successo!");
-            handleClose_();
+            setAlertMsg("Corso extra-curricolare registrato con successo!");
+            setAlertVariant("success");
+            setTimeout(() => { setAlertMsg(null); handleClose_(); }, 1500);
         }));
     };
 
@@ -157,44 +163,38 @@ const ModaleRegistraCorsoExtra = ({ show, handleClose }) => {
                         <span className="text-muted me-1" style={{ fontSize: "0.8rem" }}>5.</span>
                         Professore
                     </Form.Label>
-                    <Form.Group className="mb-3">
-                        <Form.Label>
-                            <span className="text-muted me-1" style={{ fontSize: "0.8rem" }}>5.</span>
-                            Professore
-                        </Form.Label>
-                        <div
-                            style={{
-                                maxHeight: "160px",
-                                overflowY: "auto",
-                                border: "1px solid #ced4da",
-                                borderRadius: "8px",
-                                padding: "6px",
-                                background: "#f8f9fa"
-                            }}
-                        >
-                            {professori.map(p => {
-                                const isSelected = form.idProfessore === p.idProfessore;
-                                return (
-                                    <div
-                                        key={p.idProfessore}
-                                        onClick={() => handleChange("idProfessore", p.idProfessore)}
-                                        style={{
-                                            padding: "8px 12px",
-                                            marginBottom: "4px",
-                                            borderRadius: "6px",
-                                            cursor: "pointer",
-                                            backgroundColor: isSelected ? "#e7f1ff" : "white",
-                                            border: isSelected ? "2px solid #0d6efd" : "1px solid #ddd",
-                                            fontSize: "0.9rem",
-                                            transition: "all 0.15s"
-                                        }}
-                                    >
-                                        {p.nome} {p.cognome}
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </Form.Group>
+                    <div
+                        style={{
+                            maxHeight: "160px",
+                            overflowY: "auto",
+                            border: "1px solid #ced4da",
+                            borderRadius: "8px",
+                            padding: "6px",
+                            background: "#f8f9fa"
+                        }}
+                    >
+                        {professori.map(p => {
+                            const isSelected = form.idProfessore === p.idProfessore;
+                            return (
+                                <div
+                                    key={p.idProfessore}
+                                    onClick={() => handleChange("idProfessore", p.idProfessore)}
+                                    style={{
+                                        padding: "8px 12px",
+                                        marginBottom: "4px",
+                                        borderRadius: "6px",
+                                        cursor: "pointer",
+                                        backgroundColor: isSelected ? "#e7f1ff" : "white",
+                                        border: isSelected ? "2px solid #0d6efd" : "1px solid #ddd",
+                                        fontSize: "0.9rem",
+                                        transition: "all 0.15s"
+                                    }}
+                                >
+                                    {p.nome} {p.cognome}
+                                </div>
+                            );
+                        })}
+                    </div>
                 </Form.Group>
 
                 <Form.Group className="mb-1">
@@ -213,9 +213,24 @@ const ModaleRegistraCorsoExtra = ({ show, handleClose }) => {
                 </Form.Group>
 
                 {error && (
-                    <div className="alert alert-danger mt-3 py-2" style={{ fontSize: "0.85rem" }}>
-                        {error}
-                    </div>
+                    <Alert variant="danger" className="mt-3 py-2" style={{ fontSize: "0.88rem" }}>
+                        <i className="bi bi-exclamation-triangle me-2"></i>{error}
+                    </Alert>
+                )}
+
+                {alertMsg && (
+                    <Alert
+                        variant={alertVariant}
+                        onClose={() => setAlertMsg(null)}
+                        dismissible
+                        className="mt-3 py-2"
+                        style={{ fontSize: "0.88rem" }}
+                    >
+                        {alertVariant === "success"
+                            ? <><i className="bi bi-check-circle me-2"></i>{alertMsg}</>
+                            : <><i className="bi bi-exclamation-triangle me-2"></i>{alertMsg}</>
+                        }
+                    </Alert>
                 )}
 
             </Modal.Body>

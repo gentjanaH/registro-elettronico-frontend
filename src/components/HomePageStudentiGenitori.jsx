@@ -85,7 +85,7 @@ const HomePageStudentiGenitori = () => {
                                         <i className="bi bi-megaphone prof-section-icona"></i>
                                         <h2 className="prof-section-titolo">Circolari</h2>
                                     </div>
-                                    <DashboardCircolari />
+                                    <DashboardCircolari idStudente={studenteAttivo?.idStudente} />
                                 </div>
                             </Col>
 

@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row, Alert } from "react-bootstrap";
 
 const RegistrazioneGenitore = ({ ruolo }) => {
 
     const [figli, setFigli] = useState([
         { nome: "", cognome: "", codice: "" }
     ]);
+    const [alertMsg, setAlertMsg] = useState(null);
 
     useEffect(() => {
         console.log("Figli attuali:", figli);
@@ -15,9 +16,9 @@ const RegistrazioneGenitore = ({ ruolo }) => {
         if (figli.length < 4) {
             setFigli([...figli, { nome: "", cognome: "", codice: "" }]);
         } else {
-            alert("Puoi aggiungere al massimo 4 figli tramite il sito, se hai più di 4 figli contatta la segreteria per registrarli tutti.");
+            setAlertMsg("Puoi aggiungere al massimo 4 figli tramite il sito. Per registrarne di più, contatta la segreteria.");
+            setTimeout(() => setAlertMsg(null), 5000);
         }
-
     };
 
     const rimuoviFiglio = (index) => {
@@ -84,6 +85,18 @@ const RegistrazioneGenitore = ({ ruolo }) => {
                             </Row>
                         </Col>
                     ))}
+
+                    {alertMsg && (
+                        <Alert
+                            variant="warning"
+                            onClose={() => setAlertMsg(null)}
+                            dismissible
+                            className="py-2 mt-2"
+                            style={{ fontSize: "0.88rem" }}
+                        >
+                            <i className="bi bi-info-circle me-2"></i>{alertMsg}
+                        </Alert>
+                    )}
 
                     <Button
                         type="button"

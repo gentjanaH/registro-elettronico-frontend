@@ -1,5 +1,6 @@
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
+import Alert from 'react-bootstrap/Alert';
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { fetchCorsiExtra, iscriviStudente } from "../redux/actions/corsiExtraActions";
@@ -20,6 +21,7 @@ const ModaleIscrizioneCorsoExtra = ({ show, handleClose }) => {
     const { figlioSelezionato } = useSelector(s => s.auth);
 
     const [corsoSelezionato, setCorsoSelezionato] = useState(null);
+    const [alertMsg, setAlertMsg] = useState(null);
 
     // Usa il figlio selezionato se genitore, altrimenti lo studente loggato
     const idStudente = figlioSelezionato?.idStudente ?? studente?.idStudente;
@@ -31,9 +33,12 @@ const ModaleIscrizioneCorsoExtra = ({ show, handleClose }) => {
     const handleIscrivi = () => {
         if (!corsoSelezionato || !idStudente) return;
         dispatch(iscriviStudente(corsoSelezionato, idStudente, () => {
-            alert("Iscrizione effettuata con successo!");
-            setCorsoSelezionato(null);
-            handleClose();
+            setAlertMsg("Iscrizione effettuata con successo!");
+            setTimeout(() => {
+                setAlertMsg(null);
+                setCorsoSelezionato(null);
+                handleClose();
+            }, 1500);
         }));
     };
 
@@ -51,7 +56,16 @@ const ModaleIscrizioneCorsoExtra = ({ show, handleClose }) => {
             <Modal.Body className="px-4 py-3">
 
                 {loading && <p className="text-muted">Caricamento corsi...</p>}
-                {error && <div className="alert alert-danger py-2" style={{ fontSize: "0.85rem" }}>{error}</div>}
+                {error && (
+                    <Alert variant="danger" className="py-2" style={{ fontSize: "0.88rem" }}>
+                        <i className="bi bi-exclamation-triangle me-2"></i>{error}
+                    </Alert>
+                )}
+                {alertMsg && (
+                    <Alert variant="success" className="py-2" style={{ fontSize: "0.88rem" }}>
+                        <i className="bi bi-check-circle me-2"></i>{alertMsg}
+                    </Alert>
+                )}
 
                 {!loading && corsiDisponibili.length === 0 && (
                     <div

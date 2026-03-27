@@ -27,7 +27,6 @@ export const registraUtente = (payload, onSuccess) => {
             })
             .then(data => {
                 dispatch({ type: REGISTRA_UTENTE_SUCCESS, payload: data });
-                alert("Utente registrato con successo!");
                 if (onSuccess) onSuccess();
             })
             .catch(err => {

@@ -1,6 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 import { fetchAllMaterie } from "../redux/actions/materieActions";
@@ -29,6 +30,8 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
     const { loading, error } = useSelector(s => s.utenti);
 
     const [form, setForm] = useState(defaultForm);
+    const [alertMsg, setAlertMsg] = useState(null);
+    const [alertVariant, setAlertVariant] = useState("danger");
 
     useEffect(() => {
         if (!materie?.length) dispatch(fetchAllMaterie());
@@ -43,16 +46,22 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
 
     const handleClose_ = () => {
         handleReset();
+        setAlertMsg(null);
         handleClose();
     };
 
     const handleSubmit = () => {
         const { nome, cognome, dataDiNascita, email, password, ruolo } = form;
         if (!nome || !cognome || !dataDiNascita || !email || !password || !ruolo) {
-            alert("Compila tutti i campi obbligatori.");
+            setAlertMsg("Compila tutti i campi obbligatori prima di procedere.");
+            setAlertVariant("danger");
             return;
         }
-        dispatch(registraUtente(form, handleClose_));
+        dispatch(registraUtente(form, () => {
+            setAlertMsg("Utente registrato con successo!");
+            setAlertVariant("success");
+            setTimeout(() => { setAlertMsg(null); handleClose_(); }, 1500);
+        }));
     };
 
     const campiBaseCompilati =
@@ -345,9 +354,24 @@ const ModaleRegistraUtente = ({ show, handleClose }) => {
                 )}
 
                 {error && (
-                    <div className="alert alert-danger mt-3 py-2 form-error">
-                        {error}
-                    </div>
+                    <Alert variant="danger" className="mt-3 py-2" style={{ fontSize: "0.88rem" }}>
+                        <i className="bi bi-exclamation-triangle me-2"></i>{error}
+                    </Alert>
+                )}
+
+                {alertMsg && (
+                    <Alert
+                        variant={alertVariant}
+                        onClose={() => setAlertMsg(null)}
+                        dismissible
+                        className="mt-3 py-2"
+                        style={{ fontSize: "0.88rem" }}
+                    >
+                        {alertVariant === "success"
+                            ? <><i className="bi bi-check-circle me-2"></i>{alertMsg}</>
+                            : <><i className="bi bi-exclamation-triangle me-2"></i>{alertMsg}</>
+                        }
+                    </Alert>
                 )}
 
             </Modal.Body>

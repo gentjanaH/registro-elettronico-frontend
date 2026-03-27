@@ -1,6 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 import { useDispatch, useSelector } from "react-redux";
 import { assegnaValutazione } from "../redux/actions/valutazioniActions";
 import { useState } from "react";
@@ -14,6 +15,8 @@ const ModaleAssegnaValutazione = ({ show, handleClose, idStudente, idClasse }) =
     const [lezione, setLezione] = useState("");
     const [valore, setValore] = useState("");
     const [tipo, setTipo] = useState("");
+    const [alertMsg, setAlertMsg] = useState(null);
+    const [alertVariant, setAlertVariant] = useState("danger");
 
     const { lezioni } = useSelector(state => state.lezioni);
     const { professore } = useSelector(state => state.auth);
@@ -43,10 +46,10 @@ const ModaleAssegnaValutazione = ({ show, handleClose, idStudente, idClasse }) =
 
 
     const handleReset = () => {
-
         setLezione("");
         setValore("");
         setTipo("");
+        setAlertMsg(null);
     };
 
     const handleClose_ = () => {
@@ -56,7 +59,8 @@ const ModaleAssegnaValutazione = ({ show, handleClose, idStudente, idClasse }) =
 
     const handleSubmit = () => {
         if (!lezione || !valore || !tipo) {
-            alert("Compila tutti i campi");
+            setAlertMsg("Seleziona una lezione, un voto e il tipo di valutazione.");
+            setAlertVariant("danger");
             return;
         }
 
@@ -67,8 +71,9 @@ const ModaleAssegnaValutazione = ({ show, handleClose, idStudente, idClasse }) =
         };
 
         dispatch(assegnaValutazione(idStudente, valutazioneData));
-        alert("Voto salvato con successo!");
-        handleClose_();
+        setAlertMsg("Voto salvato con successo!");
+        setAlertVariant("success");
+        setTimeout(() => { setAlertMsg(null); handleClose_(); }, 1500);
     };
 
     return (
@@ -209,6 +214,21 @@ const ModaleAssegnaValutazione = ({ show, handleClose, idStudente, idClasse }) =
                             </div>
                         </div>
                     </>
+                )}
+
+                {alertMsg && (
+                    <Alert
+                        variant={alertVariant}
+                        onClose={() => setAlertMsg(null)}
+                        dismissible
+                        className="mt-3 py-2"
+                        style={{ fontSize: "0.88rem" }}
+                    >
+                        {alertVariant === "success"
+                            ? <><i className="bi bi-check-circle me-2"></i>{alertMsg}</>
+                            : <><i className="bi bi-exclamation-triangle me-2"></i>{alertMsg}</>
+                        }
+                    </Alert>
                 )}
 
             </Modal.Body>

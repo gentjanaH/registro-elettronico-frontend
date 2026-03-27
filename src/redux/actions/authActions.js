@@ -44,7 +44,7 @@ export const login = (email, password) => {
                 if (res.ok) {
                     return res.json()
                 } else {
-                    throw new Error("Errore nella risposta del login")
+                    throw new Error("Credenziali errate")
                 }
             })
 

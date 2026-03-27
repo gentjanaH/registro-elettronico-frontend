@@ -1,6 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import Alert from 'react-bootstrap/Alert';
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 
@@ -15,6 +16,8 @@ const ModaleAssegnaMateria = ({ show, handleClose }) => {
 
     const [idProfessore, setIdProfessore] = useState("");
     const [idMaterieSelezionate, setIdMaterieSelezionate] = useState([]);
+    const [alertMsg, setAlertMsg] = useState(null);
+    const [alertVariant, setAlertVariant] = useState("danger");
 
     useEffect(() => {
         if (!materie?.length) dispatch(fetchAllMaterie());
@@ -33,6 +36,7 @@ const ModaleAssegnaMateria = ({ show, handleClose }) => {
     const handleReset = () => {
         setIdProfessore("");
         setIdMaterieSelezionate([]);
+        setAlertMsg(null);
     };
 
     const handleClose_ = () => {
@@ -42,12 +46,14 @@ const ModaleAssegnaMateria = ({ show, handleClose }) => {
 
     const handleSubmit = () => {
         if (!idProfessore || idMaterieSelezionate.length === 0) {
-            alert("Seleziona un professore e almeno una materia.");
+            setAlertMsg("Seleziona un professore e almeno una materia.");
+            setAlertVariant("danger");
             return;
         }
         dispatch(assegnaMaterie(idProfessore, idMaterieSelezionate));
-        alert("Materie assegnate con successo!");
-        handleClose_();
+        setAlertMsg("Materie assegnate con successo!");
+        setAlertVariant("success");
+        setTimeout(() => { setAlertMsg(null); handleClose_(); }, 1500);
     };
 
     // Materie non ancora selezionate (per non mostrarle nel select)
@@ -72,6 +78,9 @@ const ModaleAssegnaMateria = ({ show, handleClose }) => {
                     <Form.Select
                         value={idProfessore}
                         onChange={e => setIdProfessore(e.target.value)}
+                        style={{ maxHeight: "130px", overflowY: "auto" }}
+                        size={Math.min(professori.length + 1, 5)}
+                        htmlSize={Math.min(professori.length + 1, 5)}
                     >
                         <option value="">Seleziona un professore</option>
                         {professori.map(p => (
@@ -138,9 +147,24 @@ const ModaleAssegnaMateria = ({ show, handleClose }) => {
                 </Form.Group>
 
                 {error && (
-                    <div className="alert alert-danger mt-3 py-2" style={{ fontSize: "0.85rem" }}>
-                        {error}
-                    </div>
+                    <Alert variant="danger" className="mt-3 py-2" style={{ fontSize: "0.88rem" }}>
+                        <i className="bi bi-exclamation-triangle me-2"></i>{error}
+                    </Alert>
+                )}
+
+                {alertMsg && (
+                    <Alert
+                        variant={alertVariant}
+                        onClose={() => setAlertMsg(null)}
+                        dismissible
+                        className="mt-3 py-2"
+                        style={{ fontSize: "0.88rem" }}
+                    >
+                        {alertVariant === "success"
+                            ? <><i className="bi bi-check-circle me-2"></i>{alertMsg}</>
+                            : <><i className="bi bi-exclamation-triangle me-2"></i>{alertMsg}</>
+                        }
+                    </Alert>
                 )}
 
             </Modal.Body>
